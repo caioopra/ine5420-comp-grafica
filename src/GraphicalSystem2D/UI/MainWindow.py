@@ -9,15 +9,28 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import consts
+from UI.Viewport import Viewport
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        self.pressed_position = None
+        self.clicked = QtCore.pyqtSignal()
+        MainWindow.setMouseTracking(True)
+
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1100, 700)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.viewport = QtWidgets.QLabel(self.centralwidget)
-        self.viewport.setGeometry(QtCore.QRect(consts.VIEWPORT_X_MIN, consts.VIEWPORT_Y_MIN, consts.VIEWPORT_WIDTH, consts.VIEWPORT_HEIGHT))
+        self.viewport = Viewport(MainWindow)
+        self.viewport.setGeometry(
+            QtCore.QRect(
+                consts.VIEWPORT_X_MIN,
+                consts.VIEWPORT_Y_MIN,
+                consts.VIEWPORT_WIDTH,
+                consts.VIEWPORT_HEIGHT,
+            )
+        )
         self.logField = QtWidgets.QListWidget(self.centralwidget)
         self.logField.setGeometry(QtCore.QRect(336, 500, 761, 151))
         font = QtGui.QFont()
@@ -37,7 +50,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.objectsList.setFont(font)
         self.objectsList.setObjectName("objectsList")
-        
+
         # navigation buttons
         self.navigateUpButton = QtWidgets.QToolButton(self.menuFrame)
         self.navigateUpButton.setGeometry(QtCore.QRect(140, 350, 40, 40))
@@ -64,7 +77,7 @@ class Ui_MainWindow(object):
         self.navigateDownButton.setAutoRaise(True)
         self.navigateDownButton.setArrowType(QtCore.Qt.DownArrow)
         self.navigateDownButton.setObjectName("navigateDownButton")
-        
+
         self.objectNameInput = QtWidgets.QLineEdit(self.menuFrame)
         self.objectNameInput.setGeometry(QtCore.QRect(10, 470, 300, 32))
         self.objectNameInput.setFont(font)
@@ -126,10 +139,28 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+    def mouseMoveEvent(self, event):
+        print(event.x(), event.y())
+
+    def mousePressEvent(self, event):
+        if event.button() == QtCore.Qt.LeftButton:
+            self.pressed_position = event.pos()
+            print(event.pos())
+
+    def mouseReleaseEvent(self, event):
+        if (
+            self.pressed_position is not None
+            and event.button() == QtCore.Qt.LeftButton
+            and event.pos() is self.rect()
+        ):
+            print("clicked at", event.x(), event.y())
+
+        self.pressed_position = None
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.viewport.setText(_translate("MainWindow", "VIEWPORT"))
+        # self.viewport.setText(_translate("MainWindow", "VIEWPORT"))
         self.navigateUpButton.setText(_translate("MainWindow", "..."))
         self.navigateRightButton.setText(_translate("MainWindow", "..."))
         self.navigateLeftButton.setText(_translate("MainWindow", "..."))
@@ -146,6 +177,7 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
