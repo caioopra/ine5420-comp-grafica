@@ -18,13 +18,6 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.viewport = QtWidgets.QLabel(self.centralwidget)
         self.viewport.setGeometry(QtCore.QRect(consts.VIEWPORT_X_MIN, consts.VIEWPORT_Y_MIN, consts.VIEWPORT_WIDTH, consts.VIEWPORT_HEIGHT))
-        self.objectsList = QtWidgets.QListWidget(self.centralwidget)
-        self.objectsList.setGeometry(QtCore.QRect(10, 10, 311, 221))
-        font = QtGui.QFont()
-        font.setFamily("Fira Code")
-        font.setPointSize(10)
-        self.objectsList.setFont(font)
-        self.objectsList.setObjectName("objectsList")
         self.logField = QtWidgets.QListWidget(self.centralwidget)
         self.logField.setGeometry(QtCore.QRect(336, 500, 761, 151))
         font = QtGui.QFont()
@@ -37,6 +30,13 @@ class Ui_MainWindow(object):
         self.menuFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.menuFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.menuFrame.setObjectName("menuFrame")
+        self.objectsList = QtWidgets.QListWidget(self.menuFrame)
+        self.objectsList.setGeometry(QtCore.QRect(10, 10, 311, 221))
+        font = QtGui.QFont()
+        font.setFamily("Fira Code")
+        font.setPointSize(10)
+        self.objectsList.setFont(font)
+        self.objectsList.setObjectName("objectsList")
         
         # navigation buttons
         self.navigateUpButton = QtWidgets.QToolButton(self.menuFrame)
@@ -65,6 +65,10 @@ class Ui_MainWindow(object):
         self.navigateDownButton.setArrowType(QtCore.Qt.DownArrow)
         self.navigateDownButton.setObjectName("navigateDownButton")
         
+        self.objectNameInput = QtWidgets.QLineEdit(self.menuFrame)
+        self.objectNameInput.setGeometry(QtCore.QRect(10, 470, 300, 32))
+        self.objectNameInput.setFont(font)
+
         # zoom buttons
         self.zoomOutButton = QtWidgets.QPushButton(self.menuFrame)
         self.zoomOutButton.setGeometry(QtCore.QRect(20, 350, 75, 23))
