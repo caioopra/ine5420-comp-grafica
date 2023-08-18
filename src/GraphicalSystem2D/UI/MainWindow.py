@@ -17,12 +17,10 @@ class Ui_MainWindow(object):
         MainWindow.resize(1097, 700)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-
         self.viewport = QtWidgets.QLabel(self.centralwidget)
         self.viewport.setGeometry(QtCore.QRect(336, 6, 761, 491))
         self.viewport.setAutoFillBackground(False)
         self.viewport.setObjectName("viewport")
-
         self.objectsList = QtWidgets.QListWidget(self.centralwidget)
         self.objectsList.setGeometry(QtCore.QRect(10, 10, 311, 221))
         font = QtGui.QFont()
@@ -30,7 +28,6 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.objectsList.setFont(font)
         self.objectsList.setObjectName("objectsList")
-
         self.logField = QtWidgets.QListWidget(self.centralwidget)
         self.logField.setGeometry(QtCore.QRect(336, 500, 761, 151))
         font = QtGui.QFont()
@@ -38,14 +35,11 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.logField.setFont(font)
         self.logField.setObjectName("logField")
-
         self.menuFrame = QtWidgets.QFrame(self.centralwidget)
         self.menuFrame.setGeometry(QtCore.QRect(5, 0, 330, 681))
         self.menuFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.menuFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.menuFrame.setObjectName("menuFrame")
-
-        # naviagation buttons
         self.navigateUpButton = QtWidgets.QToolButton(self.menuFrame)
         self.navigateUpButton.setGeometry(QtCore.QRect(140, 350, 40, 40))
         font = QtGui.QFont()
@@ -71,8 +65,6 @@ class Ui_MainWindow(object):
         self.navigateDownButton.setAutoRaise(True)
         self.navigateDownButton.setArrowType(QtCore.Qt.DownArrow)
         self.navigateDownButton.setObjectName("navigateDownButton")
-
-        # zoom buttons
         self.zoomOutButton = QtWidgets.QPushButton(self.menuFrame)
         self.zoomOutButton.setGeometry(QtCore.QRect(20, 350, 75, 23))
         font = QtGui.QFont()
@@ -87,7 +79,6 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.zoomInButton.setFont(font)
         self.zoomInButton.setObjectName("zoomInButton")
-
         self.deleteButton = QtWidgets.QPushButton(self.menuFrame)
         self.deleteButton.setGeometry(QtCore.QRect(115, 290, 90, 32))
         font = QtGui.QFont()
@@ -109,32 +100,27 @@ class Ui_MainWindow(object):
         font.setPointSize(11)
         self.cancelButton.setFont(font)
         self.cancelButton.setObjectName("cancelButton")
-
-        # radio buttons
-        self.lineRadioButton = QtWidgets.QRadioButton(self.menuFrame)
-        self.lineRadioButton.setGeometry(QtCore.QRect(130, 240, 90, 32))
+        self.radioButton_2 = QtWidgets.QRadioButton(self.menuFrame)
+        self.radioButton_2.setGeometry(QtCore.QRect(130, 240, 90, 32))
         font = QtGui.QFont()
         font.setFamily("Fira Code")
         font.setPointSize(11)
-        self.lineRadioButton.setFont(font)
-        self.lineRadioButton.setObjectName("lineRadioButton")
-
-        self.polygonRadioButton = QtWidgets.QRadioButton(self.menuFrame)
-        self.polygonRadioButton.setGeometry(QtCore.QRect(230, 240, 90, 32))
+        self.radioButton_2.setFont(font)
+        self.radioButton_2.setObjectName("radioButton_2")
+        self.radioButton_3 = QtWidgets.QRadioButton(self.menuFrame)
+        self.radioButton_3.setGeometry(QtCore.QRect(230, 240, 90, 32))
         font = QtGui.QFont()
         font.setFamily("Fira Code")
         font.setPointSize(11)
-        self.polygonRadioButton.setFont(font)
-        self.polygonRadioButton.setObjectName("polygonRadioButton")
-
-        self.pointRadioButton = QtWidgets.QRadioButton(self.menuFrame)
-        self.pointRadioButton.setGeometry(QtCore.QRect(10, 240, 90, 32))
+        self.radioButton_3.setFont(font)
+        self.radioButton_3.setObjectName("radioButton_3")
+        self.radioButton = QtWidgets.QRadioButton(self.menuFrame)
+        self.radioButton.setGeometry(QtCore.QRect(10, 240, 90, 32))
         font = QtGui.QFont()
         font.setFamily("Fira Code")
         font.setPointSize(11)
-        self.pointRadioButton.setFont(font)
-        self.pointRadioButton.setObjectName("pointRadioButton")
-
+        self.radioButton.setFont(font)
+        self.radioButton.setObjectName("radioButton")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1097, 21))
@@ -160,14 +146,13 @@ class Ui_MainWindow(object):
         self.deleteButton.setText(_translate("MainWindow", "Delete"))
         self.confirmButton.setText(_translate("MainWindow", "Confirm"))
         self.cancelButton.setText(_translate("MainWindow", "Cancel"))
-        self.lineRadioButton.setText(_translate("MainWindow", "Line"))
-        self.polygonRadioButton.setText(_translate("MainWindow", "Polygon"))
-        self.pointRadioButton.setText(_translate("MainWindow", "Point"))
+        self.radioButton_2.setText(_translate("MainWindow", "Line"))
+        self.radioButton_3.setText(_translate("MainWindow", "Polygon"))
+        self.radioButton.setText(_translate("MainWindow", "Point"))
 
 
 if __name__ == "__main__":
     import sys
-
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
