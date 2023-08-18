@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 # Form implementation generated from reading ui file 'main.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
@@ -9,18 +8,16 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import consts
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1097, 700)
+        MainWindow.resize(1100, 700)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.viewport = QtWidgets.QLabel(self.centralwidget)
-        self.viewport.setGeometry(QtCore.QRect(336, 6, 761, 491))
-        self.viewport.setAutoFillBackground(False)
-        self.viewport.setObjectName("viewport")
+        self.viewport.setGeometry(QtCore.QRect(consts.VIEWPORT_X_MIN, consts.VIEWPORT_Y_MIN, consts.VIEWPORT_WIDTH, consts.VIEWPORT_HEIGHT))
         self.objectsList = QtWidgets.QListWidget(self.centralwidget)
         self.objectsList.setGeometry(QtCore.QRect(10, 10, 311, 221))
         font = QtGui.QFont()
