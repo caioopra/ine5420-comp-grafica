@@ -10,18 +10,21 @@ class DisplayFile:
         self.__wireframes = []
 
         self.__buffer = None
-        
+
     def clearBuffer(self):
         self.__buffer = None
 
-    def setBuffer(self, objectType: str, buffer: Point | Line | Wireframe) -> None:
+    def addToBuffer(self, objectType: str, buffer: Point) -> None:
         if objectType == "LINE":
             if self.__buffer is not None:
                 self.__buffer.addPoint(buffer)
             else:
                 self.__buffer = Line(buffer)
         elif objectType == "WIREFRAME":
-            ...
+            if self.__buffer is not None:
+                self.__buffer.addPoint(buffer)
+            else:
+                self.__buffer = Wireframe(buffer)
         else:
             self.__buffer = buffer
 
@@ -61,7 +64,8 @@ class DisplayFile:
             self.__points.append(self.__buffer)
         elif currentType == "LINE":
             self.__lines.append(self.__buffer)
-        elif currentType == "POLYGON":
+        elif currentType == "WIREFRAME":
+            self.__buffer.removeLastLine()
             self.__wireframes.append(self.__buffer)
 
         self.__buffer = None

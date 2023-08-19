@@ -120,13 +120,13 @@ class Ui_MainWindow(object):
         self.lineRadioButton.setFont(font)
         self.lineRadioButton.setObjectName("lineRadioButton")
 
-        self.polygonRadioButton = QtWidgets.QRadioButton(self.menuFrame)
-        self.polygonRadioButton.clicked.connect(
-            lambda: self.setObjectTypeSelected("POLYGON")
+        self.wireframeRadioButton = QtWidgets.QRadioButton(self.menuFrame)
+        self.wireframeRadioButton.clicked.connect(
+            lambda: self.setObjectTypeSelected("WIREFRAME")
         )
-        self.polygonRadioButton.setGeometry(QtCore.QRect(230, 240, 90, 32))
-        self.polygonRadioButton.setFont(font)
-        self.polygonRadioButton.setObjectName("polygonRadioButton")
+        self.wireframeRadioButton.setGeometry(QtCore.QRect(230, 240, 90, 32))
+        self.wireframeRadioButton.setFont(font)
+        self.wireframeRadioButton.setObjectName("wireframeRadioButton")
 
         self.pointRadioButton = QtWidgets.QRadioButton(self.menuFrame)
         self.pointRadioButton.clicked.connect(
@@ -161,7 +161,7 @@ class Ui_MainWindow(object):
         self.confirmButton.setText(_translate("MainWindow", "Confirm"))
         self.cancelButton.setText(_translate("MainWindow", "Cancel"))
         self.lineRadioButton.setText(_translate("MainWindow", "Line"))
-        self.polygonRadioButton.setText(_translate("MainWindow", "Polygon"))
+        self.wireframeRadioButton.setText(_translate("MainWindow", "Wireframe"))
         self.pointRadioButton.setText(_translate("MainWindow", "Point"))
 
     def paintEvent(self, ev):

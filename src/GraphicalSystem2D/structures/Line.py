@@ -5,13 +5,15 @@ from structures.Point import Point
 
 
 class Line(Drawable):
-    def __init__(self, PointA: Point, PointB: Point = None, name: str = None):
-        self.__pointA = PointA
-        self.__pointB = PointB
+    def __init__(self, pointA: Point, pointB: Point = None, name: str = None):
+        super().__init__(name)
+        self.__pointA = pointA
+        self.__pointB = pointB
 
-    def draw(self, painter: QtGui.QPainter) -> None:
-        painter.setPen(QtGui.QPen(QtCore.Qt.green, 3))
-        painter.setBrush(QtGui.QBrush(QtCore.Qt.green))
+    def draw(self, painter: QtGui.QPainter, wireframe: bool = False) -> None:
+        if not wireframe:
+            painter.setPen(QtGui.QPen(QtCore.Qt.green, 3))
+            painter.setBrush(QtGui.QBrush(QtCore.Qt.green))
 
         if self.__pointB is not None:
             painter.drawLine(
@@ -20,7 +22,6 @@ class Line(Drawable):
                 self.__pointB.getX(),
                 self.__pointB.getY(),
             )
-            print("line being drawn")
         else:
             self.__pointA.draw(painter)
 
@@ -30,6 +31,12 @@ class Line(Drawable):
         elif self.__pointB is not None:
             self.__pointA = self.__pointB
             self.__pointB = point
+            
+    def clearPoints(self):
+        self.__pointA, self.__pointB = None, None
+            
+    def getPointB(self) -> Point:
+        return self.__pointB
 
     def getPoints(self) -> list:
         """

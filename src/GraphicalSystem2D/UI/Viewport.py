@@ -14,12 +14,11 @@ class Viewport(QtWidgets.QWidget):
 
     def mousePressEvent(self, event):
         if self.currentSelectedType == "POINT":
-            displayFile.setBuffer("POINT", Point(event.x(), event.y()))
+            displayFile.addToBuffer("POINT", Point(event.x(), event.y()))
         elif self.currentSelectedType == "LINE":
-            displayFile.setBuffer("LINE", Point(event.x(), event.y()))
-            pass
-        elif self.currentSelectedType == "POLYGON":
-            ...
+            displayFile.addToBuffer("LINE", Point(event.x(), event.y()))
+        elif self.currentSelectedType == "WIREFRAME":
+            displayFile.addToBuffer("WIREFRAME", Point(event.x(), event.y()))
         else:
             print("select a type first")
 
@@ -41,3 +40,6 @@ class Viewport(QtWidgets.QWidget):
             
         for line in displayFile.getLines():
             line.draw(qp)
+
+        for wireframe in displayFile.getWireframes():
+            wireframe.draw(qp)
