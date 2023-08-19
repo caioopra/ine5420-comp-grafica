@@ -2,8 +2,8 @@ from abc import ABC, abstractmethod
 
 
 class Drawable(ABC):
-    def __init__(self) -> None:
-        self.__name = ""
+    def __init__(self, name: str = None) -> None:
+        self.__name = name
 
     @abstractmethod
     def draw(self):

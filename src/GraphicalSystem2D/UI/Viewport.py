@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from structures.Point import Point
+from structures.Line import Line
 from DisplayFile import displayFile
 
 
@@ -13,11 +14,14 @@ class Viewport(QtWidgets.QWidget):
 
     def mousePressEvent(self, event):
         if self.currentSelectedType == "POINT":
-            displayFile.setBuffer(Point(event.x(), event.y()))
+            displayFile.setBuffer("POINT", Point(event.x(), event.y()))
         elif self.currentSelectedType == "LINE":
+            displayFile.setBuffer("LINE", Point(event.x(), event.y()))
             pass
         elif self.currentSelectedType == "POLYGON":
             ...
+        else:
+            print("select a type first")
 
         self.update()
 
@@ -28,8 +32,12 @@ class Viewport(QtWidgets.QWidget):
         brush = QtGui.QBrush(QtCore.Qt.red)
         qp.setPen(pen)
         qp.setBrush(brush)
+
         for point in displayFile.getPoints():
             point.draw(qp)
 
         if displayFile.getBuffer() is not None:
             displayFile.getBuffer().draw(qp)
+            
+        for line in displayFile.getLines():
+            line.draw(qp)

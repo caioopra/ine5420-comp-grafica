@@ -174,6 +174,8 @@ class Ui_MainWindow(object):
             qp.drawEllipse(self.__points.point(i), 5, 5)
 
     def setObjectTypeSelected(self, event):
+        displayFile.setBuffer(None, None)
+        self.viewport.update()
         self.viewport.currentSelectedType = event
 
     def handleConfirmClick(self, name: str) -> None:
