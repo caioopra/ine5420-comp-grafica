@@ -1,4 +1,4 @@
-from PyQt5 import QtGui
+from PyQt5 import QtGui, QtCore
 
 from structures.Drawable import Drawable
 from structures.Point import Point
@@ -10,6 +10,9 @@ class Line(Drawable):
         self.__pointB = PointB
 
     def draw(self, painter: QtGui.QPainter) -> None:
+        painter.setPen(QtGui.QPen(QtCore.Qt.green, 3))
+        painter.setBrush(QtGui.QBrush(QtCore.Qt.green))
+
         if self.__pointB is not None:
             painter.drawLine(
                 self.__pointA.getX(),

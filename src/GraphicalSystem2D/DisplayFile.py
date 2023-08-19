@@ -10,12 +10,11 @@ class DisplayFile:
         self.__wireframes = []
 
         self.__buffer = None
+        
+    def clearBuffer(self):
+        self.__buffer = None
 
     def setBuffer(self, objectType: str, buffer: Point | Line | Wireframe) -> None:
-        if buffer is None:
-            self.__buffer = None
-            return
-        
         if objectType == "LINE":
             if self.__buffer is not None:
                 self.__buffer.addPoint(buffer)

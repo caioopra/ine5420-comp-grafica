@@ -111,6 +111,7 @@ class Ui_MainWindow(object):
         self.cancelButton.setGeometry(QtCore.QRect(10, 290, 90, 32))
         self.cancelButton.setFont(font)
         self.cancelButton.setObjectName("cancelButton")
+        self.cancelButton.clicked.connect(lambda: self.handleCancelClick())
 
         # radio buttons
         self.lineRadioButton = QtWidgets.QRadioButton(self.menuFrame)
@@ -174,13 +175,17 @@ class Ui_MainWindow(object):
             qp.drawEllipse(self.__points.point(i), 5, 5)
 
     def setObjectTypeSelected(self, event):
-        displayFile.setBuffer(None, None)
+        displayFile.clearBuffer()
         self.viewport.update()
         self.viewport.currentSelectedType = event
 
     def handleConfirmClick(self, name: str) -> None:
         text = displayFile.tryRegistering(self.viewport.currentSelectedType, name)
         print("returned", text)
+        
+    def handleCancelClick(self) -> None:
+        displayFile.clearBuffer()
+        self.viewport.update()
 
 
 if __name__ == "__main__":
