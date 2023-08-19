@@ -14,6 +14,7 @@ from UI.Viewport import Viewport
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        self.__points = QtGui.QPolygon()
         self.pressed_position = None
         self.clicked = QtCore.pyqtSignal()
         MainWindow.setMouseTracking(True)
@@ -115,14 +116,23 @@ class Ui_MainWindow(object):
 
         # radio buttons
         self.lineRadioButton = QtWidgets.QRadioButton(self.menuFrame)
+
+        self.lineRadioButton.clicked.connect(lambda: self.def_event_type("line"))
+
         self.lineRadioButton.setGeometry(QtCore.QRect(130, 240, 90, 32))
         self.lineRadioButton.setFont(font)
         self.lineRadioButton.setObjectName("lineRadioButton")
         self.polygonRadioButton = QtWidgets.QRadioButton(self.menuFrame)
+
+        self.polygonRadioButton.clicked.connect(lambda: self.def_event_type("polygon"))
+
         self.polygonRadioButton.setGeometry(QtCore.QRect(230, 240, 90, 32))
         self.polygonRadioButton.setFont(font)
         self.polygonRadioButton.setObjectName("polygonRadioButton")
         self.pointRadioButton = QtWidgets.QRadioButton(self.menuFrame)
+
+        self.pointRadioButton.clicked.connect(lambda: self.def_event_type("point"))
+
         self.pointRadioButton.setGeometry(QtCore.QRect(10, 240, 90, 32))
         self.pointRadioButton.setFont(font)
         self.pointRadioButton.setObjectName("pointRadioButton")
@@ -138,24 +148,6 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-    def mouseMoveEvent(self, event):
-        print(event.x(), event.y())
-
-    def mousePressEvent(self, event):
-        if event.button() == QtCore.Qt.LeftButton:
-            self.pressed_position = event.pos()
-            print(event.pos())
-
-    def mouseReleaseEvent(self, event):
-        if (
-            self.pressed_position is not None
-            and event.button() == QtCore.Qt.LeftButton
-            and event.pos() is self.rect()
-        ):
-            print("clicked at", event.x(), event.y())
-
-        self.pressed_position = None
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -174,6 +166,18 @@ class Ui_MainWindow(object):
         self.polygonRadioButton.setText(_translate("MainWindow", "Polygon"))
         self.pointRadioButton.setText(_translate("MainWindow", "Point"))
 
+    def paintEvent(self, ev):
+        qp = QtGui.QPainter(self)
+        qp.setRenderHint(QtGui.QPainter.Antialiasing)
+        pen = QtGui.QPen(QtCore.Qt.red, 3)
+        brush = QtGui.QBrush(QtCore.Qt.red)
+        qp.setPen(pen)
+        qp.setBrush(brush)
+        for i in range(self.__points.count()):
+            qp.drawEllipse(self.__points.point(i), 5, 5)
+
+    def def_event_type(self, event):
+        self.viewport.current_event = event
 
 if __name__ == "__main__":
     import sys

@@ -5,15 +5,21 @@ class Viewport(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super(Viewport, self).__init__(parent)
         self.setMouseTracking(True)
-        self.__points = QtGui.QPolygon()
+        self.__points = []
+        self.__lines = []
+        self.__line_location = []
+        self.current_event = ""
 
     def mouseMoveEvent(self, e):
         print(e.x(), e.y())
 
     def mousePressEvent(self, e):
-        self.__points << e.pos()
+        if self.current_event == "point":
+            self.__points.append(e.pos())
+        if self.current_event == "line":
+            pass
         self.update()
-        print("a")
+        print(self.current_event)
 
     def paintEvent(self, ev):
         qp = QtGui.QPainter(self)
@@ -22,5 +28,5 @@ class Viewport(QtWidgets.QWidget):
         brush = QtGui.QBrush(QtCore.Qt.red)
         qp.setPen(pen)
         qp.setBrush(brush)
-        for i in range(self.__points.count()):
-            qp.drawEllipse(self.__points.point(i), 5, 5)
+        for point in (self.__points):
+            qp.drawEllipse(point, 5, 5)
