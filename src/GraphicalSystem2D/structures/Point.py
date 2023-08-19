@@ -1,3 +1,5 @@
+from PyQt5 import QtGui
+
 from structures.Drawable import Drawable
 
 
@@ -7,8 +9,9 @@ class Point(Drawable):
         self.__y = y
         self.__name = name
 
-    def draw(self):
-        pass
+    def draw(self, painter: QtGui.QPainter) -> None:
+        painter.drawEllipse(self.__x, self.__y, 5, 5)
+        print("point drawing itself")
 
     def getX(self) -> float:
         return self.__x

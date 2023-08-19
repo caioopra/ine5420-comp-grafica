@@ -19,20 +19,33 @@ class DisplayFile:
 
     def verifyIfNameIsValid(self, name: str) -> bool:
         for point in self.__points:
+            print(point.getName())
             if point.getName() == name:
                 return False
-
         for line in self.__lines:
             if line.getName() == name:
                 return False
-
         for wireframe in self.__wireframes:
             if wireframe.getName() == name:
                 return False
 
         return True
 
-    def registerObject(self, currentType: str) -> None:
+    def tryRegistering(self, currentType: str, objectName: str) -> str:
+        if self.__buffer is None:
+            return f"[ERROR] Draw a object first."
+
+        if objectName == "":
+            return f"[ERROR] Enter a name before creating the object."
+
+        if not self.verifyIfNameIsValid(objectName):
+            return f"[ERROR] {objectName} is already being used."
+
+        self.registerObject(currentType, objectName)
+        return f"{objectName} ({currentType}) registered."
+
+    def registerObject(self, currentType: str, objectName: str) -> None:
+        self.__buffer.setName(objectName)
         if currentType == "POINT":
             self.__points.append(self.__buffer)
         elif currentType == "LINE":

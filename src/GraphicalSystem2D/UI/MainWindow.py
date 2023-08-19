@@ -1,7 +1,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-import consts
+
 from UI.Viewport import Viewport
 
+import consts
+from DisplayFile import displayFile
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -23,6 +25,8 @@ class Ui_MainWindow(object):
                 consts.VIEWPORT_HEIGHT,
             )
         )
+        self.viewport.setAttribute(QtCore.Qt.WA_StyledBackground, True)
+        self.viewport.setStyleSheet("background-color: #fff")
         self.logField = QtWidgets.QListWidget(self.centralwidget)
         self.logField.setGeometry(QtCore.QRect(336, 500, 761, 151))
         font = QtGui.QFont()
@@ -101,7 +105,7 @@ class Ui_MainWindow(object):
         self.confirmButton.setFont(font)
         self.confirmButton.setObjectName("confirmButton")
         self.confirmButton.clicked.connect(
-            lambda: self.viewport.registerObject(self.objectNameInput.text())
+            lambda: self.handleConfirmClick(self.objectNameInput.text())
         )
         self.cancelButton = QtWidgets.QPushButton(self.menuFrame)
         self.cancelButton.setGeometry(QtCore.QRect(10, 290, 90, 32))
@@ -146,7 +150,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        # self.viewport.setText(_translate("MainWindow", "VIEWPORT"))
         self.navigateUpButton.setText(_translate("MainWindow", "..."))
         self.navigateRightButton.setText(_translate("MainWindow", "..."))
         self.navigateLeftButton.setText(_translate("MainWindow", "..."))
@@ -171,7 +174,11 @@ class Ui_MainWindow(object):
             qp.drawEllipse(self.__points.point(i), 5, 5)
 
     def setObjectTypeSelected(self, event):
-        self.viewport.currentTypeSelected = event
+        self.viewport.currentSelectedType = event
+
+    def handleConfirmClick(self, name: str) -> None:
+        text = displayFile.tryRegistering(self.viewport.currentSelectedType, name)
+        print("returned", text)
 
 
 if __name__ == "__main__":
