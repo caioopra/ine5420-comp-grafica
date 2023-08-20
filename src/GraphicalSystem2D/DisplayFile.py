@@ -65,7 +65,6 @@ class DisplayFile:
         elif currentType == "LINE":
             self.__lines.append(self.__buffer)
         elif currentType == "WIREFRAME":
-            self.__buffer.removeLastLine()
             self.__wireframes.append(self.__buffer)
 
         self.__buffer = None

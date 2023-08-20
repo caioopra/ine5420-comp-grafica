@@ -11,7 +11,6 @@ class Point(Drawable):
 
     def draw(self, painter: QtGui.QPainter) -> None:
         painter.drawEllipse(self.__x, self.__y, 5, 5)
-        print("point drawing itself")
 
     def getX(self) -> float:
         return self.__x
