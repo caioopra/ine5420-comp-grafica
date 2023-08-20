@@ -35,18 +35,17 @@ class DisplayFile:
             if self.__buffer is not None:
                 self.__buffer.addPoint(buffer)
             else:
-                self.__buffer = Line(buffer)
+                self.__buffer = Line(buffer, window=self.__window)
         elif objectType == "WIREFRAME":
             if self.__buffer is not None:
                 self.__buffer.addPoint(buffer)
             else:
-                self.__buffer = Wireframe(buffer)
+                self.__buffer = Wireframe(buffer, window=self.__window)
         else:
             self.__buffer = buffer
 
     def verifyIfNameIsValid(self, name: str) -> bool:
         for point in self.__points:
-            print(point.getName())
             if point.getName() == name:
                 return False
         for line in self.__lines:

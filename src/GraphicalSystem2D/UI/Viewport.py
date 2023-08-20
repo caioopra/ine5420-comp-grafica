@@ -26,7 +26,7 @@ class Viewport(QtWidgets.QWidget):
                 "WIREFRAME", Point(event.x(), event.y(), displayFile.getWindow())
             )
         else:
-            print("select a type first")
+            print("select a type first")  # TODO: add to log
 
         self.update()
 

@@ -5,6 +5,7 @@ from UI.Viewport import Viewport
 import consts
 from DisplayFile import displayFile
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         self.__points = QtGui.QPolygon()
@@ -19,10 +20,10 @@ class Ui_MainWindow(object):
         self.viewport = Viewport(MainWindow)
         self.viewport.setGeometry(
             QtCore.QRect(
-                consts.VIEWPORT_X_MIN,
-                consts.VIEWPORT_Y_MIN,
-                consts.VIEWPORT_WIDTH,
-                consts.VIEWPORT_HEIGHT,
+                335,
+                5,
+                760,
+                490,
             )
         )
         self.viewport.setAttribute(QtCore.Qt.WA_StyledBackground, True)
@@ -181,8 +182,8 @@ class Ui_MainWindow(object):
 
     def handleConfirmClick(self, name: str) -> None:
         text = displayFile.tryRegistering(self.viewport.currentSelectedType, name)
-        print("returned", text)
-        
+        print("returned", text)  # TODO: add to log
+
     def handleCancelClick(self) -> None:
         displayFile.clearBuffer()
         self.viewport.update()

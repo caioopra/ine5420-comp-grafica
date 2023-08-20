@@ -18,7 +18,6 @@ class Point(Drawable):
 
     def draw(self, painter: QtGui.QPainter) -> None:
         x, y = viewportTransformation(self.__x, self.__y, self.__window)
-        print(x, y)
         painter.drawEllipse(x, y, 5, 5)
 
     def getX(self) -> float:
