@@ -81,5 +81,7 @@ class DisplayFile:
 
         self.__buffer = None
 
+    def navigate(self, direction: str):
+        self.__window.navigate(direction)
 
 displayFile = DisplayFile()

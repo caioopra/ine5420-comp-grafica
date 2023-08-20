@@ -57,6 +57,8 @@ class Ui_MainWindow(object):
         self.navigateUpButton.setAutoRaise(True)
         self.navigateUpButton.setArrowType(QtCore.Qt.UpArrow)
         self.navigateUpButton.setObjectName("navigateUpButton")
+        self.navigateUpButton.clicked.connect(lambda: self.navigate("UP"))
+        
         self.navigateRightButton = QtWidgets.QToolButton(self.menuFrame)
         self.navigateRightButton.setGeometry(QtCore.QRect(180, 390, 40, 40))
         self.navigateRightButton.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
@@ -64,16 +66,21 @@ class Ui_MainWindow(object):
         self.navigateRightButton.setAutoRaise(True)
         self.navigateRightButton.setArrowType(QtCore.Qt.RightArrow)
         self.navigateRightButton.setObjectName("navigateRightButton")
+        self.navigateRightButton.clicked.connect(lambda: self.navigate("RIGHT"))
+        
         self.navigateLeftButton = QtWidgets.QToolButton(self.menuFrame)
         self.navigateLeftButton.setGeometry(QtCore.QRect(100, 390, 40, 40))
         self.navigateLeftButton.setAutoRaise(True)
         self.navigateLeftButton.setArrowType(QtCore.Qt.LeftArrow)
         self.navigateLeftButton.setObjectName("navigateLeftButton")
+        self.navigateLeftButton.clicked.connect(lambda: self.navigate("LEFT"))
+        
         self.navigateDownButton = QtWidgets.QToolButton(self.menuFrame)
         self.navigateDownButton.setGeometry(QtCore.QRect(140, 430, 40, 40))
         self.navigateDownButton.setAutoRaise(True)
         self.navigateDownButton.setArrowType(QtCore.Qt.DownArrow)
         self.navigateDownButton.setObjectName("navigateDownButton")
+        self.navigateDownButton.clicked.connect(lambda: self.navigate("DOWN"))
 
         self.objectNameInput = QtWidgets.QLineEdit(self.menuFrame)
         self.objectNameInput.setGeometry(QtCore.QRect(10, 470, 300, 32))
@@ -186,6 +193,11 @@ class Ui_MainWindow(object):
 
     def handleCancelClick(self) -> None:
         displayFile.clearBuffer()
+        self.viewport.update()
+        
+    def navigate(self, direction: str):
+        displayFile.navigate(direction)
+        print("navigating", direction)  # TODO: add to log
         self.viewport.update()
 
 
