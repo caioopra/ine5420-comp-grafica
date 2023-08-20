@@ -13,17 +13,37 @@ class Viewport(QtWidgets.QWidget):
         self.currentSelectedType = ""
 
     def mousePressEvent(self, event):
+        disp_x, disp_y = displayFile.getWindow().getDisplacement()
+        x, y = event.x() + disp_x, event.y() + disp_y
+        print("this has displ")
+
         if self.currentSelectedType == "POINT":
             displayFile.addToBuffer(
-                "POINT", Point(event.x(), event.y(), displayFile.getWindow())
+                "POINT",
+                Point(
+                    x,
+                    y,
+                    displayFile.getWindow(),
+                ),
             )
+
         elif self.currentSelectedType == "LINE":
             displayFile.addToBuffer(
-                "LINE", Point(event.x(), event.y(), displayFile.getWindow())
+                "LINE",
+                Point(
+                    x,
+                    y,
+                    displayFile.getWindow(),
+                ),
             )
         elif self.currentSelectedType == "WIREFRAME":
             displayFile.addToBuffer(
-                "WIREFRAME", Point(event.x(), event.y(), displayFile.getWindow())
+                "WIREFRAME",
+                Point(
+                    x,
+                    y,
+                    displayFile.getWindow(),
+                ),
             )
         else:
             print("select a type first")  # TODO: add to log
