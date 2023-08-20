@@ -27,16 +27,20 @@ class Line(Drawable):
 
     def addPoint(self, point: Point):
         if self.__pointB is None:
+            print("here")
             self.__pointB = point
         elif self.__pointB is not None:
             self.__pointA = self.__pointB
             self.__pointB = point
-            
+
     def clearPoints(self):
         self.__pointA, self.__pointB = None, None
-            
+
     def getPointB(self) -> Point:
         return self.__pointB
+
+    def setPointB(self, point: Point):
+        self.__pointB = point
 
     def getPoints(self) -> list:
         """
