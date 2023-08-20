@@ -1,6 +1,6 @@
-from structures.Point import Point
 from structures.Line import Line
 from structures.Wireframe import Wireframe
+from structures.Window import Window
 
 
 class DisplayFile:
@@ -8,13 +8,29 @@ class DisplayFile:
         self.__points = []
         self.__lines = []
         self.__wireframes = []
-
         self.__buffer = None
+        
+        self.__window = Window()
 
+    def getWindow(self) -> Window:
+        return self.__window
+    
+    def getBuffer(self):
+        return self.__buffer
+    
+    def getPoints(self) -> list:
+        return self.__points
+
+    def getLines(self) -> list:
+        return self.__lines
+
+    def getWireframes(self) -> list:
+        return self.__wireframes
+    
     def clearBuffer(self):
         self.__buffer = None
 
-    def addToBuffer(self, objectType: str, buffer: Point) -> None:
+    def addToBuffer(self, objectType: str, buffer) -> None:
         if objectType == "LINE":
             if self.__buffer is not None:
                 self.__buffer.addPoint(buffer)
@@ -27,9 +43,6 @@ class DisplayFile:
                 self.__buffer = Wireframe(buffer)
         else:
             self.__buffer = buffer
-
-    def getBuffer(self) -> Point | Line | Wireframe:
-        return self.__buffer
 
     def verifyIfNameIsValid(self, name: str) -> bool:
         for point in self.__points:
@@ -68,15 +81,6 @@ class DisplayFile:
             self.__wireframes.append(self.__buffer)
 
         self.__buffer = None
-
-    def getPoints(self) -> list:
-        return self.__points
-
-    def getLines(self) -> list:
-        return self.__lines
-
-    def getWireframes(self) -> list:
-        return self.__wireframes
 
 
 displayFile = DisplayFile()

@@ -14,11 +14,17 @@ class Viewport(QtWidgets.QWidget):
 
     def mousePressEvent(self, event):
         if self.currentSelectedType == "POINT":
-            displayFile.addToBuffer("POINT", Point(event.x(), event.y()))
+            displayFile.addToBuffer(
+                "POINT", Point(event.x(), event.y(), displayFile.getWindow())
+            )
         elif self.currentSelectedType == "LINE":
-            displayFile.addToBuffer("LINE", Point(event.x(), event.y()))
+            displayFile.addToBuffer(
+                "LINE", Point(event.x(), event.y(), displayFile.getWindow())
+            )
         elif self.currentSelectedType == "WIREFRAME":
-            displayFile.addToBuffer("WIREFRAME", Point(event.x(), event.y()))
+            displayFile.addToBuffer(
+                "WIREFRAME", Point(event.x(), event.y(), displayFile.getWindow())
+            )
         else:
             print("select a type first")
 
@@ -37,7 +43,7 @@ class Viewport(QtWidgets.QWidget):
 
         if displayFile.getBuffer() is not None:
             displayFile.getBuffer().draw(qp)
-            
+
         for line in displayFile.getLines():
             line.draw(qp)
 
