@@ -15,10 +15,9 @@ class Viewport(QtWidgets.QWidget):
         self.currentSelectedType = ""
 
     def mousePressEvent(self, event):
-        disp_x, disp_y = displayFile.getWindow().getDisplacement()
-        x, y = event.x() + disp_x, event.y() + disp_y
-
-        # x, y = transformToWorldCoordinates(x, y, displayFile.getWindow())
+        x, y = transformToWorldCoordinates(
+            event.x(), event.y(), displayFile.getWindow()
+        )
 
         if self.currentSelectedType == "POINT":
             displayFile.addToBuffer(
