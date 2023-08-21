@@ -4,6 +4,8 @@ from structures.Point import Point
 from structures.Line import Line
 from DisplayFile import displayFile
 
+from utils.viewportTransformation import transformToWorldCoordinates
+
 
 class Viewport(QtWidgets.QWidget):
     def __init__(self, parent=None):
@@ -14,9 +16,9 @@ class Viewport(QtWidgets.QWidget):
 
     def mousePressEvent(self, event):
         disp_x, disp_y = displayFile.getWindow().getDisplacement()
-        print(event.x())
         x, y = event.x() + disp_x, event.y() + disp_y
-        print(x)
+
+        # x, y = transformToWorldCoordinates(x, y, displayFile.getWindow())
 
         if self.currentSelectedType == "POINT":
             displayFile.addToBuffer(

@@ -36,4 +36,4 @@ def transformToWorldCoordinates(x: float, y: float, window: Window):
         / (consts.VIEWPORT_Y_MAX - consts.VIEWPORT_Y_MIN)
     )
 
-    return xw, yw
+    return round(xw), round(yw)

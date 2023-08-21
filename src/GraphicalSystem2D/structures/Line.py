@@ -16,12 +16,12 @@ class Line(Drawable):
         super().__init__(name)
         self.__window = window
         self.__pointA = self.createPoint(
-            transformToWorldCoordinates(pointA.getX(), pointA.getY(), self.__window)
+            (pointA.getX(), pointA.getY(), self.__window)
         )
 
         if pointB is not None:
             self.__pointB = self.createPoint(
-                transformToWorldCoordinates(pointB.getX(), pointB.getY(), self.__window)
+                (pointB.getX(), pointB.getY(), self.__window)
             )
         else:
             self.__pointB = pointB
