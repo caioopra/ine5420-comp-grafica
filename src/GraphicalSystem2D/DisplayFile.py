@@ -59,16 +59,16 @@ class DisplayFile:
 
     def tryRegistering(self, currentType: str, objectName: str) -> str:
         if self.__buffer is None:
-            return f"[ERROR] Draw a object first."
+            return {"status": False, "mensagem": f"[ERROR] Draw an object first."}
 
         if objectName == "":
-            return f"[ERROR] Enter a name before creating the object."
+            return {"status": False, "mensagem": f"[ERROR] Enter a name before creating the object."}
 
         if not self.verifyIfNameIsValid(objectName):
-            return f"[ERROR] {objectName} is already being used."
+            return {"status": False, "mensagem": f"[ERROR] {objectName} is already being used."}
 
         self.registerObject(currentType, objectName)
-        return f"{objectName} ({currentType}) registered."
+        return {"status": True, "mensagem": f"{objectName} ({currentType}) registered."}
 
     def registerObject(self, currentType: str, objectName: str) -> None:
         self.__buffer.setName(objectName)

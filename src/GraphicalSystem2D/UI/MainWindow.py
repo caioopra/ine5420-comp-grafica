@@ -188,16 +188,24 @@ class Ui_MainWindow(object):
         self.viewport.currentSelectedType = event
 
     def handleConfirmClick(self, name: str) -> None:
-        text = displayFile.tryRegistering(self.viewport.currentSelectedType, name)
-        print("returned", text)  # TODO: add to log
+        dict = displayFile.tryRegistering(self.viewport.currentSelectedType, name)
+        #print("returned", text)  # TODO: add to log
+        self.logField.addItem(dict["mensagem"])
+        if dict["status"] == True:
+            self.objectsList.addItem(name)
+            self.objectNameInput.clear()
+
 
     def handleCancelClick(self) -> None:
         displayFile.clearBuffer()
+        self.objectNameInput.clear()
+        self.logField.addItem("Cleared.")
         self.viewport.update()
         
     def navigate(self, direction: str):
         displayFile.navigate(direction)
-        print("navigating", direction)  # TODO: add to log
+        #print("navigating", direction)  # TODO: add to log
+        self.logField.addItem("Navigating.")
         self.viewport.update()
 
 
