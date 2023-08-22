@@ -110,6 +110,7 @@ class Ui_MainWindow(object):
         font.setPointSize(11)
         self.deleteButton.setFont(font)
         self.deleteButton.setObjectName("deleteButton")
+        self.deleteButton.clicked.connect(lambda: self.handleDeleteClick())
 
         self.confirmButton = QtWidgets.QPushButton(self.menuFrame)
         self.confirmButton.setGeometry(QtCore.QRect(225, 290, 90, 32))
@@ -204,6 +205,15 @@ class Ui_MainWindow(object):
         self.logField.addItem("Cleared.")
         self.viewport.update()
 
+    def handleDeleteClick(self) -> None:
+        name = self.objectsList.currentRow()
+        name = self.objectsList.takeItem(name)
+        if name is not None:
+            displayFile.deleteObject(name.text())
+            self.viewport.update()
+        else:
+            self.logField.addItem("[ERROR] No object selected.")
+
     def navigate(self, direction: str):
         displayFile.navigate(direction)
         # self.logField.addItem("Navigating.")
@@ -212,7 +222,6 @@ class Ui_MainWindow(object):
     def zoom(self, direction: str):
         displayFile.zoom(direction)
         self.viewport.update()
-        
 
 
 if __name__ == "__main__":

@@ -86,6 +86,26 @@ class DisplayFile:
             self.__wireframes.append(self.__buffer)
 
         self.__buffer = None
+        
+    def deleteObject(self, name: str) -> None:
+        print(name)
+        for i, point in enumerate(self.__points):
+            if point.getName() == name:
+                print("deleting")
+                del self.__points[i]
+                return
+
+        for i, line in enumerate(self.__lines):
+            if line.getName() == name:
+                print("deleting")
+                del self.__lines[i]
+                return
+                
+        for i, wireframe in enumerate(self.__wireframes):
+            if wireframe.getName() == name:
+                print("deleting")
+                del self.__wireframes[i]
+                return
 
     def navigate(self, direction: str):
         self.__window.navigate(direction)
