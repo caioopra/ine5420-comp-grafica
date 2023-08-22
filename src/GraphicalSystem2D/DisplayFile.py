@@ -9,15 +9,15 @@ class DisplayFile:
         self.__lines = []
         self.__wireframes = []
         self.__buffer = None
-        
+
         self.__window = Window()
 
     def getWindow(self) -> Window:
         return self.__window
-    
+
     def getBuffer(self):
         return self.__buffer
-    
+
     def getPoints(self) -> list:
         return self.__points
 
@@ -26,7 +26,7 @@ class DisplayFile:
 
     def getWireframes(self) -> list:
         return self.__wireframes
-    
+
     def clearBuffer(self):
         self.__buffer = None
 
@@ -62,10 +62,16 @@ class DisplayFile:
             return {"status": False, "mensagem": f"[ERROR] Draw an object first."}
 
         if objectName == "":
-            return {"status": False, "mensagem": f"[ERROR] Enter a name before creating the object."}
+            return {
+                "status": False,
+                "mensagem": f"[ERROR] Enter a name before creating the object.",
+            }
 
         if not self.verifyIfNameIsValid(objectName):
-            return {"status": False, "mensagem": f"[ERROR] {objectName} is already being used."}
+            return {
+                "status": False,
+                "mensagem": f"[ERROR] {objectName} is already being used.",
+            }
 
         self.registerObject(currentType, objectName)
         return {"status": True, "mensagem": f"{objectName} ({currentType}) registered."}
@@ -83,5 +89,8 @@ class DisplayFile:
 
     def navigate(self, direction: str):
         self.__window.navigate(direction)
+
+    def zoom(self, direction: str):
+        self.__window.zoom(direction)
 
 displayFile = DisplayFile()

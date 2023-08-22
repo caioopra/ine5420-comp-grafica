@@ -58,7 +58,7 @@ class Ui_MainWindow(object):
         self.navigateUpButton.setArrowType(QtCore.Qt.UpArrow)
         self.navigateUpButton.setObjectName("navigateUpButton")
         self.navigateUpButton.clicked.connect(lambda: self.navigate("UP"))
-        
+
         self.navigateRightButton = QtWidgets.QToolButton(self.menuFrame)
         self.navigateRightButton.setGeometry(QtCore.QRect(180, 390, 40, 40))
         self.navigateRightButton.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
@@ -67,14 +67,14 @@ class Ui_MainWindow(object):
         self.navigateRightButton.setArrowType(QtCore.Qt.RightArrow)
         self.navigateRightButton.setObjectName("navigateRightButton")
         self.navigateRightButton.clicked.connect(lambda: self.navigate("RIGHT"))
-        
+
         self.navigateLeftButton = QtWidgets.QToolButton(self.menuFrame)
         self.navigateLeftButton.setGeometry(QtCore.QRect(100, 390, 40, 40))
         self.navigateLeftButton.setAutoRaise(True)
         self.navigateLeftButton.setArrowType(QtCore.Qt.LeftArrow)
         self.navigateLeftButton.setObjectName("navigateLeftButton")
         self.navigateLeftButton.clicked.connect(lambda: self.navigate("LEFT"))
-        
+
         self.navigateDownButton = QtWidgets.QToolButton(self.menuFrame)
         self.navigateDownButton.setGeometry(QtCore.QRect(140, 430, 40, 40))
         self.navigateDownButton.setAutoRaise(True)
@@ -87,17 +87,20 @@ class Ui_MainWindow(object):
         self.objectNameInput.setFont(font)
 
         # zoom buttons
-        self.zoomOutButton = QtWidgets.QPushButton(self.menuFrame)
-        self.zoomOutButton.setGeometry(QtCore.QRect(20, 350, 75, 23))
         font = QtGui.QFont()
         font.setFamily("Fira Code")
         font.setPointSize(10)
+        self.zoomOutButton = QtWidgets.QPushButton(self.menuFrame)
+        self.zoomOutButton.setGeometry(QtCore.QRect(20, 350, 75, 23))
         self.zoomOutButton.setFont(font)
         self.zoomOutButton.setObjectName("zoomOutButton")
+        self.zoomOutButton.clicked.connect(lambda: self.zoom("OUT"))
+
         self.zoomInButton = QtWidgets.QPushButton(self.menuFrame)
         self.zoomInButton.setGeometry(QtCore.QRect(230, 350, 75, 23))
         self.zoomInButton.setFont(font)
         self.zoomInButton.setObjectName("zoomInButton")
+        self.zoomInButton.clicked.connect(lambda: self.zoom("IN"))
 
         # selection buttons
         self.deleteButton = QtWidgets.QPushButton(self.menuFrame)
@@ -189,24 +192,27 @@ class Ui_MainWindow(object):
 
     def handleConfirmClick(self, name: str) -> None:
         dict = displayFile.tryRegistering(self.viewport.currentSelectedType, name)
-        #print("returned", text)  # TODO: add to log
+        # print("returned", text)  # TODO: add to log
         self.logField.addItem(dict["mensagem"])
         if dict["status"] == True:
             self.objectsList.addItem(name)
             self.objectNameInput.clear()
-
 
     def handleCancelClick(self) -> None:
         displayFile.clearBuffer()
         self.objectNameInput.clear()
         self.logField.addItem("Cleared.")
         self.viewport.update()
-        
+
     def navigate(self, direction: str):
         displayFile.navigate(direction)
-        #print("navigating", direction)  # TODO: add to log
-        self.logField.addItem("Navigating.")
+        # self.logField.addItem("Navigating.")
         self.viewport.update()
+
+    def zoom(self, direction: str):
+        displayFile.zoom(direction)
+        self.viewport.update()
+        
 
 
 if __name__ == "__main__":
