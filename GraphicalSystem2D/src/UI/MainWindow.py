@@ -1,14 +1,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from UI.Viewport import Viewport
+from UI.TransformationModal import TransformationModal
 
-import consts
 from DisplayFile import displayFile
 
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        self.__points = QtGui.QPolygon()
         self.pressed_position = None
         self.clicked = QtCore.pyqtSignal()
         MainWindow.setMouseTracking(True)
@@ -47,6 +46,9 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.objectsList.setFont(font)
         self.objectsList.setObjectName("objectsList")
+        self.objectsList.doubleClicked.connect(
+            lambda: self.openTransformationModal(self.objectsList.currentItem().text())
+        )
 
         # navigation buttons
         self.navigateUpButton = QtWidgets.QToolButton(self.menuFrame)
@@ -202,6 +204,12 @@ class Ui_MainWindow(object):
             self.viewport.update()
         else:
             self.logField.addItem("[ERROR] No object selected.")
+
+    def openTransformationModal(self, objectName: str):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = TransformationModal()
+        self.ui.setupUi(self.window, objectName=objectName)
+        self.window.show()
 
     def navigate(self, direction: str):
         displayFile.navigate(direction)
