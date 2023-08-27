@@ -20,7 +20,7 @@ def generateMatrix(type: str, x: float, y: float = None) -> np.matrix:
 
 def transform(
     object: Point | Line | Wireframe, matrix: np.matrix
-) -> Point | Line | Wireframe:
+):
     """Given a object and a matrix (np.matrix), returns the object
     with the given transformation applied
     """

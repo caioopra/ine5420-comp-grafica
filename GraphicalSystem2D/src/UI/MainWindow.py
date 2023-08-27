@@ -176,16 +176,6 @@ class Ui_MainWindow(object):
         self.wireframeRadioButton.setText(_translate("MainWindow", "Wireframe"))
         self.pointRadioButton.setText(_translate("MainWindow", "Point"))
 
-    def paintEvent(self, ev):
-        qp = QtGui.QPainter(self)
-        qp.setRenderHint(QtGui.QPainter.Antialiasing)
-        pen = QtGui.QPen(QtCore.Qt.red, 3)
-        brush = QtGui.QBrush(QtCore.Qt.red)
-        qp.setPen(pen)
-        qp.setBrush(brush)
-        for i in range(self.__points.count()):
-            qp.drawEllipse(self.__points.point(i), 5, 5)
-
     def setObjectTypeSelected(self, event):
         displayFile.clearBuffer()
         self.viewport.update()
@@ -193,7 +183,6 @@ class Ui_MainWindow(object):
 
     def handleConfirmClick(self, name: str) -> None:
         dict = displayFile.tryRegistering(self.viewport.currentSelectedType, name)
-        # print("returned", text)  # TODO: add to log
         self.logField.addItem(dict["mensagem"])
         if dict["status"] == True:
             self.objectsList.addItem(name)
@@ -216,7 +205,6 @@ class Ui_MainWindow(object):
 
     def navigate(self, direction: str):
         displayFile.navigate(direction)
-        # self.logField.addItem("Navigating.")
         self.viewport.update()
 
     def zoom(self, direction: str):
