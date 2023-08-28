@@ -11,7 +11,7 @@ class Viewport(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super(Viewport, self).__init__(parent)
         self.setMouseTracking(True)
-
+        self.__currentColor = QtCore.Qt.red
         self.currentSelectedType = ""
 
     def mousePressEvent(self, event):
@@ -55,10 +55,11 @@ class Viewport(QtWidgets.QWidget):
     def paintEvent(self, ev):
         qp = QtGui.QPainter(self)
         qp.setRenderHint(QtGui.QPainter.Antialiasing)
-        pen = QtGui.QPen(QtCore.Qt.red, 3)
-        brush = QtGui.QBrush(QtCore.Qt.red)
-        qp.setPen(pen)
+        pen = QtGui.QPen(self.__currentColor, 3)
+        brush = QtGui.QBrush(self.__currentColor)
+        qp.setPen(self.__currentColor)
         qp.setBrush(brush)
+        print("color ", self.__currentColor)
 
         for point in displayFile.getPoints():
             point.draw(qp)
@@ -71,3 +72,9 @@ class Viewport(QtWidgets.QWidget):
 
         for wireframe in displayFile.getWireframes():
             wireframe.draw(qp)
+
+    def getCurrentColor(self) -> None:
+        return self.__currentColor
+
+    def setCurrentColor(self, color) -> None:
+        self.__currentColor = color

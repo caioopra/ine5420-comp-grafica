@@ -7,6 +7,7 @@ class Drawable(ABC):
     def __init__(self, name: str = None) -> None:
         self.__name = name
         self.__current_transformations = None  # np.matrix
+        self.__color = ""
 
     @abstractmethod
     def draw(self):
@@ -27,3 +28,10 @@ class Drawable(ABC):
 
     def setCurrentTransformations(self, transformations: np.matrix) -> None:
         self.__current_transformations = transformations
+
+    def getColor(self) -> str:
+        return self.__color
+
+    def setColor(self, color: str) -> None:
+        self.__color = color
+        

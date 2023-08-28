@@ -1,4 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QColorDialog
+from PyQt5.QtGui import QColor
 
 from UI.Viewport import Viewport
 from UI.TransformationModal import TransformationModal
@@ -9,6 +11,7 @@ from DisplayFile import displayFile
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         self.pressed_position = None
+        self.__currentColor = ""
         self.clicked = QtCore.pyqtSignal()
         MainWindow.setMouseTracking(True)
 
@@ -127,6 +130,12 @@ class Ui_MainWindow(object):
         self.cancelButton.setObjectName("cancelButton")
         self.cancelButton.clicked.connect(lambda: self.handleCancelClick())
 
+        self.selectColorButton = QtWidgets.QPushButton(self.menuFrame)
+        self.selectColorButton.setGeometry(QtCore.QRect(215, 390, 108, 40))
+        self.selectColorButton.setFont(font)
+        self.selectColorButton.setObjectName("selectButton")
+        self.selectColorButton.clicked.connect(lambda: self.handleColorSelectionClick())
+
         # radio buttons
         self.lineRadioButton = QtWidgets.QRadioButton(self.menuFrame)
         self.lineRadioButton.clicked.connect(lambda: self.setObjectTypeSelected("LINE"))
@@ -149,6 +158,7 @@ class Ui_MainWindow(object):
         self.pointRadioButton.setGeometry(QtCore.QRect(10, 240, 90, 32))
         self.pointRadioButton.setFont(font)
         self.pointRadioButton.setObjectName("pointRadioButton")
+
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -177,6 +187,7 @@ class Ui_MainWindow(object):
         self.lineRadioButton.setText(_translate("MainWindow", "Line"))
         self.wireframeRadioButton.setText(_translate("MainWindow", "Wireframe"))
         self.pointRadioButton.setText(_translate("MainWindow", "Point"))
+        self.selectColorButton.setText(_translate("MainWindow", "Select Color"))
 
     def setObjectTypeSelected(self, event):
         displayFile.clearBuffer()
@@ -204,6 +215,15 @@ class Ui_MainWindow(object):
             self.viewport.update()
         else:
             self.logField.addItem("[ERROR] No object selected.")
+    
+    def handleColorSelectionClick(self) -> None:
+        self.openColorDialog()
+
+    def openColorDialog(self) -> None:
+        self.__currentColor = QColorDialog.getColor()
+        if self.__currentColor.isValid():
+            self.viewport.setCurrentColor(self.__currentColor)
+            print(self.__currentColor)
 
     def openTransformationModal(self, objectName: str):
         self.window = QtWidgets.QMainWindow()
