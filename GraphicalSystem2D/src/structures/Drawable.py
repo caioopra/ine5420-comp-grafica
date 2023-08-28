@@ -2,12 +2,13 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
+from PyQt5 import QtCore
 
 class Drawable(ABC):
     def __init__(self, name: str = None) -> None:
         self.__name = name
         self.__current_transformations = None  # np.matrix
-        self.__color = ""
+        self.__color = QtCore.Qt.red
 
     @abstractmethod
     def draw(self):

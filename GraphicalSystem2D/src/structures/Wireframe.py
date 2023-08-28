@@ -13,6 +13,7 @@ class Wireframe(Drawable):
         self.__window = window
 
     def draw(self, painter: QtGui.QPainter):
+
         if len(self.__pointsList) > 1:
             for i in range(len(self.__pointsList)):
                 if i == len(self.__pointsList) - 1:

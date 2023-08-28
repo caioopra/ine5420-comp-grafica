@@ -1,7 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from structures.Point import Point
-from structures.Line import Line
 from DisplayFile import displayFile
 
 from utils.viewportTransformation import transformToWorldCoordinates
@@ -55,28 +54,29 @@ class Viewport(QtWidgets.QWidget):
     def paintEvent(self, ev):
         qp = QtGui.QPainter(self)
         qp.setRenderHint(QtGui.QPainter.Antialiasing)
-        pen = QtGui.QPen(self.__currentColor, 3)
+
         brush = QtGui.QBrush(self.__currentColor)
         qp.setPen(self.__currentColor)
         qp.setBrush(brush)
 
         for point in displayFile.getPoints():
             print("cor: ", point.getColor())
-            qp.setPen(point.getColor())
+            qp.setPen(QtGui.QPen(point.getColor(), 3))
             point.draw(qp)
 
         if displayFile.getBuffer() is not None:
-            qp.setPen(self.__currentColor)
+            qp.setPen(QtGui.QPen(self.__currentColor, 3))
             displayFile.getBuffer().draw(qp)
 
         for line in displayFile.getLines():
             print("line color: ", line.getColor())
-            qp.setPen(line.getColor())
+            print(line.getColor())
+            qp.setPen(QtGui.QPen(line.getColor(), 3))
             line.draw(qp)
 
         for wireframe in displayFile.getWireframes():
             print("wireframe color: ", wireframe.getColor())
-            qp.setPen(wireframe.getColor())
+            qp.setPen(QtGui.QPen(wireframe.getColor(), 3))
             wireframe.draw(qp)
 
     def getCurrentColor(self) -> None:

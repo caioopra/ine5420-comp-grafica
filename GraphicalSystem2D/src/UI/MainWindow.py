@@ -1,6 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QColorDialog
-from PyQt5.QtGui import QColor
 
 from UI.Viewport import Viewport
 from UI.TransformationModal import TransformationModal
@@ -11,7 +10,7 @@ from DisplayFile import displayFile
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         self.pressed_position = None
-        self.__currentColor = ""
+        self.__currentColor = QtCore.Qt.red
         self.clicked = QtCore.pyqtSignal()
         MainWindow.setMouseTracking(True)
 
