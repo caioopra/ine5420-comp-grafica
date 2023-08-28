@@ -19,12 +19,21 @@ class Wireframe(Drawable):
         if len(self.__pointsList) > 1:
             for i in range(len(self.__pointsList)):
                 if i == len(self.__pointsList) - 1:
-                    line = Line(self.__pointsList[i], self.__firstPoint, window=self.__window)
+                    line = Line(
+                        self.__pointsList[i], self.__firstPoint, window=self.__window
+                    )
                 else:
-                    line = Line(self.__pointsList[i], self.__pointsList[i + 1], window=self.__window)
+                    line = Line(
+                        self.__pointsList[i],
+                        self.__pointsList[i + 1],
+                        window=self.__window,
+                    )
                 line.draw(painter, wireframe=True)
         else:
             self.__firstPoint.draw(painter)
+
+    def applyTransformations(self) -> None:
+        pass
 
     def addPoint(self, point: Point):
         self.__pointsList.append(point)

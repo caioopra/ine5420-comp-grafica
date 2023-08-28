@@ -7,8 +7,7 @@ from structures.Wireframe import Wireframe
 
 
 def generateMatrix(type: str, x: float, y: float = None) -> np.matrix:
-    """ Creates the matrices of the given transformation
-    """
+    """Creates the matrices of the given transformation"""
     if type == "TRANSLATION":
         return np.matrix([[1, 0, 0], [0, 1, 0], [x, y, 1]])
     elif type == "SCALING":
@@ -18,9 +17,7 @@ def generateMatrix(type: str, x: float, y: float = None) -> np.matrix:
         return np.matrix([[cos(rad), -sin(rad), 0], [sin(rad), cos(rad), 0], [0, 0, 1]])
 
 
-def transform(
-    object: Point | Line | Wireframe, matrix: np.matrix
-):
+def transform(object: Point | Line | Wireframe, matrix: np.matrix):
     """Given a object and a matrix (np.matrix), returns the object
     with the given transformation applied
     """
@@ -36,11 +33,5 @@ def _transformPoint(point: Point, matrix: np.matrix):
     return np.matmul(np.array([point.getx(), point.getY(), 1]), matrix)
 
 
-def matrixComposition(matrix_list: list) -> np.matrix:
-    result = np.matmul(matrix_list[0], matrix_list[1])
-
-    if len(matrix_list) > 2:
-        for matrix in matrix_list[2:]:
-            result = np.matmul(result, matrix)
-
-    return result
+def matrixComposition(matrix1: np.matrix, matrix2: np.matrix) -> np.matrix:
+    return np.matmul(matrix1, matrix2)

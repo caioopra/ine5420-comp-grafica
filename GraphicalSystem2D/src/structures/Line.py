@@ -15,9 +15,7 @@ class Line(Drawable):
     ):
         super().__init__(name)
         self.__window = window
-        self.__pointA = self.createPoint(
-            (pointA.getX(), pointA.getY(), self.__window)
-        )
+        self.__pointA = self.createPoint((pointA.getX(), pointA.getY(), self.__window))
 
         if pointB is not None:
             self.__pointB = self.createPoint(
@@ -41,6 +39,9 @@ class Line(Drawable):
             painter.drawLine(pointA_x, pointA_y, pointB_x, pointB_y)
         else:
             self.__pointA.draw(painter)
+
+    def applyTransformations(self) -> None:
+        pass
 
     def createPoint(self, points):
         return Point(points[0], points[1], self.__window)

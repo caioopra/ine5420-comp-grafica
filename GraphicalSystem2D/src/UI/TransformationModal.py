@@ -1,6 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from utils.matrixOperations import generateMatrix
+import numpy as np
+from utils.matrixOperations import generateMatrix, matrixComposition
+
+from DisplayFile import displayFile
+
 
 class TransformationModal(object):
     def setupUi(self, MainWindow, objectName: str):
@@ -22,12 +26,17 @@ class TransformationModal(object):
         self.translationCheckbox = QtWidgets.QCheckBox(self.frame)
         self.translationCheckbox.setGeometry(QtCore.QRect(10, 20, 91, 31))
         self.translationCheckbox.setObjectName("translationCheckbox")
+        self.translationCheckbox.clicked.connect(
+            lambda: self.addToOperations("TRANSLATION")
+        )
         self.scalingCheckbox = QtWidgets.QCheckBox(self.frame)
         self.scalingCheckbox.setGeometry(QtCore.QRect(10, 100, 91, 31))
         self.scalingCheckbox.setObjectName("scalingCheckbox")
+        self.scalingCheckbox.clicked.connect(lambda: self.addToOperations("SCALING"))
         self.rotationCheckbox = QtWidgets.QCheckBox(self.frame)
         self.rotationCheckbox.setGeometry(QtCore.QRect(10, 180, 91, 31))
         self.rotationCheckbox.setObjectName("rotationCheckbox")
+        self.rotationCheckbox.clicked.connect(lambda: self.addToOperations("ROTATION"))
 
         self.translationXInput = QtWidgets.QLineEdit(self.frame)
         self.translationXInput.setGeometry(QtCore.QRect(130, 40, 71, 21))
@@ -65,6 +74,7 @@ class TransformationModal(object):
         self.confirmTransformButton = QtWidgets.QPushButton(self.centralwidget)
         self.confirmTransformButton.setGeometry(QtCore.QRect(40, 330, 85, 23))
         self.confirmTransformButton.setObjectName("confirmTransformButton")
+        self.confirmTransformButton.clicked.connect(lambda: self.confirmHandler())
         self.resetTransformButton = QtWidgets.QPushButton(self.centralwidget)
         self.resetTransformButton.setGeometry(QtCore.QRect(200, 330, 85, 23))
         self.resetTransformButton.setObjectName("resetTransformButton")
@@ -81,8 +91,7 @@ class TransformationModal(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        # np.matrix list
-        self.matrices_list = []
+        self.operations_order = []
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -101,12 +110,40 @@ class TransformationModal(object):
         self.resetTransformButton.setText("Reset")
 
     def confirmHandler(self):
-        if self.translationCheckbox.isChecked():
-            # self.matrices_list.
-            ...
-        if self.scalingCheckbox.isChecked():
-            ...
-        if self.rotationCheckbox.isChecked():
-            ...
-        
+        if not len(self.operations_order):
+            print("selecione uma operação")  # TODO: add to log
+            return
 
+        matrix = self.createMatrix(self.operations_order.pop(0))
+        for operation in self.operations_order:
+            new_matrix = self.createMatrix(operation)
+            matrix = matrixComposition(matrix, new_matrix)
+
+        print(matrix)
+
+    def createMatrix(self, operation: str) -> np.matrix:
+        if operation == "TRANSLATION":
+            return generateMatrix(
+                operation,
+                float(self.translationXInput.text()),
+                float(self.translationYInput.text()),
+            )
+
+        if operation == "SCALING":
+            return generateMatrix(
+                operation,
+                float(self.scalingXInput.text()),
+                float(self.scalingYInput.text()),
+            )
+
+        if operation == "ROTATION":
+            return generateMatrix(
+                operation,
+                float(self.rotationInput.text()),
+            )
+
+    def addToOperations(self, operation: str):
+        if operation in self.operations_order:
+            self.operations_order.remove(operation)
+        else:
+            self.operations_order.append(operation)
