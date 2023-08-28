@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 import numpy as np
+
 from utils.matrixOperations import generateMatrix, matrixComposition
 
 from DisplayFile import displayFile
@@ -18,7 +19,7 @@ class TransformationModal(object):
         self.objectName.setText(objectName)
         self.objectName.adjustSize()
         self.frame = QtWidgets.QFrame(self.centralwidget)
-        self.frame.setGeometry(QtCore.QRect(9, 59, 311, 241))
+        self.frame.setGeometry(QtCore.QRect(9, 59, 311, 300))
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
@@ -51,13 +52,6 @@ class TransformationModal(object):
         self.translationYLabel.setGeometry(QtCore.QRect(230, 10, 71, 16))
         self.translationYLabel.setObjectName("translationYLabel")
 
-        self.rotationInput = QtWidgets.QLineEdit(self.frame)
-        self.rotationInput.setGeometry(QtCore.QRect(130, 195, 171, 20))
-        self.rotationInput.setObjectName("rotationInput")
-        self.rotationLabel = QtWidgets.QLabel(self.frame)
-        self.rotationLabel.setGeometry(QtCore.QRect(130, 175, 71, 16))
-        self.rotationLabel.setObjectName("rotationLabel")
-
         self.scalingXInput = QtWidgets.QLineEdit(self.frame)
         self.scalingXInput.setGeometry(QtCore.QRect(130, 120, 71, 20))
         self.scalingXInput.setObjectName("scalingXInput")
@@ -72,12 +66,50 @@ class TransformationModal(object):
         self.scalingYLabel.setObjectName("scalingYLabel")
 
         self.confirmTransformButton = QtWidgets.QPushButton(self.centralwidget)
-        self.confirmTransformButton.setGeometry(QtCore.QRect(40, 330, 85, 23))
+        self.confirmTransformButton.setGeometry(QtCore.QRect(40, 380, 85, 23))
         self.confirmTransformButton.setObjectName("confirmTransformButton")
         self.confirmTransformButton.clicked.connect(lambda: self.confirmHandler())
         self.resetTransformButton = QtWidgets.QPushButton(self.centralwidget)
-        self.resetTransformButton.setGeometry(QtCore.QRect(200, 330, 85, 23))
+        self.resetTransformButton.setGeometry(QtCore.QRect(200, 380, 85, 23))
         self.resetTransformButton.setObjectName("resetTransformButton")
+
+        self.rotationInput = QtWidgets.QLineEdit(self.frame)
+        self.rotationInput.setGeometry(QtCore.QRect(130, 195, 171, 20))
+        self.rotationInput.setObjectName("rotationInput")
+        self.rotationLabel = QtWidgets.QLabel(self.frame)
+        self.rotationLabel.setGeometry(QtCore.QRect(130, 175, 71, 16))
+        self.rotationLabel.setObjectName("rotationLabel")
+
+        self.rotationTypeSelf = QtWidgets.QRadioButton(self.frame)
+        self.rotationTypeSelf.setGeometry(QtCore.QRect(15, 225, 60, 20))
+        # self.rotationTypeSelf.setFont()
+        self.rotationTypeSelf.setObjectName("rotationTypeSelf")
+        # self.rotationTypeSelf.clicked.connect()
+
+        self.rotationTypeOrigin = QtWidgets.QRadioButton(self.frame)
+        self.rotationTypeOrigin.setGeometry(QtCore.QRect(15, 250, 60, 20))
+        # self.rotationTypeOrigin.setFont()
+        self.rotationTypeOrigin.setObjectName("rotationTypeOrigin")
+        # self.rotationTypeOrigin.clicked.connect()
+
+        self.rotationTypePoint = QtWidgets.QRadioButton(self.frame)
+        self.rotationTypePoint.setGeometry(QtCore.QRect(15, 275, 50, 22))
+        # self.rotationTypePoint.setFont()
+        self.rotationTypePoint.setObjectName("rotationTypePoint")
+        # self.rotationTypePoint.clicked.connect()
+
+        self.rotatioTypePointXInput = QtWidgets.QLineEdit(self.frame)
+        self.rotatioTypePointXInput.setGeometry(QtCore.QRect(130, 275, 71, 20))
+        self.rotatioTypePointXInput.setObjectName("rotatioTypePointXInput")
+        self.rotatioTypePointYInput = QtWidgets.QLineEdit(self.frame)
+        self.rotatioTypePointYInput.setGeometry(QtCore.QRect(230, 275, 71, 20))
+        self.rotatioTypePointYInput.setObjectName("rotatioTypePointYInput")
+        self.rotatioTypePointXLabel = QtWidgets.QLabel(self.frame)
+        self.rotatioTypePointXLabel.setGeometry(QtCore.QRect(230, 250, 71, 16))
+        self.rotatioTypePointXLabel.setObjectName("rotatioTypePointXLabel")
+        self.rotatioTypePointYLabel = QtWidgets.QLabel(self.frame)
+        self.rotatioTypePointYLabel.setGeometry(QtCore.QRect(130, 250, 71, 16))
+        self.rotatioTypePointYLabel.setObjectName("rotatioTypePointYLabel")
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -108,6 +140,12 @@ class TransformationModal(object):
         self.scalingYLabel.setText(_translate("MainWindow", "Y"))
         self.confirmTransformButton.setText("Confirm")
         self.resetTransformButton.setText("Reset")
+        self.rotationTypeSelf.setText("Self")
+        self.rotationTypeOrigin.setText("Origin")
+        self.rotationTypePoint.setText("Point: ")
+        self.rotationTypePoint.adjustSize()
+        self.rotatioTypePointXLabel.setText("Point X")
+        self.rotatioTypePointYLabel.setText("Point Y")
 
     def confirmHandler(self):
         if not len(self.operations_order):
