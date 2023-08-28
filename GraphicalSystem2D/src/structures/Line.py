@@ -25,9 +25,6 @@ class Line(Drawable):
             self.__pointB = pointB
 
     def draw(self, painter: QtGui.QPainter, wireframe: bool = False) -> None:
-        if not wireframe:
-            painter.setPen(QtGui.QPen(QtCore.Qt.green, 3))
-            painter.setBrush(QtGui.QBrush(QtCore.Qt.green))
 
         if self.__pointB is not None:
             pointA_x, pointA_y = viewportTransformation(
