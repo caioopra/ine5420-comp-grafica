@@ -57,7 +57,7 @@ class DisplayFile:
 
         return True
 
-    def tryRegistering(self, currentType: str, objectName: str) -> str:
+    def tryRegistering(self, currentType: str, objectName: str, color) -> str:
         if self.__buffer is None:
             return {"status": False, "mensagem": f"[ERROR] Draw an object first."}
 
@@ -73,11 +73,15 @@ class DisplayFile:
                 "mensagem": f"[ERROR] {objectName} is already being used.",
             }
 
-        self.registerObject(currentType, objectName)
+        self.registerObject(currentType, objectName, color)
         return {"status": True, "mensagem": f"{objectName} ({currentType}) registered."}
 
-    def registerObject(self, currentType: str, objectName: str) -> None:
+    def registerObject(self, currentType: str, objectName: str, color) -> None:
         self.__buffer.setName(objectName)
+        self.__buffer.setColor(color)
+        print("buffer: ", self.__buffer)
+        print("color for buffer: ", color)
+        print("color in buffer", self.__buffer.getColor())
         if currentType == "POINT":
             self.__points.append(self.__buffer)
         elif currentType == "LINE":
@@ -112,5 +116,8 @@ class DisplayFile:
 
     def zoom(self, direction: str):
         self.__window.zoom(direction)
+
+    def getBuffer(self):
+        return self.__buffer
 
 displayFile = DisplayFile()

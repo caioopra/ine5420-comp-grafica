@@ -195,7 +195,8 @@ class Ui_MainWindow(object):
         self.viewport.currentSelectedType = event
 
     def handleConfirmClick(self, name: str) -> None:
-        dict = displayFile.tryRegistering(self.viewport.currentSelectedType, name)
+        dict = displayFile.tryRegistering(self.viewport.currentSelectedType, name, self.__currentColor)
+        print(self.__currentColor)
         self.logField.addItem(dict["mensagem"])
         if dict["status"] == True:
             self.objectsList.addItem(name)

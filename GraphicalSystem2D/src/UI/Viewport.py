@@ -59,18 +59,24 @@ class Viewport(QtWidgets.QWidget):
         brush = QtGui.QBrush(self.__currentColor)
         qp.setPen(self.__currentColor)
         qp.setBrush(brush)
-        print("color ", self.__currentColor)
 
         for point in displayFile.getPoints():
+            print("cor: ", point.getColor())
+            qp.setPen(point.getColor())
             point.draw(qp)
 
         if displayFile.getBuffer() is not None:
+            qp.setPen(self.__currentColor)
             displayFile.getBuffer().draw(qp)
 
         for line in displayFile.getLines():
+            print("line color: ", line.getColor())
+            qp.setPen(line.getColor())
             line.draw(qp)
 
         for wireframe in displayFile.getWireframes():
+            print("wireframe color: ", wireframe.getColor())
+            qp.setPen(wireframe.getColor())
             wireframe.draw(qp)
 
     def getCurrentColor(self) -> None:
