@@ -160,14 +160,32 @@ class TransformationModal(object):
             self.addToLog("Select at least one transformation.")
             return
 
-        matrix = self.createMatrix(self.operations_order.pop(0))
-        for operation in self.operations_order:
-            new_matrix = self.createMatrix(operation)
-            matrix = matrixComposition(matrix, new_matrix)
+        if self.verifyValidTransformationInputs(self.operations_order[0]):
+            matrix = self.createMatrix(self.operations_order.pop(0))
+            for operation in self.operations_order:
+                new_matrix = self.createMatrix(operation)
+                matrix = matrixComposition(matrix, new_matrix)
 
-        self.currentObject.applyTransformations(matrix)
-        self.updateObject()
-        self.closeModal()
+            self.currentObject.applyTransformations(matrix)
+            self.updateObject()
+            self.closeModal()
+        else:
+            self.addToLog("Make sure all inputs are defined.")
+
+    def verifyValidTransformationInputs(self, operation: str) -> bool:
+        if operation == "TRANSLATION":
+            if self.translationXInput.text() == "" or self.translationYInput.text() == "":
+                return False
+        elif operation == "SCALING":
+            if self.scalingXInput.text() == "" or self.scalingYInput.text() == "":
+                return False
+        elif operation == "ROTATION":
+            if self.rotationInput.text() == "":
+                return False
+            elif self.rotationType == "POINT":
+                if self.rotatioTypePointXInput.text() == "" or self.rotatioTypePointYInput.text() == "":
+                    return False
+        return True
 
     def createMatrix(self, operation: str) -> np.matrix:
         if operation == "TRANSLATION":

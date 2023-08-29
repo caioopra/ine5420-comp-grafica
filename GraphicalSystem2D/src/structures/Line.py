@@ -1,4 +1,5 @@
 from PyQt5 import QtGui
+import numpy as np
 
 from structures.Drawable import Drawable
 from structures.Point import Point
@@ -33,8 +34,13 @@ class Line(Drawable):
         else:
             self.__pointA.draw(painter)
 
-    def applyTransformations(self) -> None:
-        pass
+    def applyTransformations(self, matrix) -> None:
+        mult = np.matmul(np.array([self.__pointA.getX(), self.__pointA.getY(), 1]), matrix)
+        self.__pointA.setX(mult.item(0))
+        self.__pointA.setY(mult.item(1))
+        mult = np.matmul(np.array([self.__pointB.getX(), self.__pointB.getY(), 1]), matrix)
+        self.__pointB.setX(mult.item(0))
+        self.__pointB.setY(mult.item(1))
 
     def calculateGeometricCenter(self) -> list:
         somaX = (self.__pointA.getX() + self.__pointB.getX()) / 2
