@@ -65,10 +65,10 @@ class TransformationModal(object):
         self.scalingYInput.setGeometry(QtCore.QRect(230, 120, 71, 20))
         self.scalingYInput.setObjectName("scalingYInput")
         self.scalingXLabel = QtWidgets.QLabel(self.frame)
-        self.scalingXLabel.setGeometry(QtCore.QRect(230, 90, 71, 16))
+        self.scalingXLabel.setGeometry(QtCore.QRect(130, 90, 71, 16))
         self.scalingXLabel.setObjectName("scalingXLabel")
         self.scalingYLabel = QtWidgets.QLabel(self.frame)
-        self.scalingYLabel.setGeometry(QtCore.QRect(130, 90, 71, 16))
+        self.scalingYLabel.setGeometry(QtCore.QRect(230, 90, 71, 16))
         self.scalingYLabel.setObjectName("scalingYLabel")
 
         self.confirmTransformButton = QtWidgets.QPushButton(self.centralwidget)
@@ -180,11 +180,11 @@ class TransformationModal(object):
             )
 
         if operation == "SCALING":
-            return generateMatrix(
-                operation,
-                float(self.scalingXInput.text()),
-                float(self.scalingYInput.text()),
-            )
+            center = self.currentObject.calculateGeometricCenter()
+            
+            translation_matrix = generateMatrix("TRANSLATION", -center[0], -center[1])
+            intermediate = matrixComposition(translation_matrix, generateMatrix("SCALING", self.scalingXInput.text(), self.scalingYInput.text()))
+            return matrixComposition(intermediate, generateMatrix("TRANSLATION", center[0], center[1]))
 
         if operation == "ROTATION":
             if self.rotationType == "SELF":

@@ -9,9 +9,10 @@ from structures.Wireframe import Wireframe
 def generateMatrix(type: str, x: float, y: float = None) -> np.matrix:
     """Creates the matrices of the given transformation"""
     if type == "TRANSLATION":
-        return np.matrix([[1, 0, 0], [0, 1, 0], [x, y, 1]])
+        return np.matrix([[1, 0, 0], [0, 1, 0], [float(x), float(y), 1]])
     elif type == "SCALING":
-        return np.matrix([[x, 0, 0], [0, y, 0], [0, 0, 1]])
+        print("scaling", x, y, float(x), float(y))
+        return np.matrix([[float(x), 0, 0], [0, float(y), 0], [0, 0, 1]])
     elif type == "ROTATION":
         rad = radians(float(x))
         print(rad)

@@ -41,6 +41,7 @@ class Ui_MainWindow(object):
         self.menuFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.menuFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.menuFrame.setObjectName("menuFrame")
+
         self.objectsList = QtWidgets.QListWidget(self.menuFrame)
         self.objectsList.setGeometry(QtCore.QRect(10, 10, 311, 221))
         font = QtGui.QFont()
