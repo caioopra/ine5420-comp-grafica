@@ -11,11 +11,9 @@ def generateMatrix(type: str, x: float, y: float = None) -> np.matrix:
     if type == "TRANSLATION":
         return np.matrix([[1, 0, 0], [0, 1, 0], [float(x), float(y), 1]])
     elif type == "SCALING":
-        print("scaling", x, y, float(x), float(y))
         return np.matrix([[float(x), 0, 0], [0, float(y), 0], [0, 0, 1]])
     elif type == "ROTATION":
         rad = radians(float(x))
-        print(rad)
         return np.matrix([[cos(rad), sin(rad), 0], [-sin(rad), cos(rad), 0], [0, 0, 1]])
 
 

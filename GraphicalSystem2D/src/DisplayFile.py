@@ -3,6 +3,7 @@ from structures.Line import Line
 from structures.Wireframe import Wireframe
 from structures.Window import Window
 
+from PyQt5 import QtCore
 
 class DisplayFile:
     def __init__(self):
@@ -12,6 +13,8 @@ class DisplayFile:
         self.__buffer = None
 
         self.__window = Window()
+
+        self.addAxisLines()
 
     def getWindow(self) -> Window:
         return self.__window
@@ -31,6 +34,22 @@ class DisplayFile:
     def clearBuffer(self):
         self.__buffer = None
 
+    def addAxisLines(self):
+        x_line = Line(
+                    pointA=Point(-760, 0, self.__window),
+                    pointB=Point(760, 0, self.__window),
+                    window=self.__window
+        )
+        x_line.setColor(QtCore.Qt.black)
+        y_line = Line(
+                    pointA=Point(0, -490, self.__window),
+                    pointB=Point(0, 490, self.__window),
+                    window=self.__window
+        )
+        y_line.setColor(QtCore.Qt.black)
+
+        self.__lines.append(x_line)
+        self.__lines.append(y_line)
     def addToBuffer(self, objectType: str, buffer) -> None:
         if objectType == "LINE":
             if self.__buffer is not None:
