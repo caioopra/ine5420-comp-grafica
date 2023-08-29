@@ -209,7 +209,17 @@ class TransformationModal(object):
             elif self.rotationType == "ORIGIN":
                 return generateMatrix("ROTATION", self.rotationInput.text())
             elif self.rotationType == "POINT":
-                ...
+                point_x = float(self.rotatioTypePointXInput.text())
+                point_y = float(self.rotatioTypePointYInput.text())
+
+                translation_matrix = generateMatrix("TRANSLATION", -point_x, -point_y)
+                intermediate = matrixComposition(
+                    translation_matrix,
+                    generateMatrix("ROTATION", self.rotationInput.text()),
+                )
+                return matrixComposition(
+                    intermediate, generateMatrix("TRANSLATION", point_x, point_y)
+                )
 
     def addToOperations(self, operation: str):
         if operation in self.operations_order:

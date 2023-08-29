@@ -23,11 +23,11 @@ class Window:
 
     def navigate(self, direction):
         if direction == "UP":
-            self.yw_min -= self.step
-            self.yw_max -= self.step
-        elif direction == "DOWN":
             self.yw_min += self.step
             self.yw_max += self.step
+        elif direction == "DOWN":
+            self.yw_min -= self.step
+            self.yw_max -= self.step
         elif direction == "RIGHT":
             self.xw_min += self.step
             self.xw_max += self.step
