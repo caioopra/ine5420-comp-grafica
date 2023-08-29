@@ -1,3 +1,4 @@
+import numpy as np
 from PyQt5 import QtGui
 
 from structures.Drawable import Drawable
@@ -18,8 +19,10 @@ class Point(Drawable):
         x, y = viewportTransformation(self.__x, self.__y, self.__window)
         painter.drawEllipse(x, y, 5, 5)
 
-    def applyTransformations(self) -> None:
-        pass
+    def applyTransformations(self, matrix: np.matrix) -> None:
+        mult = np.matmul(np.array([self.__x, self.__y, 1]), matrix)
+        self.__x = mult.item(0)
+        self.__y = mult.item(1)
 
     def calculateGeometricCenter(self) -> list:
         return [self.getX(), self.getY()]
