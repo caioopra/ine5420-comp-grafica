@@ -11,10 +11,10 @@ def viewportTransformation(x, y, window: Window):
 def _transformPoint(x, y, window: Window) -> list:
     """Given the points world coordinates, returns them transformed to viewport"""
     xv = (x - window.xw_min) / (window.xw_max - window.xw_min)
-    xv *= (consts.VIEWPORT_X_MAX - consts.VIEWPORT_X_MIN)
+    xv *= consts.VIEWPORT_X_MAX - consts.VIEWPORT_X_MIN
 
     yv = 1 - (y - window.yw_min) / (window.yw_max - window.yw_min)
-    yv *= (consts.VIEWPORT_Y_MAX - consts.VIEWPORT_Y_MIN)
+    yv *= consts.VIEWPORT_Y_MAX - consts.VIEWPORT_Y_MIN
 
     return round(xv), round(yv)
 
@@ -22,11 +22,15 @@ def _transformPoint(x, y, window: Window) -> list:
 def transformToWorldCoordinates(x: float, y: float, window: Window):
     """When structures are created using mouse, the coordinates are already relative to the viewport
     returns the (x, y) coordinates converted to world coordinates
-    """ 
+    """
     multx = consts.VIEWPORT_X_MAX - consts.VIEWPORT_X_MIN
     multy = consts.VIEWPORT_Y_MAX - consts.VIEWPORT_Y_MIN
 
-    xw = window.xw_min + (x - consts.VIEWPORT_X_MIN) / multx * (window.xw_max - window.xw_min)
-    yw = window.yw_min + (1 - (y - consts.VIEWPORT_Y_MIN) / multy) * (window.yw_max - window.yw_min)
+    xw = window.xw_min + (x - consts.VIEWPORT_X_MIN) / multx * (
+        window.xw_max - window.xw_min
+    )
+    yw = window.yw_min + (1 - (y - consts.VIEWPORT_Y_MIN) / multy) * (
+        window.yw_max - window.yw_min
+    )
 
     return round(xw), round(yw)

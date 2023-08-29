@@ -5,6 +5,7 @@ from structures.Window import Window
 
 from PyQt5 import QtCore
 
+
 class DisplayFile:
     def __init__(self):
         self.__points = []
@@ -36,20 +37,21 @@ class DisplayFile:
 
     def addAxisLines(self):
         x_line = Line(
-                    pointA=Point(-760, 0, self.__window),
-                    pointB=Point(760, 0, self.__window),
-                    window=self.__window
+            pointA=Point(-760, 0, self.__window),
+            pointB=Point(760, 0, self.__window),
+            window=self.__window,
         )
         x_line.setColor(QtCore.Qt.black)
         y_line = Line(
-                    pointA=Point(0, -490, self.__window),
-                    pointB=Point(0, 490, self.__window),
-                    window=self.__window
+            pointA=Point(0, -490, self.__window),
+            pointB=Point(0, 490, self.__window),
+            window=self.__window,
         )
         y_line.setColor(QtCore.Qt.black)
 
         self.__lines.append(x_line)
         self.__lines.append(y_line)
+
     def addToBuffer(self, objectType: str, buffer) -> None:
         if objectType == "LINE":
             if self.__buffer is not None:
@@ -76,16 +78,16 @@ class DisplayFile:
                 return False
 
         return True
-    
+
     def getObjectByName(self, name: str) -> Point | Line | Wireframe:
         for point in self.__points:
             if point.getName() == name:
                 return point
-            
+
         for line in self.__lines:
             if line.getName() == name:
                 return line
-            
+
         for wireframe in self.__wireframes:
             if wireframe.getName() == name:
                 return wireframe
@@ -120,7 +122,7 @@ class DisplayFile:
             self.__wireframes.append(self.__buffer)
 
         self.__buffer = None
-        
+
     def deleteObject(self, name: str) -> None:
         for i, point in enumerate(self.__points):
             if point.getName() == name:
@@ -131,7 +133,7 @@ class DisplayFile:
             if line.getName() == name:
                 del self.__lines[i]
                 return
-                
+
         for i, wireframe in enumerate(self.__wireframes):
             if wireframe.getName() == name:
                 del self.__wireframes[i]
@@ -145,5 +147,6 @@ class DisplayFile:
 
     def getBuffer(self):
         return self.__buffer
+
 
 displayFile = DisplayFile()

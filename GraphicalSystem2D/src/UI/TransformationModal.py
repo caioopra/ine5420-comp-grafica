@@ -4,8 +4,6 @@ import numpy as np
 
 from utils.matrixOperations import generateMatrix, matrixComposition
 
-from DisplayFile import displayFile
-
 
 class TransformationModal(object):
     def setupUi(
@@ -181,10 +179,17 @@ class TransformationModal(object):
 
         if operation == "SCALING":
             center = self.currentObject.calculateGeometricCenter()
-            
+
             translation_matrix = generateMatrix("TRANSLATION", -center[0], -center[1])
-            intermediate = matrixComposition(translation_matrix, generateMatrix("SCALING", self.scalingXInput.text(), self.scalingYInput.text()))
-            return matrixComposition(intermediate, generateMatrix("TRANSLATION", center[0], center[1]))
+            intermediate = matrixComposition(
+                translation_matrix,
+                generateMatrix(
+                    "SCALING", self.scalingXInput.text(), self.scalingYInput.text()
+                ),
+            )
+            return matrixComposition(
+                intermediate, generateMatrix("TRANSLATION", center[0], center[1])
+            )
 
         if operation == "ROTATION":
             if self.rotationType == "SELF":

@@ -4,6 +4,7 @@ import numpy as np
 
 from PyQt5 import QtCore
 
+
 class Drawable(ABC):
     def __init__(self, name: str = None) -> None:
         self.__name = name
@@ -17,7 +18,7 @@ class Drawable(ABC):
     @abstractmethod
     def applyTransformations(self, matrix: np.matrix) -> None:
         pass
-    
+
     @abstractmethod
     def calculateGeometricCenter(self) -> list:
         pass
@@ -39,4 +40,3 @@ class Drawable(ABC):
 
     def setColor(self, color: str) -> None:
         self.__color = color
-        

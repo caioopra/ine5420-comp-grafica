@@ -233,7 +233,7 @@ class Ui_MainWindow(object):
             currentObject=displayFile.getObjectByName(objectName),
             updateObject=self.viewport.update,
             closeModal=self.window.close,
-            addToLog=self.logField.addItem
+            addToLog=self.logField.addItem,
         )
         self.window.show()
 

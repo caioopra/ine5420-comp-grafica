@@ -1,12 +1,9 @@
-from PyQt5 import QtGui, QtCore
+from PyQt5 import QtGui
 
 from structures.Drawable import Drawable
 from structures.Point import Point
 
-from utils.viewportTransformation import (
-    viewportTransformation,
-    transformToWorldCoordinates,
-)
+from utils.viewportTransformation import viewportTransformation
 
 
 class Line(Drawable):

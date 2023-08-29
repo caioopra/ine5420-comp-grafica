@@ -1,10 +1,6 @@
 import numpy as np
 from math import sin, cos, radians
 
-from structures.Point import Point
-from structures.Line import Line
-from structures.Wireframe import Wireframe
-
 
 def generateMatrix(type: str, x: float, y: float = None) -> np.matrix:
     """Creates the matrices of the given transformation"""
