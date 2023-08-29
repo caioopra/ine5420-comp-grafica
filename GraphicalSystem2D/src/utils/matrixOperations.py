@@ -15,7 +15,7 @@ def generateMatrix(type: str, x: float, y: float = None) -> np.matrix:
     elif type == "ROTATION":
         rad = radians(float(x))
         print(rad)
-        return np.matrix([[cos(rad), -sin(rad), 0], [sin(rad), cos(rad), 0], [0, 0, 1]])
+        return np.matrix([[cos(rad), sin(rad), 0], [-sin(rad), cos(rad), 0], [0, 0, 1]])
 
 
 def matrixComposition(matrix1: np.matrix, matrix2: np.matrix) -> np.matrix:
