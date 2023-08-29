@@ -196,7 +196,6 @@ class Ui_MainWindow(object):
         dict = displayFile.tryRegistering(
             self.viewport.currentSelectedType, name, self.__currentColor
         )
-        print(self.__currentColor)
         self.logField.addItem(dict["mensagem"])
         if dict["status"] == True:
             self.objectsList.addItem(name)
@@ -224,7 +223,6 @@ class Ui_MainWindow(object):
         self.__currentColor = QColorDialog.getColor()
         if self.__currentColor.isValid():
             self.viewport.setCurrentColor(self.__currentColor)
-            print(self.__currentColor)
 
     def openTransformationModal(self, objectName: str):
         self.window = QtWidgets.QMainWindow()
@@ -233,7 +231,8 @@ class Ui_MainWindow(object):
             self.window,
             currentObject=displayFile.getObjectByName(objectName),
             updateObject=self.viewport.update,
-            closeModal=self.window.close
+            closeModal=self.window.close,
+            addToLog=self.logField.addItem
         )
         self.window.show()
 

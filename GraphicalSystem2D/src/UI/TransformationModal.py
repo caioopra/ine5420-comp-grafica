@@ -8,10 +8,13 @@ from DisplayFile import displayFile
 
 
 class TransformationModal(object):
-    def setupUi(self, MainWindow, currentObject: str, updateObject, closeModal):
+    def setupUi(
+        self, MainWindow, currentObject: str, updateObject, closeModal, addToLog
+    ):
         self.currentObject = currentObject
         self.updateObject = updateObject
         self.closeModal = closeModal
+        self.addToLog = addToLog
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(330, 460)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -88,6 +91,8 @@ class TransformationModal(object):
         # self.rotationTypeSelf.setFont()
         self.rotationTypeSelf.setObjectName("rotationTypeSelf")
         self.rotationTypeSelf.clicked.connect(lambda: self.setTypeOfRotation("SELF"))
+        self.rotationTypeSelf.setChecked(True)
+        self.rotationType = "SELF"
 
         self.rotationTypeOrigin = QtWidgets.QRadioButton(self.frame)
         self.rotationTypeOrigin.setGeometry(QtCore.QRect(15, 250, 60, 20))
@@ -154,7 +159,7 @@ class TransformationModal(object):
 
     def confirmHandler(self):
         if not len(self.operations_order):
-            print("selecione uma operação")  # TODO: add to log
+            self.addToLog("Select at least one transformation.")
             return
 
         matrix = self.createMatrix(self.operations_order.pop(0))

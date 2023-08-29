@@ -33,7 +33,6 @@ class Wireframe(Drawable):
     def applyTransformations(self, matrix: np.matrix) -> None:
         for point in self.__pointsList:
             mult = np.matmul(np.array([point.getX(), point.getY(), 1]), matrix)
-            print("mult ", mult)
             point.setX(mult.item(0))
             point.setY(mult.item(1))
 

@@ -60,7 +60,6 @@ class Viewport(QtWidgets.QWidget):
         qp.setBrush(brush)
 
         for point in displayFile.getPoints():
-            print("cor: ", point.getColor())
             qp.setPen(QtGui.QPen(point.getColor(), 3))
             point.draw(qp)
 
@@ -69,13 +68,10 @@ class Viewport(QtWidgets.QWidget):
             displayFile.getBuffer().draw(qp)
 
         for line in displayFile.getLines():
-            print("line color: ", line.getColor())
-            print(line.getColor())
             qp.setPen(QtGui.QPen(line.getColor(), 3))
             line.draw(qp)
 
         for wireframe in displayFile.getWireframes():
-            print("wireframe color: ", wireframe.getColor())
             qp.setPen(QtGui.QPen(wireframe.getColor(), 3))
             wireframe.draw(qp)
 

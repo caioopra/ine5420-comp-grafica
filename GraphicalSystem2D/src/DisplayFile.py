@@ -93,9 +93,6 @@ class DisplayFile:
     def registerObject(self, currentType: str, objectName: str, color) -> None:
         self.__buffer.setName(objectName)
         self.__buffer.setColor(color)
-        print("buffer: ", self.__buffer)
-        print("color for buffer: ", color)
-        print("color in buffer", self.__buffer.getColor())
         if currentType == "POINT":
             self.__points.append(self.__buffer)
         elif currentType == "LINE":
@@ -106,22 +103,18 @@ class DisplayFile:
         self.__buffer = None
         
     def deleteObject(self, name: str) -> None:
-        print(name)
         for i, point in enumerate(self.__points):
             if point.getName() == name:
-                print("deleting")
                 del self.__points[i]
                 return
 
         for i, line in enumerate(self.__lines):
             if line.getName() == name:
-                print("deleting")
                 del self.__lines[i]
                 return
                 
         for i, wireframe in enumerate(self.__wireframes):
             if wireframe.getName() == name:
-                print("deleting")
                 del self.__wireframes[i]
                 return
 
