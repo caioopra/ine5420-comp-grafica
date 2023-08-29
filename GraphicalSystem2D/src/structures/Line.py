@@ -25,7 +25,6 @@ class Line(Drawable):
             self.__pointB = pointB
 
     def draw(self, painter: QtGui.QPainter, wireframe: bool = False) -> None:
-
         if self.__pointB is not None:
             pointA_x, pointA_y = viewportTransformation(
                 self.__pointA.getX(), self.__pointA.getY(), self.__window
@@ -39,6 +38,12 @@ class Line(Drawable):
 
     def applyTransformations(self) -> None:
         pass
+
+    def calculateGeometricCenter(self) -> list:
+        somaX = (self.__pointA.getX() + self.__pointB.getX()) / 2
+        somaY = (self.__pointA.getY() + self.__pointB.getY()) / 2
+
+        return [somaX, somaY]
 
     def createPoint(self, points):
         return Point(points[0], points[1], self.__window)

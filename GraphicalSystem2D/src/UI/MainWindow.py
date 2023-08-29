@@ -158,7 +158,6 @@ class Ui_MainWindow(object):
         self.pointRadioButton.setFont(font)
         self.pointRadioButton.setObjectName("pointRadioButton")
 
-
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1097, 21))
@@ -194,7 +193,9 @@ class Ui_MainWindow(object):
         self.viewport.currentSelectedType = event
 
     def handleConfirmClick(self, name: str) -> None:
-        dict = displayFile.tryRegistering(self.viewport.currentSelectedType, name, self.__currentColor)
+        dict = displayFile.tryRegistering(
+            self.viewport.currentSelectedType, name, self.__currentColor
+        )
         print(self.__currentColor)
         self.logField.addItem(dict["mensagem"])
         if dict["status"] == True:
@@ -215,7 +216,7 @@ class Ui_MainWindow(object):
             self.viewport.update()
         else:
             self.logField.addItem("[ERROR] No object selected.")
-    
+
     def handleColorSelectionClick(self) -> None:
         self.openColorDialog()
 
@@ -228,7 +229,12 @@ class Ui_MainWindow(object):
     def openTransformationModal(self, objectName: str):
         self.window = QtWidgets.QMainWindow()
         self.ui = TransformationModal()
-        self.ui.setupUi(self.window, objectName=objectName)
+        self.ui.setupUi(
+            self.window,
+            currentObject=displayFile.getObjectByName(objectName),
+            updateObject=self.viewport.update,
+            closeModal=self.window.close
+        )
         self.window.show()
 
     def navigate(self, direction: str):

@@ -1,4 +1,5 @@
 from PyQt5 import QtGui, QtCore
+import numpy as np
 
 from structures.Drawable import Drawable
 from structures.Line import Line
@@ -13,7 +14,6 @@ class Wireframe(Drawable):
         self.__window = window
 
     def draw(self, painter: QtGui.QPainter):
-
         if len(self.__pointsList) > 1:
             for i in range(len(self.__pointsList)):
                 if i == len(self.__pointsList) - 1:
@@ -30,8 +30,21 @@ class Wireframe(Drawable):
         else:
             self.__firstPoint.draw(painter)
 
-    def applyTransformations(self) -> None:
-        pass
+    def applyTransformations(self, matrix: np.matrix) -> None:
+        for point in self.__pointsList:
+            mult = np.matmul(np.array([point.getX(), point.getY(), 1]), matrix)
+            print("mult ", mult)
+            point.setX(mult.item(0))
+            point.setY(mult.item(1))
+
+    def calculateGeometricCenter(self) -> list:
+        xSum = 0
+        ySum = 0
+        for point in self.__pointsList:
+            xSum += point.getX()
+            ySum += point.getY()
+
+        return [xSum / len(self.__pointsList), ySum / len(self.__pointsList)]
 
     def addPoint(self, point: Point):
         self.__pointsList.append(point)

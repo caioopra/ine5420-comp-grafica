@@ -8,7 +8,10 @@ from DisplayFile import displayFile
 
 
 class TransformationModal(object):
-    def setupUi(self, MainWindow, objectName: str):
+    def setupUi(self, MainWindow, currentObject: str, updateObject, closeModal):
+        self.currentObject = currentObject
+        self.updateObject = updateObject
+        self.closeModal = closeModal
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(330, 460)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -16,7 +19,7 @@ class TransformationModal(object):
         self.objectName = QtWidgets.QLabel(self.centralwidget)
         self.objectName.setGeometry(QtCore.QRect(6, 18, 320, 30))
         self.objectName.setObjectName("objectName")
-        self.objectName.setText(objectName)
+        self.objectName.setText(self.currentObject.getName())
         self.objectName.adjustSize()
         self.frame = QtWidgets.QFrame(self.centralwidget)
         self.frame.setGeometry(QtCore.QRect(9, 59, 311, 300))
@@ -84,19 +87,21 @@ class TransformationModal(object):
         self.rotationTypeSelf.setGeometry(QtCore.QRect(15, 225, 60, 20))
         # self.rotationTypeSelf.setFont()
         self.rotationTypeSelf.setObjectName("rotationTypeSelf")
-        # self.rotationTypeSelf.clicked.connect()
+        self.rotationTypeSelf.clicked.connect(lambda: self.setTypeOfRotation("SELF"))
 
         self.rotationTypeOrigin = QtWidgets.QRadioButton(self.frame)
         self.rotationTypeOrigin.setGeometry(QtCore.QRect(15, 250, 60, 20))
         # self.rotationTypeOrigin.setFont()
         self.rotationTypeOrigin.setObjectName("rotationTypeOrigin")
-        # self.rotationTypeOrigin.clicked.connect()
+        self.rotationTypeOrigin.clicked.connect(
+            lambda: self.setTypeOfRotation("ORIGIN")
+        )
 
         self.rotationTypePoint = QtWidgets.QRadioButton(self.frame)
         self.rotationTypePoint.setGeometry(QtCore.QRect(15, 275, 50, 22))
         # self.rotationTypePoint.setFont()
         self.rotationTypePoint.setObjectName("rotationTypePoint")
-        # self.rotationTypePoint.clicked.connect()
+        self.rotationTypePoint.clicked.connect(lambda: self.setTypeOfRotation("POINT"))
 
         self.rotatioTypePointXInput = QtWidgets.QLineEdit(self.frame)
         self.rotatioTypePointXInput.setGeometry(QtCore.QRect(130, 275, 71, 20))
@@ -157,7 +162,9 @@ class TransformationModal(object):
             new_matrix = self.createMatrix(operation)
             matrix = matrixComposition(matrix, new_matrix)
 
-        print(matrix)
+        self.currentObject.applyTransformations(matrix)
+        self.updateObject()
+        self.closeModal()
 
     def createMatrix(self, operation: str) -> np.matrix:
         if operation == "TRANSLATION":
@@ -175,13 +182,31 @@ class TransformationModal(object):
             )
 
         if operation == "ROTATION":
-            return generateMatrix(
-                operation,
-                float(self.rotationInput.text()),
-            )
+            if self.rotationType == "SELF":
+                center = self.currentObject.calculateGeometricCenter()
+
+                translation_matrix = generateMatrix(
+                    "TRANSLATION", -center[0], -center[1]
+                )
+                intermediate = matrixComposition(
+                    translation_matrix,
+                    generateMatrix("ROTATION", self.rotationInput.text()),
+                )
+                return matrixComposition(
+                    intermediate, generateMatrix("TRANSLATION", center[0], center[1])
+                )
+
+            elif self.rotationType == "ORIGIN":
+                ...
+            elif self.rotationType == "POINT":
+                ...
 
     def addToOperations(self, operation: str):
         if operation in self.operations_order:
             self.operations_order.remove(operation)
         else:
             self.operations_order.append(operation)
+
+    # TODO: set self center as default on the radio button
+    def setTypeOfRotation(self, type: str) -> None:
+        self.rotationType = type

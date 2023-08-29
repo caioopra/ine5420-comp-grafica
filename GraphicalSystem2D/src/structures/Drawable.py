@@ -15,7 +15,11 @@ class Drawable(ABC):
         pass
 
     @abstractmethod
-    def applyTransformations(self) -> None:
+    def applyTransformations(self, matrix: np.matrix) -> None:
+        pass
+    
+    @abstractmethod
+    def calculateGeometricCenter(self) -> list:
         pass
 
     def setName(self, name: str) -> None:

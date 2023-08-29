@@ -1,3 +1,4 @@
+from structures.Point import Point
 from structures.Line import Line
 from structures.Wireframe import Wireframe
 from structures.Window import Window
@@ -56,6 +57,19 @@ class DisplayFile:
                 return False
 
         return True
+    
+    def getObjectByName(self, name: str) -> Point | Line | Wireframe:
+        for point in self.__points:
+            if point.getName() == name:
+                return point
+            
+        for line in self.__lines:
+            if line.getName() == name:
+                return line
+            
+        for wireframe in self.__wireframes:
+            if wireframe.getName() == name:
+                return wireframe
 
     def tryRegistering(self, currentType: str, objectName: str, color) -> str:
         if self.__buffer is None:
