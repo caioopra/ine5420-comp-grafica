@@ -31,10 +31,14 @@ class Wireframe(Drawable):
             self.__firstPoint.draw(painter)
 
     def applyTransformations(self, matrix: np.matrix) -> None:
+        print(matrix)
         for point in self.__pointsList:
+            print("\nprev point : ", point.getX(), point.getY())
             mult = np.matmul(np.array([point.getX(), point.getY(), 1]), matrix)
+            print("matmul", mult)
             point.setX(mult.item(0))
             point.setY(mult.item(1))
+            print("point : ", mult.item(0), mult.item(1))
 
     def calculateGeometricCenter(self) -> list:
         xSum = 0

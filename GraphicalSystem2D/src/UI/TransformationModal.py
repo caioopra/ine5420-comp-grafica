@@ -202,7 +202,7 @@ class TransformationModal(object):
                 )
 
             elif self.rotationType == "ORIGIN":
-                ...
+                return generateMatrix("ROTATION", self.rotationInput.text())
             elif self.rotationType == "POINT":
                 ...
 

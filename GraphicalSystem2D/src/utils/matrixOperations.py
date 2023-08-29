@@ -1,5 +1,5 @@
 import numpy as np
-from math import sin, cos
+from math import sin, cos, radians
 
 from structures.Point import Point
 from structures.Line import Line
@@ -13,7 +13,8 @@ def generateMatrix(type: str, x: float, y: float = None) -> np.matrix:
     elif type == "SCALING":
         return np.matrix([[x, 0, 0], [0, y, 0], [0, 0, 1]])
     elif type == "ROTATION":
-        rad = np.deg2rad(float(x))
+        rad = radians(float(x))
+        print(rad)
         return np.matrix([[cos(rad), -sin(rad), 0], [sin(rad), cos(rad), 0], [0, 0, 1]])
 
 
