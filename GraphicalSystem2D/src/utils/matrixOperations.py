@@ -12,6 +12,10 @@ def generateMatrix(type: str, x: float, y: float = None) -> np.matrix:
         rad = radians(float(x))
         return np.matrix([[cos(rad), sin(rad), 0], [-sin(rad), cos(rad), 0], [0, 0, 1]])
 
-
-def matrixComposition(matrix1: np.matrix, matrix2: np.matrix) -> np.matrix:
-    return np.matmul(matrix1, matrix2)
+def matrixComposition(matrices: list) -> np.matrix:
+    resultant_matrix = np.matmul(matrices[0], matrices[1])
+    
+    for matrix in matrices[2:]:
+        resultant_matrix = np.matmul(resultant_matrix, matrix)
+        
+    return resultant_matrix

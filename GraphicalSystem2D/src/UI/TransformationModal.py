@@ -15,12 +15,16 @@ class TransformationModal(object):
         self.addToLog = addToLog
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(330, 460)
+        font = QtGui.QFont()
+        font.setFamily("Fira Code")
+        font.setPointSize(12)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.objectName = QtWidgets.QLabel(self.centralwidget)
-        self.objectName.setGeometry(QtCore.QRect(6, 18, 320, 30))
+        self.objectName.setGeometry(QtCore.QRect(7, 18, 320, 30))
         self.objectName.setObjectName("objectName")
         self.objectName.setText(self.currentObject.getName())
+        self.objectName.setFont(font)
         self.objectName.adjustSize()
         self.frame = QtWidgets.QFrame(self.centralwidget)
         self.frame.setGeometry(QtCore.QRect(9, 59, 311, 300))
@@ -28,96 +32,119 @@ class TransformationModal(object):
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
 
+        font.setPointSize(10)
         self.translationCheckbox = QtWidgets.QCheckBox(self.frame)
         self.translationCheckbox.setGeometry(QtCore.QRect(10, 20, 91, 31))
         self.translationCheckbox.setObjectName("translationCheckbox")
         self.translationCheckbox.clicked.connect(
             lambda: self.addToOperations("TRANSLATION")
         )
+        self.translationCheckbox.setFont(font)
         self.scalingCheckbox = QtWidgets.QCheckBox(self.frame)
         self.scalingCheckbox.setGeometry(QtCore.QRect(10, 100, 91, 31))
         self.scalingCheckbox.setObjectName("scalingCheckbox")
         self.scalingCheckbox.clicked.connect(lambda: self.addToOperations("SCALING"))
+        self.scalingCheckbox.setFont(font)
         self.rotationCheckbox = QtWidgets.QCheckBox(self.frame)
         self.rotationCheckbox.setGeometry(QtCore.QRect(10, 180, 91, 31))
         self.rotationCheckbox.setObjectName("rotationCheckbox")
         self.rotationCheckbox.clicked.connect(lambda: self.addToOperations("ROTATION"))
+        self.rotationCheckbox.setFont(font)
 
         self.translationXInput = QtWidgets.QLineEdit(self.frame)
         self.translationXInput.setGeometry(QtCore.QRect(130, 40, 71, 21))
         self.translationXInput.setObjectName("translationXInput")
+        self.translationXInput.setFont(font)
         self.translationYInput = QtWidgets.QLineEdit(self.frame)
         self.translationYInput.setGeometry(QtCore.QRect(230, 40, 71, 20))
         self.translationYInput.setObjectName("translationYInput")
+        self.translationYInput.setFont(font)
         self.translationXLabel = QtWidgets.QLabel(self.frame)
         self.translationXLabel.setGeometry(QtCore.QRect(130, 10, 71, 16))
         self.translationXLabel.setObjectName("translationXLabel")
+        self.translationXLabel.setFont(font)
         self.translationYLabel = QtWidgets.QLabel(self.frame)
         self.translationYLabel.setGeometry(QtCore.QRect(230, 10, 71, 16))
         self.translationYLabel.setObjectName("translationYLabel")
+        self.translationYLabel.setFont(font)
 
         self.scalingXInput = QtWidgets.QLineEdit(self.frame)
         self.scalingXInput.setGeometry(QtCore.QRect(130, 120, 71, 20))
         self.scalingXInput.setObjectName("scalingXInput")
+        self.scalingXInput.setFont(font)
         self.scalingYInput = QtWidgets.QLineEdit(self.frame)
         self.scalingYInput.setGeometry(QtCore.QRect(230, 120, 71, 20))
         self.scalingYInput.setObjectName("scalingYInput")
+        self.scalingYInput.setFont(font)
         self.scalingXLabel = QtWidgets.QLabel(self.frame)
         self.scalingXLabel.setGeometry(QtCore.QRect(130, 90, 71, 16))
         self.scalingXLabel.setObjectName("scalingXLabel")
+        self.scalingXLabel.setFont(font)
         self.scalingYLabel = QtWidgets.QLabel(self.frame)
         self.scalingYLabel.setGeometry(QtCore.QRect(230, 90, 71, 16))
         self.scalingYLabel.setObjectName("scalingYLabel")
+        self.scalingYLabel.setFont(font)
 
+        font.setPointSize(11)
         self.confirmTransformButton = QtWidgets.QPushButton(self.centralwidget)
         self.confirmTransformButton.setGeometry(QtCore.QRect(40, 380, 85, 23))
         self.confirmTransformButton.setObjectName("confirmTransformButton")
         self.confirmTransformButton.clicked.connect(lambda: self.confirmHandler())
+        self.confirmTransformButton.setFont(font)
+
         self.resetTransformButton = QtWidgets.QPushButton(self.centralwidget)
         self.resetTransformButton.setGeometry(QtCore.QRect(200, 380, 85, 23))
         self.resetTransformButton.setObjectName("resetTransformButton")
+        self.resetTransformButton.setFont(font)
 
+        font.setPointSize(10)
         self.rotationInput = QtWidgets.QLineEdit(self.frame)
         self.rotationInput.setGeometry(QtCore.QRect(130, 195, 171, 20))
         self.rotationInput.setObjectName("rotationInput")
+        self.rotationInput.setFont(font)
         self.rotationLabel = QtWidgets.QLabel(self.frame)
         self.rotationLabel.setGeometry(QtCore.QRect(130, 175, 71, 16))
         self.rotationLabel.setObjectName("rotationLabel")
+        self.rotationLabel.setFont(font)
 
         self.rotationTypeSelf = QtWidgets.QRadioButton(self.frame)
         self.rotationTypeSelf.setGeometry(QtCore.QRect(15, 225, 60, 20))
-        # self.rotationTypeSelf.setFont()
+        self.rotationTypeSelf.setFont(font)
         self.rotationTypeSelf.setObjectName("rotationTypeSelf")
         self.rotationTypeSelf.clicked.connect(lambda: self.setTypeOfRotation("SELF"))
         self.rotationTypeSelf.setChecked(True)
         self.rotationType = "SELF"
 
         self.rotationTypeOrigin = QtWidgets.QRadioButton(self.frame)
-        self.rotationTypeOrigin.setGeometry(QtCore.QRect(15, 250, 60, 20))
-        # self.rotationTypeOrigin.setFont()
+        self.rotationTypeOrigin.setGeometry(QtCore.QRect(15, 250, 70, 20))
         self.rotationTypeOrigin.setObjectName("rotationTypeOrigin")
         self.rotationTypeOrigin.clicked.connect(
             lambda: self.setTypeOfRotation("ORIGIN")
         )
+        self.rotationTypeOrigin.setFont(font)
 
         self.rotationTypePoint = QtWidgets.QRadioButton(self.frame)
         self.rotationTypePoint.setGeometry(QtCore.QRect(15, 275, 50, 22))
-        # self.rotationTypePoint.setFont()
         self.rotationTypePoint.setObjectName("rotationTypePoint")
         self.rotationTypePoint.clicked.connect(lambda: self.setTypeOfRotation("POINT"))
+        self.rotationTypePoint.setFont(font)
 
         self.rotatioTypePointXInput = QtWidgets.QLineEdit(self.frame)
         self.rotatioTypePointXInput.setGeometry(QtCore.QRect(130, 275, 71, 20))
         self.rotatioTypePointXInput.setObjectName("rotatioTypePointXInput")
+        self.rotatioTypePointXInput.setFont(font)
         self.rotatioTypePointYInput = QtWidgets.QLineEdit(self.frame)
         self.rotatioTypePointYInput.setGeometry(QtCore.QRect(230, 275, 71, 20))
         self.rotatioTypePointYInput.setObjectName("rotatioTypePointYInput")
+        self.rotatioTypePointYInput.setFont(font)
         self.rotatioTypePointXLabel = QtWidgets.QLabel(self.frame)
-        self.rotatioTypePointXLabel.setGeometry(QtCore.QRect(230, 250, 71, 16))
+        self.rotatioTypePointXLabel.setGeometry(QtCore.QRect(130, 250, 71, 16))
         self.rotatioTypePointXLabel.setObjectName("rotatioTypePointXLabel")
+        self.rotatioTypePointXLabel.setFont(font)
         self.rotatioTypePointYLabel = QtWidgets.QLabel(self.frame)
-        self.rotatioTypePointYLabel.setGeometry(QtCore.QRect(130, 250, 71, 16))
+        self.rotatioTypePointYLabel.setGeometry(QtCore.QRect(230, 250, 71, 16))
         self.rotatioTypePointYLabel.setObjectName("rotatioTypePointYLabel")
+        self.rotatioTypePointYLabel.setFont(font)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -174,7 +201,10 @@ class TransformationModal(object):
 
     def verifyValidTransformationInputs(self, operation: str) -> bool:
         if operation == "TRANSLATION":
-            if self.translationXInput.text() == "" or self.translationYInput.text() == "":
+            if (
+                self.translationXInput.text() == ""
+                or self.translationYInput.text() == ""
+            ):
                 return False
         elif operation == "SCALING":
             if self.scalingXInput.text() == "" or self.scalingYInput.text() == "":
@@ -183,7 +213,10 @@ class TransformationModal(object):
             if self.rotationInput.text() == "":
                 return False
             elif self.rotationType == "POINT":
-                if self.rotatioTypePointXInput.text() == "" or self.rotatioTypePointYInput.text() == "":
+                if (
+                    self.rotatioTypePointXInput.text() == ""
+                    or self.rotatioTypePointYInput.text() == ""
+                ):
                     return False
         return True
 
@@ -199,14 +232,16 @@ class TransformationModal(object):
             center = self.currentObject.calculateGeometricCenter()
 
             translation_matrix = generateMatrix("TRANSLATION", -center[0], -center[1])
-            intermediate = matrixComposition(
-                translation_matrix,
-                generateMatrix(
-                    "SCALING", self.scalingXInput.text(), self.scalingYInput.text()
-                ),
+            scaling_matrix = generateMatrix(
+                "SCALING",
+                self.scalingXInput.text(),
+                self.scalingYInput.text(),
+            )
+            undo_translation_matrix = generateMatrix(
+                "TRANSLATION", center[0], center[1]
             )
             return matrixComposition(
-                intermediate, generateMatrix("TRANSLATION", center[0], center[1])
+                [translation_matrix, scaling_matrix, undo_translation_matrix]
             )
 
         if operation == "ROTATION":
@@ -216,14 +251,14 @@ class TransformationModal(object):
                 translation_matrix = generateMatrix(
                     "TRANSLATION", -center[0], -center[1]
                 )
-                intermediate = matrixComposition(
-                    translation_matrix,
-                    generateMatrix("ROTATION", self.rotationInput.text()),
-                )
-                return matrixComposition(
-                    intermediate, generateMatrix("TRANSLATION", center[0], center[1])
+                rotation_matrix = generateMatrix("ROTATION", self.rotationInput.text())
+                undo_translation_matrix = generateMatrix(
+                    "TRANSLATION", center[0], center[1]
                 )
 
+                return matrixComposition(
+                    [translation_matrix, rotation_matrix, undo_translation_matrix]
+                )
             elif self.rotationType == "ORIGIN":
                 return generateMatrix("ROTATION", self.rotationInput.text())
             elif self.rotationType == "POINT":
@@ -231,12 +266,12 @@ class TransformationModal(object):
                 point_y = float(self.rotatioTypePointYInput.text())
 
                 translation_matrix = generateMatrix("TRANSLATION", -point_x, -point_y)
-                intermediate = matrixComposition(
-                    translation_matrix,
-                    generateMatrix("ROTATION", self.rotationInput.text()),
+                rotation_matrix = generateMatrix("ROTATION", self.rotationInput.text())
+                undo_translation_matrix = generateMatrix(
+                    "TRANSLATION", point_x, point_y
                 )
                 return matrixComposition(
-                    intermediate, generateMatrix("TRANSLATION", point_x, point_y)
+                    [translation_matrix, rotation_matrix, undo_translation_matrix]
                 )
 
     def addToOperations(self, operation: str):
@@ -245,6 +280,5 @@ class TransformationModal(object):
         else:
             self.operations_order.append(operation)
 
-    # TODO: set self center as default on the radio button
     def setTypeOfRotation(self, type: str) -> None:
         self.rotationType = type

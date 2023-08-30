@@ -131,7 +131,7 @@ class Ui_MainWindow(object):
         self.cancelButton.clicked.connect(lambda: self.handleCancelClick())
 
         self.selectColorButton = QtWidgets.QPushButton(self.menuFrame)
-        self.selectColorButton.setGeometry(QtCore.QRect(215, 390, 108, 40))
+        self.selectColorButton.setGeometry(QtCore.QRect(213, 395, 108, 40))
         self.selectColorButton.setFont(font)
         self.selectColorButton.setObjectName("selectButton")
         self.selectColorButton.clicked.connect(lambda: self.handleColorSelectionClick())
@@ -139,7 +139,7 @@ class Ui_MainWindow(object):
         # radio buttons
         self.lineRadioButton = QtWidgets.QRadioButton(self.menuFrame)
         self.lineRadioButton.clicked.connect(lambda: self.setObjectTypeSelected("LINE"))
-        self.lineRadioButton.setGeometry(QtCore.QRect(130, 240, 90, 32))
+        self.lineRadioButton.setGeometry(QtCore.QRect(125, 240, 90, 32))
         self.lineRadioButton.setFont(font)
         self.lineRadioButton.setObjectName("lineRadioButton")
 
@@ -147,7 +147,7 @@ class Ui_MainWindow(object):
         self.wireframeRadioButton.clicked.connect(
             lambda: self.setObjectTypeSelected("WIREFRAME")
         )
-        self.wireframeRadioButton.setGeometry(QtCore.QRect(230, 240, 90, 32))
+        self.wireframeRadioButton.setGeometry(QtCore.QRect(225, 245, 90, 30))
         self.wireframeRadioButton.setFont(font)
         self.wireframeRadioButton.setObjectName("wireframeRadioButton")
 
@@ -185,8 +185,10 @@ class Ui_MainWindow(object):
         self.cancelButton.setText(_translate("MainWindow", "Cancel"))
         self.lineRadioButton.setText(_translate("MainWindow", "Line"))
         self.wireframeRadioButton.setText(_translate("MainWindow", "Wireframe"))
+        self.wireframeRadioButton.adjustSize()
         self.pointRadioButton.setText(_translate("MainWindow", "Point"))
         self.selectColorButton.setText(_translate("MainWindow", "Select Color"))
+        self.selectColorButton.adjustSize()
 
     def setObjectTypeSelected(self, event):
         displayFile.clearBuffer()
