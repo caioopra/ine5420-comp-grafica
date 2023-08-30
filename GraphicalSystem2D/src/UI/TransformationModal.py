@@ -188,7 +188,12 @@ class TransformationModal(object):
             self.addToLog("Select at least one transformation.")
             return
 
-        if self.verifyValidTransformationInputs(self.operations_order[0]):
+        if all(
+            [
+                self.verifyValidTransformationInputs(matrix)
+                for matrix in self.operations_order
+            ]
+        ):
             matrix = self.createMatrix(self.operations_order.pop(0))
             for operation in self.operations_order:
                 new_matrix = self.createMatrix(operation)
@@ -199,7 +204,7 @@ class TransformationModal(object):
             self.closeModal()
         else:
             self.addToLog("Make sure all inputs are defined.")
-            
+
     def resetHandler(self):
         self.currentObject.reset()
         self.updateObject()
