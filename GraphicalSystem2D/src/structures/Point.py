@@ -26,6 +26,10 @@ class Point(Drawable):
 
     def calculateGeometricCenter(self) -> list:
         return [self.getX(), self.getY()]
+    
+    def reset(self) -> None:
+        self.__x = self.__original_x
+        self.__y = self.__original_y
 
     def getX(self) -> float:
         return self.__x
@@ -38,12 +42,6 @@ class Point(Drawable):
 
     def setY(self, value: float) -> None:
         self.__y = value
-
-    def getOriginalX(self) -> float:
-        return self.__original_x
-
-    def getOriginalY(self) -> float:
-        return self.__original_y
 
     def __str__(self) -> str:
         return f"{self.getName()}: ({self.getX()}, {self.getY()})"

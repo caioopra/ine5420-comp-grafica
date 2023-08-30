@@ -35,10 +35,14 @@ class Line(Drawable):
             self.__pointA.draw(painter)
 
     def applyTransformations(self, matrix) -> None:
-        mult = np.matmul(np.array([self.__pointA.getX(), self.__pointA.getY(), 1]), matrix)
+        mult = np.matmul(
+            np.array([self.__pointA.getX(), self.__pointA.getY(), 1]), matrix
+        )
         self.__pointA.setX(mult.item(0))
         self.__pointA.setY(mult.item(1))
-        mult = np.matmul(np.array([self.__pointB.getX(), self.__pointB.getY(), 1]), matrix)
+        mult = np.matmul(
+            np.array([self.__pointB.getX(), self.__pointB.getY(), 1]), matrix
+        )
         self.__pointB.setX(mult.item(0))
         self.__pointB.setY(mult.item(1))
 
@@ -47,6 +51,10 @@ class Line(Drawable):
         somaY = (self.__pointA.getY() + self.__pointB.getY()) / 2
 
         return [somaX, somaY]
+
+    def reset(self) -> None:
+        self.__pointA.reset()
+        self.__pointB.reset()
 
     def createPoint(self, points):
         return Point(points[0], points[1], self.__window)

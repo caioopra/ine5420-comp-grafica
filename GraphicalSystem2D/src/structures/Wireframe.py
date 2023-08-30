@@ -45,5 +45,9 @@ class Wireframe(Drawable):
 
         return [xSum / len(self.__pointsList), ySum / len(self.__pointsList)]
 
+    def reset(self) -> None:
+        for point in self.__pointsList:
+            point.reset()
+
     def addPoint(self, point: Point):
         self.__pointsList.append(point)

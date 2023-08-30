@@ -22,6 +22,10 @@ class Drawable(ABC):
     @abstractmethod
     def calculateGeometricCenter(self) -> list:
         pass
+    
+    @abstractmethod
+    def reset(self) -> None:
+        pass
 
     def setName(self, name: str) -> None:
         self.__name = name

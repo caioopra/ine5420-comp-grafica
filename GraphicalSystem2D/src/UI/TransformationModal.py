@@ -95,6 +95,7 @@ class TransformationModal(object):
         self.resetTransformButton = QtWidgets.QPushButton(self.centralwidget)
         self.resetTransformButton.setGeometry(QtCore.QRect(200, 380, 85, 23))
         self.resetTransformButton.setObjectName("resetTransformButton")
+        self.resetTransformButton.clicked.connect(lambda: self.resetHandler())
         self.resetTransformButton.setFont(font)
 
         font.setPointSize(10)
@@ -191,13 +192,18 @@ class TransformationModal(object):
             matrix = self.createMatrix(self.operations_order.pop(0))
             for operation in self.operations_order:
                 new_matrix = self.createMatrix(operation)
-                matrix = matrixComposition(matrix, new_matrix)
+                matrix = matrixComposition([matrix, new_matrix])
 
             self.currentObject.applyTransformations(matrix)
             self.updateObject()
             self.closeModal()
         else:
             self.addToLog("Make sure all inputs are defined.")
+            
+    def resetHandler(self):
+        self.currentObject.reset()
+        self.updateObject()
+        self.closeModal()
 
     def verifyValidTransformationInputs(self, operation: str) -> bool:
         if operation == "TRANSLATION":
