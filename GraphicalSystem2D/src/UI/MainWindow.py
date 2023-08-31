@@ -88,7 +88,7 @@ class Ui_MainWindow(object):
         self.navigateDownButton.clicked.connect(lambda: self.navigate("DOWN"))
 
         self.objectNameInput = QtWidgets.QLineEdit(self.menuFrame)
-        self.objectNameInput.setGeometry(QtCore.QRect(10, 470, 300, 32))
+        self.objectNameInput.setGeometry(QtCore.QRect(10, 490, 300, 32))
         self.objectNameInput.setFont(font)
 
         # zoom buttons
@@ -158,6 +158,18 @@ class Ui_MainWindow(object):
         self.pointRadioButton.setGeometry(QtCore.QRect(10, 240, 90, 32))
         self.pointRadioButton.setFont(font)
         self.pointRadioButton.setObjectName("pointRadioButton")
+
+        self.rotateWindowRight = QtWidgets.QPushButton(self.menuFrame)
+        self.rotateWindowRight.setGeometry(QtCore.QRect(250, 430, 45, 45))
+        self.rotateWindowRight.setObjectName("rotateWindowRight")
+        self.rotateWindowRight.setIcon(QtGui.QIcon("UI/img/rotate_right.png"))
+        self.rotateWindowRight.clicked.connect(lambda: self.rotateWindow("RIGHT"))
+
+        self.rotateWindowLeft = QtWidgets.QPushButton(self.menuFrame)
+        self.rotateWindowLeft.setGeometry(QtCore.QRect(30, 430, 45, 45))
+        self.rotateWindowLeft.setObjectName("rotateWindowLeft")
+        self.rotateWindowLeft.setIcon(QtGui.QIcon("UI/img/rotate_left.png"))
+        self.rotateWindowLeft.clicked.connect(lambda: self.rotateWindow("LEFT"))
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -246,6 +258,12 @@ class Ui_MainWindow(object):
     def zoom(self, direction: str):
         displayFile.zoom(direction)
         self.viewport.update()
+
+    def rotateWindow(self, direction: str):
+        if direction == "LEFT":
+            ...
+        elif direction == "RIGHT":
+            ...
 
 
 if __name__ == "__main__":
