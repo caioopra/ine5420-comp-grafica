@@ -56,8 +56,6 @@ class Ui_MainWindow(object):
         # navigation buttons
         self.navigateUpButton = QtWidgets.QToolButton(self.menuFrame)
         self.navigateUpButton.setGeometry(QtCore.QRect(140, 350, 40, 40))
-        font = QtGui.QFont()
-        font.setFamily("Fira Code")
         self.navigateUpButton.setFont(font)
         self.navigateUpButton.setAutoRaise(True)
         self.navigateUpButton.setArrowType(QtCore.Qt.UpArrow)
@@ -87,8 +85,13 @@ class Ui_MainWindow(object):
         self.navigateDownButton.setObjectName("navigateDownButton")
         self.navigateDownButton.clicked.connect(lambda: self.navigate("DOWN"))
 
+        font.setPointSize(11)
+        self.objectNameInputLabel = QtWidgets.QLabel(self.menuFrame)
+        self.objectNameInputLabel.setGeometry(QtCore.QRect(10, 500, 300, 30))
+        self.objectNameInputLabel.setFont(font)
+        self.objectNameInputLabel.setText("Object name:")
         self.objectNameInput = QtWidgets.QLineEdit(self.menuFrame)
-        self.objectNameInput.setGeometry(QtCore.QRect(10, 490, 300, 32))
+        self.objectNameInput.setGeometry(QtCore.QRect(10, 525, 300, 32))
         self.objectNameInput.setFont(font)
 
         # zoom buttons
@@ -110,8 +113,6 @@ class Ui_MainWindow(object):
         # selection buttons
         self.deleteButton = QtWidgets.QPushButton(self.menuFrame)
         self.deleteButton.setGeometry(QtCore.QRect(115, 290, 90, 32))
-        font = QtGui.QFont()
-        font.setFamily("Fira Code")
         font.setPointSize(11)
         self.deleteButton.setFont(font)
         self.deleteButton.setObjectName("deleteButton")
@@ -159,6 +160,18 @@ class Ui_MainWindow(object):
         self.pointRadioButton.setFont(font)
         self.pointRadioButton.setObjectName("pointRadioButton")
 
+        font.setPointSize(10)
+        self.rotationAmountLabel = QtWidgets.QLabel(self.menuFrame)
+        self.rotationAmountLabel.setGeometry(QtCore.QRect(17, 375, 130, 30))
+        self.rotationAmountLabel.setFont(font)
+        self.rotationAmountLabel.setText("Rot./zoom %")
+        self.rotationAmountInput = QtWidgets.QLineEdit(self.menuFrame)
+        self.rotationAmountInput.setGeometry(QtCore.QRect(30, 397, 50, 30))
+        self.rotationAmountInput.setFont(font)
+        self.rotationAmountInput.setObjectName("rotationAmountInput")
+        self.rotationAmountInput.setText("10")
+        self.rotationAmountInput.textChanged.connect(self.changeZoomRotAmount)
+
         self.rotateWindowRight = QtWidgets.QPushButton(self.menuFrame)
         self.rotateWindowRight.setGeometry(QtCore.QRect(250, 430, 45, 45))
         self.rotateWindowRight.setObjectName("rotateWindowRight")
@@ -166,7 +179,7 @@ class Ui_MainWindow(object):
         self.rotateWindowRight.clicked.connect(lambda: self.rotateWindow("RIGHT"))
 
         self.rotateWindowLeft = QtWidgets.QPushButton(self.menuFrame)
-        self.rotateWindowLeft.setGeometry(QtCore.QRect(30, 430, 45, 45))
+        self.rotateWindowLeft.setGeometry(QtCore.QRect(32, 430, 45, 45))
         self.rotateWindowLeft.setObjectName("rotateWindowLeft")
         self.rotateWindowLeft.setIcon(QtGui.QIcon("UI/img/rotate_left.png"))
         self.rotateWindowLeft.clicked.connect(lambda: self.rotateWindow("LEFT"))
@@ -254,6 +267,11 @@ class Ui_MainWindow(object):
     def navigate(self, direction: str):
         displayFile.navigate(direction)
         self.viewport.update()
+
+    def changeZoomRotAmount(self) -> None:
+        displayFile.getWindow().setRotationZoomPercentage(
+            self.rotationAmountInput.text()
+        )
 
     def zoom(self, direction: str):
         displayFile.zoom(direction)

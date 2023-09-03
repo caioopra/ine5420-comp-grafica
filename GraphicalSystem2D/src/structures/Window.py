@@ -9,12 +9,20 @@ class Window:
         self.yw_max = consts.VIEWPORT_Y_MAX
 
         self.step = 10  # amount of pixels
+        self.rotation_zoom_percentage = 10
+
+    def setRotationZoomPercentage(self, value) -> None:
+        if value == "":
+            self.rotation_zoom_percentage = 0
+            return
+
+        self.rotation_zoom_percentage = int(value)
 
     def zoom(self, direction: str):
         if direction == "OUT":
-            zoomAmount = 1 + self.step / 100
+            zoomAmount = 1 + self.rotation_zoom_percentage / 100
         else:
-            zoomAmount = 1 - self.step / 100
+            zoomAmount = 1 - self.rotation_zoom_percentage / 100
 
         self.xw_min *= zoomAmount
         self.yw_min *= zoomAmount

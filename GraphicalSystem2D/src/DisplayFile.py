@@ -15,7 +15,7 @@ class DisplayFile:
 
         self.__window = Window()
 
-        self.addAxisLines()
+        self.addAxesLines()
 
     def getWindow(self) -> Window:
         return self.__window
@@ -35,7 +35,7 @@ class DisplayFile:
     def clearBuffer(self):
         self.__buffer = None
 
-    def addAxisLines(self):
+    def addAxesLines(self):
         x_line = Line(
             pointA=Point(-760, 0, self.__window),
             pointB=Point(760, 0, self.__window),
