@@ -29,10 +29,10 @@ def createTransformationMatrix(operation: str, data: dict) -> np.matrix:
     Args:
         - operation (str): name of the operation in upper case
             - SCALING, TRANSLATION and ROTATION (specify type in data)
-        - data (dict): necessary data for the transformation
-            - Scaling:
-            - Rotation:
-            - Translation:
+        - data (dict): necessary data for the transformation (see code for key name)
+            - Translation: X and Y values to translate
+            - Scaling: center of the current object and scaling factor
+            - Rotation: type and amount of rotation and center of object/point (optional) 
 
     Returns:
         np.matrix: matrix that apply the necessary transformation
