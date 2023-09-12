@@ -2,7 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 import numpy as np
 
-from utils.matrixOperations import generateMatrix, matrixComposition
+from utils.matrixOperations import matrixComposition, createTransformationMatrix
 
 
 class TransformationModal(object):
@@ -233,57 +233,37 @@ class TransformationModal(object):
 
     def createMatrix(self, operation: str) -> np.matrix:
         if operation == "TRANSLATION":
-            return generateMatrix(
-                operation,
-                float(self.translationXInput.text()),
-                float(self.translationYInput.text()),
-            )
+            data = {
+                "xInput": float(self.translationXInput.text()),
+                "yInput": float(self.translationYInput.text()),
+            }
+
+            return createTransformationMatrix(operation=operation, data=data)
 
         if operation == "SCALING":
             center = self.currentObject.calculateGeometricCenter()
 
-            translation_matrix = generateMatrix("TRANSLATION", -center[0], -center[1])
-            scaling_matrix = generateMatrix(
-                "SCALING",
-                self.scalingXInput.text(),
-                self.scalingYInput.text(),
-            )
-            undo_translation_matrix = generateMatrix(
-                "TRANSLATION", center[0], center[1]
-            )
-            return matrixComposition(
-                [translation_matrix, scaling_matrix, undo_translation_matrix]
-            )
+            data = {
+                "centerX": center[0],
+                "centerY": center[1],
+                "xInput": self.scalingXInput.text(),
+                "yInput": self.scalingYInput.text(),
+            }
+
+            return createTransformationMatrix(operation=operation, data=data)
 
         if operation == "ROTATION":
+            data = {"rotation": self.rotationInput.text(), "type": self.rotationType}
+
             if self.rotationType == "SELF":
                 center = self.currentObject.calculateGeometricCenter()
-
-                translation_matrix = generateMatrix(
-                    "TRANSLATION", -center[0], -center[1]
-                )
-                rotation_matrix = generateMatrix("ROTATION", self.rotationInput.text())
-                undo_translation_matrix = generateMatrix(
-                    "TRANSLATION", center[0], center[1]
-                )
-
-                return matrixComposition(
-                    [translation_matrix, rotation_matrix, undo_translation_matrix]
-                )
-            elif self.rotationType == "ORIGIN":
-                return generateMatrix("ROTATION", self.rotationInput.text())
+                data["centerX"] = center[0]
+                data["centerY"] = center[1]
             elif self.rotationType == "POINT":
-                point_x = float(self.rotatioTypePointXInput.text())
-                point_y = float(self.rotatioTypePointYInput.text())
+                data["pointX"] = float(self.rotatioTypePointXInput.text())
+                data["pointY"] = float(self.rotatioTypePointYInput.text())
 
-                translation_matrix = generateMatrix("TRANSLATION", -point_x, -point_y)
-                rotation_matrix = generateMatrix("ROTATION", self.rotationInput.text())
-                undo_translation_matrix = generateMatrix(
-                    "TRANSLATION", point_x, point_y
-                )
-                return matrixComposition(
-                    [translation_matrix, rotation_matrix, undo_translation_matrix]
-                )
+            return createTransformationMatrix("ROTATION", data)
 
     def addToOperations(self, operation: str):
         if operation in self.operations_order:
