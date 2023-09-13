@@ -304,13 +304,15 @@ class Ui_MainWindow(object):
         self.window.show()
 
     def setWindowDimensions(self, min, max):
-        print("setting min/max window", min, max)
+        displayFile.setWindowSize(min, max)
 
     def getObjectsFromFIle(self, objectsList: list):
         for obj in objectsList:
             # TODO: add objects to list and display file, but before, set the window on them
-            print("at main, obj: ", obj)
-
+            obj.setWindow(displayFile.getWindow())
+            
+            self.objectsList.addItem(obj.getName())
+            displayFile.addObjectFromFile(obj)
 
 if __name__ == "__main__":
     import sys
