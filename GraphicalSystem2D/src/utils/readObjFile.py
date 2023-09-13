@@ -7,7 +7,7 @@ from structures.Line import Line
 from structures.Wireframe import Wireframe
 
 
-def readObjFile(name: str) -> tuple[list, list]:  
+def readObjFile(name: str) -> tuple[list, list]:
     if not os.path.isfile(f"objects/{name}"):
         name = f"{name}.obj"
         if not os.path.isfile(f"objects/{name}"):
@@ -22,9 +22,10 @@ def readObjFile(name: str) -> tuple[list, list]:
         content = _clearContent(content)
 
         vertices, materials, objects, window = _processContent(content)
-   
+
     objects = _createObjects(vertices, materials, objects)
-    return objects, window 
+    return objects, window
+
 
 def _clearContent(content: list[str]) -> list[str]:
     new_content = []
@@ -68,7 +69,7 @@ def _processContent(content: list[str]):
         del objects["window"]
 
     materials = _readMaterialFile(materials_files)
-    window = [vertices[int(window[0])-1], vertices[int(window[1])-1]] 
+    window = [vertices[int(window[0]) - 1], vertices[int(window[1]) - 1]]
 
     return vertices, materials, objects, window
 
@@ -132,6 +133,3 @@ def _createObjects(vertices, materials, objects):
             objects_list.append(wireframe)
 
     return objects_list
-
-
-# readObjFile("sample.obj")

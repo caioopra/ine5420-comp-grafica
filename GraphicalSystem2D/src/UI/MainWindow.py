@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QColorDialog
 
 from UI.Viewport import Viewport
 from UI.TransformationModal import TransformationModal
+from UI.OpenFileModal import OpenFileModal
 
 from DisplayFile import displayFile
 from utils.readObjFile import readObjFile
@@ -42,9 +43,8 @@ class Ui_MainWindow(object):
         self.menuFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.menuFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.menuFrame.setObjectName("menuFrame")
-        
+
         self.mainWindow = MainWindow
-        self._setupMenu()
 
         self.objectsList = QtWidgets.QListWidget(self.menuFrame)
         self.objectsList.setGeometry(QtCore.QRect(10, 10, 311, 221))
@@ -199,8 +199,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        
-        self.handleOpenFile()
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -227,6 +226,10 @@ class Ui_MainWindow(object):
         self.viewport.currentSelectedType = event
 
     def handleConfirmClick(self, name: str) -> None:
+        if name == "":
+            self.openFileModal()
+            return
+
         dict = displayFile.tryRegistering(
             self.viewport.currentSelectedType, name, self.__currentColor
         )
@@ -289,14 +292,25 @@ class Ui_MainWindow(object):
         elif direction == "RIGHT":
             ...
 
-    def _setupMenu(self):
-        ...
-        
-    def handleOpenFile(self):
-        objects, window = readObjFile("sample.obj")
-        print("objects", objects)
-        print("win", window)
-    
+    def openFileModal(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = OpenFileModal()
+        self.ui.setupUi(
+            self.window,
+            closeModal=self.window.close,
+            setWindowDimensions=self.setWindowDimensions,
+            getObjectsFromFile=self.getObjectsFromFIle,
+        )
+        self.window.show()
+
+    def setWindowDimensions(self, min, max):
+        print("setting min/max window", min, max)
+
+    def getObjectsFromFIle(self, objectsList: list):
+        for obj in objectsList:
+            # TODO: add objects to list and display file, but before, set the window on them
+            print("at main, obj: ", obj)
+
 
 if __name__ == "__main__":
     import sys
