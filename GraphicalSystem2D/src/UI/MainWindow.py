@@ -5,6 +5,7 @@ from UI.Viewport import Viewport
 from UI.TransformationModal import TransformationModal
 
 from DisplayFile import displayFile
+from utils.readObjFile import readObjFile
 
 
 class Ui_MainWindow(object):
@@ -41,6 +42,9 @@ class Ui_MainWindow(object):
         self.menuFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.menuFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.menuFrame.setObjectName("menuFrame")
+        
+        self.mainWindow = MainWindow
+        self._setupMenu()
 
         self.objectsList = QtWidgets.QListWidget(self.menuFrame)
         self.objectsList.setGeometry(QtCore.QRect(10, 10, 311, 221))
@@ -195,6 +199,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        
+        self.handleOpenFile()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -283,6 +289,14 @@ class Ui_MainWindow(object):
         elif direction == "RIGHT":
             ...
 
+    def _setupMenu(self):
+        ...
+        
+    def handleOpenFile(self):
+        objects, window = readObjFile("sample.obj")
+        print("objects", objects)
+        print("win", window)
+    
 
 if __name__ == "__main__":
     import sys

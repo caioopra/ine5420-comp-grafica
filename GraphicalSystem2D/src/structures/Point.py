@@ -7,7 +7,7 @@ from utils.viewportTransformation import viewportTransformation
 
 
 class Point(Drawable):
-    def __init__(self, x: float, y: float, window, name: str = None):
+    def __init__(self, x: float, y: float, window = None, name: str = None):
         super().__init__(name)
         self.__window = window
         self.__x = x
@@ -42,6 +42,9 @@ class Point(Drawable):
 
     def setY(self, value: float) -> None:
         self.__y = value
+
+    def setWindow(self, window) -> None:
+        self.__window = window
 
     def __str__(self) -> str:
         return f"{self.getName()}: ({self.getX()}, {self.getY()})"

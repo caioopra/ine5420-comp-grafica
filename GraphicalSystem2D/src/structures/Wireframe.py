@@ -13,6 +13,9 @@ class Wireframe(Drawable):
         self.__pointsList = [pointA]
         self.__window = window
 
+    def setWindow(self, window):
+        self.__window = window
+
     def draw(self, painter: QtGui.QPainter):
         if len(self.__pointsList) > 1:
             for i in range(len(self.__pointsList)):
