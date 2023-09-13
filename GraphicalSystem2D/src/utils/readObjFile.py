@@ -1,5 +1,4 @@
 import os
-from matplotlib.colors import to_hex
 from PyQt5.QtGui import QColor
 
 from structures.Point import Point
@@ -95,7 +94,9 @@ def _readMaterialFile(materials_files: list[str]) -> dict:
 
 
 def _convertToHEX(values: list[str]):
-    return to_hex([float(val) for val in values])
+    print(values)
+    r, g, b = [int(float(val) * 255) for val in values]
+    return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
 
 # creates the object but without the window reference
