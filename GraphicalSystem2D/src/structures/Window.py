@@ -42,3 +42,17 @@ class Window:
         elif direction == "LEFT":
             self.xw_min -= self.step
             self.xw_max -= self.step
+
+    def getCenter(self) -> (int, int):
+        return ((self.xw_max + self.xw_min)/2, (self.yw_max + self.yw_min)/2)
+
+    def move_to_center(self):
+        self.x_center = (self.xw_max + self.xw_min)/2
+        self.y_center = (self.yw_max + self.yw_min)/2
+        self.xw_max -= self.x_center
+        self.xw_min -= self.x_center
+        self.yw_max -= self.y_center
+        self.yw_min -= self.y_center
+
+    def getMinsAndMaxes(self):
+        return [self.yw_min, self.yw_max, self.xw_min, self.xw_max]

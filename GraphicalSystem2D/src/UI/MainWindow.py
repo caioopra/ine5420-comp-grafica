@@ -6,9 +6,12 @@ from UI.TransformationModal import TransformationModal
 
 from DisplayFile import displayFile
 
+from utils.matrixOperations import generateMatrix, matrixComposition
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        self.MainWindow = MainWindow
         self.pressed_position = None
         self.__currentColor = QtCore.Qt.red
         self.clicked = QtCore.pyqtSignal()
@@ -176,13 +179,13 @@ class Ui_MainWindow(object):
         self.rotateWindowRight.setGeometry(QtCore.QRect(250, 430, 45, 45))
         self.rotateWindowRight.setObjectName("rotateWindowRight")
         self.rotateWindowRight.setIcon(QtGui.QIcon("UI/img/rotate_right.png"))
-        self.rotateWindowRight.clicked.connect(lambda: self.rotateWindow("RIGHT"))
+        self.rotateWindowRight.clicked.connect(lambda: self.rotateWindow("RIGHT", self.rotationAmountInput.text()))
 
         self.rotateWindowLeft = QtWidgets.QPushButton(self.menuFrame)
         self.rotateWindowLeft.setGeometry(QtCore.QRect(32, 430, 45, 45))
         self.rotateWindowLeft.setObjectName("rotateWindowLeft")
         self.rotateWindowLeft.setIcon(QtGui.QIcon("UI/img/rotate_left.png"))
-        self.rotateWindowLeft.clicked.connect(lambda: self.rotateWindow("LEFT"))
+        self.rotateWindowLeft.clicked.connect(lambda: self.rotateWindow("LEFT", self.rotationAmountInput.text()))
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -277,11 +280,45 @@ class Ui_MainWindow(object):
         displayFile.zoom(direction)
         self.viewport.update()
 
-    def rotateWindow(self, direction: str):
+    def rotateWindow(self, direction: str, amount: str):
+        x, y = displayFile.getCenter()
+        for point in displayFile.getPoints():
+            matrix = generateMatrix(
+                "TRANSLATION",
+                float(-x),
+                float(-y),
+            )
+            point.applyTransformations(matrix)
+            rotation_matrix = generateMatrix("ROTATION", amount)
+            point.applyTransformations(rotation_matrix)
+
+        for line in displayFile.getLines():
+            if line.getName() != None:
+                matrix = generateMatrix(
+                    "TRANSLATION",
+                    float(-x),
+                    float(-y),
+                )
+                line.applyTransformations(matrix)
+                rotation_matrix = generateMatrix("ROTATION", amount)
+                line.applyTransformations(rotation_matrix)
+
+        for wireframe in displayFile.getWireframes():
+            matrix = generateMatrix(
+                "TRANSLATION",
+                float(-x),
+                float(-y),
+            )
+            wireframe.applyTransformations(matrix)
+            rotation_matrix = generateMatrix("ROTATION", amount)
+            wireframe.applyTransformations(rotation_matrix)
+        displayFile.move_to_center()
+        self.viewport.update()
+        '''
         if direction == "LEFT":
             ...
         elif direction == "RIGHT":
-            ...
+            ...'''
 
 
 if __name__ == "__main__":

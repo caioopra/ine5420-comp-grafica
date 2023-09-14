@@ -141,6 +141,15 @@ class DisplayFile:
 
     def navigate(self, direction: str):
         self.__window.navigate(direction)
+        for point in self.__points:
+            normal_x, normal_y = self.calculateNormalizedCoordinates(point)
+            point.setNormalCoordinates(normal_x, normal_y)
+
+    def getCenter(self) -> (int, int):
+        return self.__window.getCenter()
+
+    def move_to_center(self):
+        self.__window.move_to_center()
 
     def zoom(self, direction: str):
         self.__window.zoom(direction)
@@ -148,5 +157,12 @@ class DisplayFile:
     def getBuffer(self):
         return self.__buffer
 
+    def calculateNormalizedCoordinates(self, object):
+        x = object.getX()
+        y = object.getY()
+        yw_min, yw_max, xw_min, xw_max = self.__window.getMinsAndMaxes()
+        normal_x = (x - xw_min)/(xw_max-xw_min)*2-1
+        normal_y = (y - yw_min)/(yw_max-yw_min)*2-1
+        return (normal_x, normal_y)
 
 displayFile = DisplayFile()

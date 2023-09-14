@@ -11,8 +11,10 @@ class Point(Drawable):
         super().__init__(name)
         self.__window = window
         self.__x = x
+        self.__normal_x = x
         self.__original_x = x
         self.__y = y
+        self.__normal_y = y
         self.__original_y = y
 
     def draw(self, painter: QtGui.QPainter) -> None:
@@ -43,8 +45,18 @@ class Point(Drawable):
     def setY(self, value: float) -> None:
         self.__y = value
 
+    def setNormalCoordinates(self, value_x: float, value_y: float) -> None:
+        self.__normal_x = value_x
+        self.__normal_y = value_y
+
     def __str__(self) -> str:
         return f"{self.getName()}: ({self.getX()}, {self.getY()})"
 
     def getCoordinates(self) -> list:
         return [self.getX(), self.getY()]
+
+    def getNormalX(self) -> float:
+        return self.__normal_x
+    
+    def getNormalY(self) -> float:
+        return self.__normal_y
