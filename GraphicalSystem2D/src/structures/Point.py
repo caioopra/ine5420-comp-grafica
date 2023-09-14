@@ -7,12 +7,14 @@ from utils.viewportTransformation import viewportTransformation
 
 
 class Point(Drawable):
-    def __init__(self, x: float, y: float, window = None, name: str = None):
+    def __init__(self, x: float, y: float, window, name: str = None):
         super().__init__(name)
         self.__window = window
         self.__x = x
+        self.__normal_x = x
         self.__original_x = x
         self.__y = y
+        self.__normal_y = y
         self.__original_y = y
 
     def draw(self, painter: QtGui.QPainter) -> None:
@@ -43,14 +45,19 @@ class Point(Drawable):
     def setY(self, value: float) -> None:
         self.__y = value
 
-    def setWindow(self, window) -> None:
-        self.__window = window
+    def setNormalCoordinates(self, value_x: float, value_y: float) -> None:
+        self.__normal_x = value_x
+        self.__normal_y = value_y
 
     def __str__(self) -> str:
         return f"{self.getName()}: ({self.getX()}, {self.getY()})"
 
     def getCoordinates(self) -> list:
         return [self.getX(), self.getY()]
+
+    def getNormalX(self) -> float:
+        return self.__normal_x
     
-    def getPointAsVector(self) -> str:
-        return f"v {self.__original_x} {self.__original_y} 0.0"
+    def getNormalY(self) -> float:
+        return self.__normal_y
+
