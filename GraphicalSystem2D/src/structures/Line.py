@@ -66,6 +66,9 @@ class Line(Drawable):
             self.__pointA = self.__pointB
             self.__pointB = point
 
+    def setWindow(self, window):
+        self.__window = window
+
     def getPoints(self) -> list:
         """
         Returns a list with the two Point objects of the line

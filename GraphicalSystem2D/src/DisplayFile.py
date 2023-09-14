@@ -19,6 +19,12 @@ class DisplayFile:
 
     def getWindow(self) -> Window:
         return self.__window
+    
+    def setWindowSize(self, min: list, max: list) -> None:
+        self.__window.xw_min = min[0]
+        self.__window.yw_min = min[1]
+        self.__window.xw_max = max[0]
+        self.__window.yw_max = max[1]
 
     def getBuffer(self):
         return self.__buffer
@@ -39,12 +45,14 @@ class DisplayFile:
         x_line = Line(
             pointA=Point(-760, 0, self.__window),
             pointB=Point(760, 0, self.__window),
+            name="x_axis",
             window=self.__window,
         )
         x_line.setColor(QtCore.Qt.black)
         y_line = Line(
             pointA=Point(0, -490, self.__window),
             pointB=Point(0, 490, self.__window),
+            name="y_axis",
             window=self.__window,
         )
         y_line.setColor(QtCore.Qt.black)
@@ -122,6 +130,14 @@ class DisplayFile:
             self.__wireframes.append(self.__buffer)
 
         self.__buffer = None
+        
+    def addObjectFromFile(self, obj: Point | Line | Wireframe):
+        if isinstance(obj, Point):
+            self.__points.append(obj)
+        elif isinstance(obj, Line):
+            self.__lines.append(obj)
+        elif isinstance(obj, Wireframe):
+            self.__wireframes.append(obj)
 
     def deleteObject(self, name: str) -> None:
         for i, point in enumerate(self.__points):

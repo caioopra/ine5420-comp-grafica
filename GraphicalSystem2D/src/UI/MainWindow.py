@@ -3,8 +3,12 @@ from PyQt5.QtWidgets import QColorDialog
 
 from UI.Viewport import Viewport
 from UI.TransformationModal import TransformationModal
+from UI.OpenFileModal import OpenFileModal
 
 from DisplayFile import displayFile
+from utils.writeObjFile import writeObjectsToFile
+
+from structures.Point import Point
 
 from utils.matrixOperations import generateMatrix, matrixComposition
 
@@ -44,6 +48,8 @@ class Ui_MainWindow(object):
         self.menuFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.menuFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.menuFrame.setObjectName("menuFrame")
+
+        self.mainWindow = MainWindow
 
         self.objectsList = QtWidgets.QListWidget(self.menuFrame)
         self.objectsList.setGeometry(QtCore.QRect(10, 10, 311, 221))
@@ -199,6 +205,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -224,6 +231,10 @@ class Ui_MainWindow(object):
         self.viewport.currentSelectedType = event
 
     def handleConfirmClick(self, name: str) -> None:
+        if name == "":
+            self.openFileModal()
+            return
+
         dict = displayFile.tryRegistering(
             self.viewport.currentSelectedType, name, self.__currentColor
         )
@@ -320,7 +331,46 @@ class Ui_MainWindow(object):
         elif direction == "RIGHT":
             ...'''
 
+    def openFileModal(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = OpenFileModal()
+        self.ui.setupUi(
+            self.window,
+            closeModal=self.window.close,
+            setWindowDimensions=self.setWindowDimensions,
+            getObjectsFromFile=self.getObjectsFromFIle,
+            saveObjectsToFile=self.saveObjectsToFile
+        )
+        self.window.show()
 
+    def setWindowDimensions(self, min, max):
+        displayFile.setWindowSize(min, max)
+
+    def getObjectsFromFIle(self, objectsList: list):
+        for obj in objectsList:
+            obj.setWindow(displayFile.getWindow())
+            
+            self.objectsList.addItem(obj.getName())
+            displayFile.addObjectFromFile(obj)
+            
+    def saveObjectsToFile(self, filename: str) -> None:
+        objects = []
+        
+        for point in displayFile.getPoints():
+            objects.append(point)
+        for line in displayFile.getLines():
+            objects.append(line)
+        for wireframe in displayFile.getWireframes():
+            objects.append(wireframe)
+            
+        window = displayFile.getWindow()
+        w_min = Point(window.xw_min, window.yw_min)
+        w_max = Point(window.xw_max, window.yw_max)
+        
+        writeObjectsToFile(filename=filename, objects=objects, window=[w_min, w_max])
+        self.window.close()
+        
+        
 if __name__ == "__main__":
     import sys
 
