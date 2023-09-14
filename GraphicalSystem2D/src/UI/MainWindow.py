@@ -302,9 +302,15 @@ class Ui_MainWindow(object):
             point.applyTransformations(matrix)
             rotation_matrix = generateMatrix("ROTATION", amount)
             point.applyTransformations(rotation_matrix)
+            matrix = generateMatrix(
+                "TRANSLATION",
+                float(x),
+                float(y),
+            )
+            point.applyTransformations(matrix)
 
         for line in displayFile.getLines():
-            if line.getName() != None:
+            if not (line.getName() != None and line.getName() != "x_axis" and line.getName() != "y_axis"):
                 matrix = generateMatrix(
                     "TRANSLATION",
                     float(-x),
@@ -313,6 +319,12 @@ class Ui_MainWindow(object):
                 line.applyTransformations(matrix)
                 rotation_matrix = generateMatrix("ROTATION", amount)
                 line.applyTransformations(rotation_matrix)
+                matrix = generateMatrix(
+                    "TRANSLATION",
+                    float(x),
+                    float(y),
+                )
+                line.applyTransformations(matrix)
 
         for wireframe in displayFile.getWireframes():
             matrix = generateMatrix(
@@ -323,7 +335,13 @@ class Ui_MainWindow(object):
             wireframe.applyTransformations(matrix)
             rotation_matrix = generateMatrix("ROTATION", amount)
             wireframe.applyTransformations(rotation_matrix)
-        displayFile.move_to_center()
+            matrix = generateMatrix(
+                "TRANSLATION",
+                float(x),
+                float(y),
+            )
+            wireframe.applyTransformations(matrix)
+        #displayFile.move_to_center()
         self.viewport.update()
         '''
         if direction == "LEFT":
