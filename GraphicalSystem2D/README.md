@@ -3,6 +3,7 @@
 ## Requisitos
 
 -   PyQt5
+-   NumPy
 
 ## Execução
 
@@ -27,3 +28,9 @@ python3 main.py
 -   Selecionar as transformações desejadas e os valores para cada uma
 -   Ao final, pressionar "Confirm"
 -   Caso desejado, o botão "Reset" move o objeto para sua posição original
+
+## Importando arquivos .obj
+-   Criar o arquivo .obj (e .mtl, se necessário) no diretório "objects"
+-   Na tela principal, com o campo de inserção de nome de objeto vazio, pressionar "Confirm"
+-   Duplo clique sobre o nome do respectivo arquivo o carregará e desenhará os objetos na tela
+-   Há também possibilidade de redimensionamento da Window, caso especificado com "w" no arquivo .obj

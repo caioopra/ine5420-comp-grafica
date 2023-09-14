@@ -6,7 +6,9 @@ from UI.TransformationModal import TransformationModal
 from UI.OpenFileModal import OpenFileModal
 
 from DisplayFile import displayFile
-from utils.readObjFile import readObjFile
+from utils.writeObjFile import writeObjectsToFile
+
+from structures.Point import Point
 
 
 class Ui_MainWindow(object):
@@ -300,6 +302,7 @@ class Ui_MainWindow(object):
             closeModal=self.window.close,
             setWindowDimensions=self.setWindowDimensions,
             getObjectsFromFile=self.getObjectsFromFIle,
+            saveObjectsToFile=self.saveObjectsToFile
         )
         self.window.show()
 
@@ -308,12 +311,28 @@ class Ui_MainWindow(object):
 
     def getObjectsFromFIle(self, objectsList: list):
         for obj in objectsList:
-            # TODO: add objects to list and display file, but before, set the window on them
             obj.setWindow(displayFile.getWindow())
             
             self.objectsList.addItem(obj.getName())
             displayFile.addObjectFromFile(obj)
-
+            
+    def saveObjectsToFile(self, filename: str) -> None:
+        objects = []
+        
+        for point in displayFile.getPoints():
+            objects.append(point)
+        for line in displayFile.getLines():
+            objects.append(line)
+        for wireframe in displayFile.getWireframes():
+            objects.append(wireframe)
+            
+        window = displayFile.getWindow()
+        w_min = Point(window.xw_min, window.yw_min)
+        w_max = Point(window.xw_max, window.yw_max)
+        
+        writeObjectsToFile(filename=filename, objects=objects, window=[w_min, w_max])
+        
+        
 if __name__ == "__main__":
     import sys
 

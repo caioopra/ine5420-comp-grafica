@@ -94,7 +94,6 @@ def _readMaterialFile(materials_files: list[str]) -> dict:
 
 
 def _convertToHEX(values: list[str]):
-    print(values)
     r, g, b = [int(float(val) * 255) for val in values]
     return "#{:02x}{:02x}{:02x}".format(r, g, b)
 

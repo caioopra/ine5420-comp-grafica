@@ -54,3 +54,6 @@ class Wireframe(Drawable):
 
     def addPoint(self, point: Point):
         self.__pointsList.append(point)
+
+    def getPoints(self) -> list:
+        return self.__pointsList

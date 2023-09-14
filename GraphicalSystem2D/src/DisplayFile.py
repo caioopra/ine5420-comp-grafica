@@ -45,12 +45,14 @@ class DisplayFile:
         x_line = Line(
             pointA=Point(-760, 0, self.__window),
             pointB=Point(760, 0, self.__window),
+            name="x_axis",
             window=self.__window,
         )
         x_line.setColor(QtCore.Qt.black)
         y_line = Line(
             pointA=Point(0, -490, self.__window),
             pointB=Point(0, 490, self.__window),
+            name="y_axis",
             window=self.__window,
         )
         y_line.setColor(QtCore.Qt.black)

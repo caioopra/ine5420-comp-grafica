@@ -51,3 +51,6 @@ class Point(Drawable):
 
     def getCoordinates(self) -> list:
         return [self.getX(), self.getY()]
+    
+    def getPointAsVector(self) -> str:
+        return f"v {self.__original_x} {self.__original_y} 0.0"
