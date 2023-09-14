@@ -331,6 +331,7 @@ class Ui_MainWindow(object):
         w_max = Point(window.xw_max, window.yw_max)
         
         writeObjectsToFile(filename=filename, objects=objects, window=[w_min, w_max])
+        self.window.close()
         
         
 if __name__ == "__main__":

@@ -18,6 +18,7 @@ class OpenFileModal:
         self.setWindowDimensions = setWindowDimensions
         self.getObjectsFromFile = getObjectsFromFile
         self.saveObjectsToFile = saveObjectsToFile
+        self.MainWindow = MainWindow
 
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(400, 350)
@@ -55,12 +56,10 @@ class OpenFileModal:
 
         for file in files:
             self.filesList.addItem(file)
-            
-        self.closeModal()
 
     def openFile(self, filename: str) -> None:
         objects, window = readObjFile(filename)
 
         self.setWindowDimensions(window[0], window[1])
         self.getObjectsFromFile(objects)
-        self.closeModal()
+        self.MainWindow.close()
