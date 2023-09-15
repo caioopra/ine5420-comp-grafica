@@ -5,15 +5,21 @@ import consts
 
 # transforms the positions in the window to a Viewport usable
 def viewportTransformation(x, y, window: Window):
+    print("transf", _transformPoint(x, y, window))
     return _transformPoint(x, y, window)
 
 
 def _transformPoint(x, y, window: Window) -> list:
     """Given the points world coordinates, returns them transformed to viewport"""
-    xv = (x - window.xw_min) / (window.xw_max - window.xw_min)
+    xw_min = -1
+    yw_min = -1
+    xw_max = 1
+    yw_max = 1
+    
+    xv = (x - xw_min) / (xw_max - xw_min)
     xv *= consts.VIEWPORT_X_MAX - consts.VIEWPORT_X_MIN
 
-    yv = 1 - (y - window.yw_min) / (window.yw_max - window.yw_min)
+    yv = 1 - (y - yw_min) / (yw_max - yw_min)
     yv *= consts.VIEWPORT_Y_MAX - consts.VIEWPORT_Y_MIN
 
     return round(xv), round(yv)

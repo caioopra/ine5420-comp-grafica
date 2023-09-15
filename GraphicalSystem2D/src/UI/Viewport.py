@@ -17,6 +17,11 @@ class Viewport(QtWidgets.QWidget):
         x, y = transformToWorldCoordinates(
             event.x(), event.y(), displayFile.getWindow()
         )
+        print("click", x, y)
+        if self.currentSelectedType != "":
+            point = Point(x, y, displayFile.getWindow())
+            normal_x, normal_y = displayFile.calculateNormalizedCoordinates(point)
+            point.setNormalCoordinates(normal_x, normal_y)
 
         if self.currentSelectedType == "POINT":
             displayFile.addToBuffer(

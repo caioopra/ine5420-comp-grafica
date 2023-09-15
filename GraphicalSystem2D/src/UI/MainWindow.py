@@ -302,6 +302,8 @@ class Ui_MainWindow(object):
         else:
             points = displayFile.getPoints() + [displayFile.getBuffer()]
         
+        scaling_x = 1 / ((displayFile.getWindow().xw_max - displayFile.getWindow().xw_min) / 2)
+        scaling_y = 1 / ((displayFile.getWindow().yw_max - displayFile.getWindow().yw_min) / 2)
         for point in points:
             matrix = generateMatrix(
                 "TRANSLATION",
@@ -312,9 +314,9 @@ class Ui_MainWindow(object):
             rotation_matrix = generateMatrix("ROTATION", amount)
             point.applyTransformations(rotation_matrix)
             matrix = generateMatrix(
-                "TRANSLATION",
-                float(x),
-                float(y),
+                "SCALING",
+                float(scaling_x),
+                float(scaling_y),
             )
             point.applyTransformations(matrix)
 
@@ -329,9 +331,9 @@ class Ui_MainWindow(object):
                 rotation_matrix = generateMatrix("ROTATION", amount)
                 line.applyTransformations(rotation_matrix)
                 matrix = generateMatrix(
-                    "TRANSLATION",
-                    float(x),
-                    float(y),
+                    "SCALING",
+                    float(scaling_x),
+                    float(scaling_y),
                 )
                 line.applyTransformations(matrix)
 
@@ -345,14 +347,16 @@ class Ui_MainWindow(object):
             rotation_matrix = generateMatrix("ROTATION", amount)
             wireframe.applyTransformations(rotation_matrix)
             matrix = generateMatrix(
-                "TRANSLATION",
-                float(x),
-                float(y),
+                "SCALING",
+                float(scaling_x),
+                float(scaling_y),
             )
             wireframe.applyTransformations(matrix)
         
         #displayFile.move_to_center()
         self.viewport.update()
+        
+
 
     def openFileModal(self):
         self.window = QtWidgets.QMainWindow()

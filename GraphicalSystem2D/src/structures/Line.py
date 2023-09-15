@@ -13,22 +13,19 @@ class Line(Drawable):
     ):
         super().__init__(name)
         self.__window = window
-        self.__pointA = self.createPoint((pointA.getX(), pointA.getY(), self.__window))
-
+        self.__pointA = pointA
         if pointB is not None:
-            self.__pointB = self.createPoint(
-                (pointB.getX(), pointB.getY(), self.__window)
-            )
+            self.__pointB = pointB
         else:
             self.__pointB = pointB
 
     def draw(self, painter: QtGui.QPainter, wireframe: bool = False) -> None:
         if self.__pointB is not None:
             pointA_x, pointA_y = viewportTransformation(
-                self.__pointA.getX(), self.__pointA.getY(), self.__window
+                self.__pointA.getNormalX(), self.__pointA.getNormalY(), self.__window
             )
             pointB_x, pointB_y = viewportTransformation(
-                self.__pointB.getX(), self.__pointB.getY(), self.__window
+                self.__pointB.getNormalX(), self.__pointB.getNormalY(), self.__window
             )
             painter.drawLine(pointA_x, pointA_y, pointB_x, pointB_y)
         else:
@@ -55,9 +52,6 @@ class Line(Drawable):
     def reset(self) -> None:
         self.__pointA.reset()
         self.__pointB.reset()
-
-    def createPoint(self, points):
-        return Point(points[0], points[1], self.__window)
 
     def addPoint(self, point: Point):
         if self.__pointB is None:
