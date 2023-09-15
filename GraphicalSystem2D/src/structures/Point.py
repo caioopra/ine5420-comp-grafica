@@ -7,7 +7,7 @@ from utils.viewportTransformation import viewportTransformation
 
 
 class Point(Drawable):
-    def __init__(self, x: float, y: float, window, name: str = None):
+    def __init__(self, x: float, y: float, window=None, name: str = None):
         super().__init__(name)
         self.__window = window
         self.__x = x
@@ -61,3 +61,8 @@ class Point(Drawable):
     def getNormalY(self) -> float:
         return self.__normal_y
 
+    def getPointAsVector(self) -> str:
+        return f"v {self.__original_x} {self.__original_y} 0.0"
+
+    def setWindow(self, window) -> None:
+        self.__window = window

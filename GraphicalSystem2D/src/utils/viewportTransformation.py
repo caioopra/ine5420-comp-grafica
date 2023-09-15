@@ -5,7 +5,6 @@ import consts
 
 # transforms the positions in the window to a Viewport usable
 def viewportTransformation(x, y, window: Window):
-    print("transf", _transformPoint(x, y, window))
     return _transformPoint(x, y, window)
 
 
