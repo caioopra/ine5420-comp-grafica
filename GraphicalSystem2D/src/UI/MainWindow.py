@@ -297,7 +297,12 @@ class Ui_MainWindow(object):
         if direction == "RIGHT":
             amount = -float(amount)
 
-        for point in displayFile.getPoints():
+        if displayFile.getBuffer() is None:
+            points = displayFile.getPoints()
+        else:
+            points = displayFile.getPoints() + [displayFile.getBuffer()]
+        
+        for point in points:
             matrix = generateMatrix(
                 "TRANSLATION",
                 float(-x),
@@ -345,13 +350,9 @@ class Ui_MainWindow(object):
                 float(y),
             )
             wireframe.applyTransformations(matrix)
+        
         #displayFile.move_to_center()
         self.viewport.update()
-        '''
-        if direction == "LEFT":
-            ...
-        elif direction == "RIGHT":
-            ...'''
 
     def openFileModal(self):
         self.window = QtWidgets.QMainWindow()
