@@ -293,6 +293,10 @@ class Ui_MainWindow(object):
 
     def rotateWindow(self, direction: str, amount: str):
         x, y = displayFile.getCenter()
+
+        if direction == "RIGHT":
+            amount = -float(amount)
+
         for point in displayFile.getPoints():
             matrix = generateMatrix(
                 "TRANSLATION",
