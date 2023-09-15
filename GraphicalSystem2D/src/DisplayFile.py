@@ -19,7 +19,7 @@ class DisplayFile:
 
     def getWindow(self) -> Window:
         return self.__window
-    
+
     def setWindowSize(self, min: list, max: list) -> None:
         self.__window.xw_min = min[0]
         self.__window.yw_min = min[1]
@@ -42,16 +42,26 @@ class DisplayFile:
         self.__buffer = None
 
     def addAxesLines(self):
+        points = [
+            Point(-760, 0, self.__window),
+            Point(760, 0, self.__window),
+            Point(0, -490, self.__window),
+            Point(0, 490, self.__window),
+        ]
+        for point in points:
+            normal_x, normal_y = self.calculateNormalizedCoordinates(point)
+            point.setNormalCoordinates(normal_x, normal_y)
+
         x_line = Line(
-            pointA=Point(-760, 0, self.__window),
-            pointB=Point(760, 0, self.__window),
+            pointA=points[0],
+            pointB=points[1],
             name="x_axis",
             window=self.__window,
         )
         x_line.setColor(QtCore.Qt.black)
         y_line = Line(
-            pointA=Point(0, -490, self.__window),
-            pointB=Point(0, 490, self.__window),
+            pointA=points[2],
+            pointB=points[3],
             name="y_axis",
             window=self.__window,
         )
@@ -122,6 +132,7 @@ class DisplayFile:
     def registerObject(self, currentType: str, objectName: str, color) -> None:
         self.__buffer.setName(objectName)
         self.__buffer.setColor(color)
+
         if currentType == "POINT":
             self.__points.append(self.__buffer)
         elif currentType == "LINE":
@@ -130,7 +141,7 @@ class DisplayFile:
             self.__wireframes.append(self.__buffer)
 
         self.__buffer = None
-        
+
     def addObjectFromFile(self, obj: Point | Line | Wireframe):
         if isinstance(obj, Point):
             self.__points.append(obj)
@@ -157,9 +168,6 @@ class DisplayFile:
 
     def navigate(self, direction: str):
         self.__window.navigate(direction)
-        for point in self.__points:
-            normal_x, normal_y = self.calculateNormalizedCoordinates(point)
-            point.setNormalCoordinates(normal_x, normal_y)
 
     def getCenter(self) -> (int, int):
         return self.__window.getCenter()
@@ -177,10 +185,9 @@ class DisplayFile:
         x = object.getX()
         y = object.getY()
         yw_min, yw_max, xw_min, xw_max = self.__window.getMinsAndMaxes()
-        normal_x = (x - xw_min)/(xw_max-xw_min)*2-1
-        normal_y = (y - yw_min)/(yw_max-yw_min)*2-1
-        print(normal_x)
-        print(normal_y)
+        normal_x = (x - xw_min) / (xw_max - xw_min) * 2 - 1
+        normal_y = (y - yw_min) / (yw_max - yw_min) * 2 - 1
         return (normal_x, normal_y)
+
 
 displayFile = DisplayFile()

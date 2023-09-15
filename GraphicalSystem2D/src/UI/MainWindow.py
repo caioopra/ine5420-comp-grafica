@@ -185,13 +185,17 @@ class Ui_MainWindow(object):
         self.rotateWindowRight.setGeometry(QtCore.QRect(250, 430, 45, 45))
         self.rotateWindowRight.setObjectName("rotateWindowRight")
         self.rotateWindowRight.setIcon(QtGui.QIcon("UI/img/rotate_right.png"))
-        self.rotateWindowRight.clicked.connect(lambda: self.rotateWindow("RIGHT", self.rotationAmountInput.text()))
+        self.rotateWindowRight.clicked.connect(
+            lambda: self.rotateWindow("RIGHT", self.rotationAmountInput.text())
+        )
 
         self.rotateWindowLeft = QtWidgets.QPushButton(self.menuFrame)
         self.rotateWindowLeft.setGeometry(QtCore.QRect(32, 430, 45, 45))
         self.rotateWindowLeft.setObjectName("rotateWindowLeft")
         self.rotateWindowLeft.setIcon(QtGui.QIcon("UI/img/rotate_left.png"))
-        self.rotateWindowLeft.clicked.connect(lambda: self.rotateWindow("LEFT", self.rotationAmountInput.text()))
+        self.rotateWindowLeft.clicked.connect(
+            lambda: self.rotateWindow("LEFT", self.rotationAmountInput.text())
+        )
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -204,7 +208,6 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -301,57 +304,49 @@ class Ui_MainWindow(object):
             points = displayFile.getPoints()
         else:
             points = displayFile.getPoints() + [displayFile.getBuffer()]
-        
+
+        # scaling_x = 1 / (
+        #     (displayFile.getWindow().xw_max - displayFile.getWindow().xw_min) / 2
+        # )
+        # scaling_y = 1 / (
+        #     (displayFile.getWindow().yw_max - displayFile.getWindow().yw_min) / 2
+        # )
         for point in points:
-            matrix = generateMatrix(
-                "TRANSLATION",
-                float(-x),
-                float(-y),
-            )
-            point.applyTransformations(matrix)
-            rotation_matrix = generateMatrix("ROTATION", amount)
-            point.applyTransformations(rotation_matrix)
-            matrix = generateMatrix(
-                "TRANSLATION",
-                float(x),
-                float(y),
-            )
-            point.applyTransformations(matrix)
+            self._rotate_object(point, x, y, amount)
 
         for line in displayFile.getLines():
-            if not (line.getName() != None and line.getName() != "x_axis" and line.getName() != "y_axis"):
-                matrix = generateMatrix(
-                    "TRANSLATION",
-                    float(-x),
-                    float(-y),
-                )
-                line.applyTransformations(matrix)
-                rotation_matrix = generateMatrix("ROTATION", amount)
-                line.applyTransformations(rotation_matrix)
-                matrix = generateMatrix(
-                    "TRANSLATION",
-                    float(x),
-                    float(y),
-                )
-                line.applyTransformations(matrix)
+            if (
+                line.getName() != None
+            ):
+                self._rotate_object(line, x, y, amount)
+                # matrix = generateMatrix(
+                #     "SCALING",
+                #     float(scaling_x),
+                #     float(scaling_y),
+                # )
+                # line.applyTransformations(matrix)
 
         for wireframe in displayFile.getWireframes():
-            matrix = generateMatrix(
-                "TRANSLATION",
-                float(-x),
-                float(-y),
-            )
-            wireframe.applyTransformations(matrix)
-            rotation_matrix = generateMatrix("ROTATION", amount)
-            wireframe.applyTransformations(rotation_matrix)
-            matrix = generateMatrix(
-                "TRANSLATION",
-                float(x),
-                float(y),
-            )
-            wireframe.applyTransformations(matrix)
+            self._rotate_object(wireframe, x, y, amount)
+            # matrix = generateMatrix(
+            #     "SCALING",
+            #     float(scaling_x),
+            #     float(scaling_y),
+            # )
+            # wireframe.applyTransformations(matrix)
         
-        #displayFile.move_to_center()
+        buffer = displayFile.getBuffer()
+        if buffer is not None:
+            if not isinstance(buffer, Point):
+                points = buffer.getPoints()
+                for point in points:
+                    self._rotate_object(point, x, y, amount)
+            else:
+                self._rotate_object(buffer, x, y, amount)
+        
+            
+
+        # displayFile.move_to_center()
         self.viewport.update()
 
     def openFileModal(self):
@@ -362,7 +357,7 @@ class Ui_MainWindow(object):
             closeModal=self.window.close,
             setWindowDimensions=self.setWindowDimensions,
             getObjectsFromFile=self.getObjectsFromFIle,
-            saveObjectsToFile=self.saveObjectsToFile
+            saveObjectsToFile=self.saveObjectsToFile,
         )
         self.window.show()
 
@@ -372,28 +367,41 @@ class Ui_MainWindow(object):
     def getObjectsFromFIle(self, objectsList: list):
         for obj in objectsList:
             obj.setWindow(displayFile.getWindow())
-            
+
             self.objectsList.addItem(obj.getName())
             displayFile.addObjectFromFile(obj)
-            
+
     def saveObjectsToFile(self, filename: str) -> None:
         objects = []
-        
+
         for point in displayFile.getPoints():
             objects.append(point)
         for line in displayFile.getLines():
             objects.append(line)
         for wireframe in displayFile.getWireframes():
             objects.append(wireframe)
-            
+
         window = displayFile.getWindow()
         w_min = Point(window.xw_min, window.yw_min)
         w_max = Point(window.xw_max, window.yw_max)
-        
+
         writeObjectsToFile(filename=filename, objects=objects, window=[w_min, w_max])
         self.window.close()
-        
-        
+
+    def _rotate_object(self, obj, x, y, amount):
+        translation = generateMatrix(
+            "TRANSLATION",
+            float(-x),
+            float(-y),
+        )
+        rotation_matrix = generateMatrix("ROTATION", amount)
+        translate_back = generateMatrix(
+            "TRANSLATION",
+            float(x),
+            float(y),
+        )
+        obj.applyTransformations(matrixComposition([translation, rotation_matrix, translate_back]))
+
 if __name__ == "__main__":
     import sys
 
