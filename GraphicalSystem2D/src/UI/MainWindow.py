@@ -102,6 +102,7 @@ class Ui_MainWindow(object):
         self.objectNameInput = QtWidgets.QLineEdit(self.menuFrame)
         self.objectNameInput.setGeometry(QtCore.QRect(10, 525, 300, 32))
         self.objectNameInput.setFont(font)
+        self.objectNameInput.textEdited.connect(lambda: self._editedObjName(self.objectNameInput.text()))
 
         # zoom buttons
         font = QtGui.QFont()
@@ -134,6 +135,7 @@ class Ui_MainWindow(object):
         self.confirmButton.clicked.connect(
             lambda: self.handleConfirmClick(self.objectNameInput.text())
         )
+        self.confirmButton.setText("Open File")
         self.cancelButton = QtWidgets.QPushButton(self.menuFrame)
         self.cancelButton.setGeometry(QtCore.QRect(10, 290, 90, 32))
         self.cancelButton.setFont(font)
@@ -219,7 +221,6 @@ class Ui_MainWindow(object):
         self.zoomOutButton.setText(_translate("MainWindow", "Zoom out"))
         self.zoomInButton.setText(_translate("MainWindow", "Zoom in"))
         self.deleteButton.setText(_translate("MainWindow", "Delete"))
-        self.confirmButton.setText(_translate("MainWindow", "Confirm"))
         self.cancelButton.setText(_translate("MainWindow", "Cancel"))
         self.lineRadioButton.setText(_translate("MainWindow", "Line"))
         self.wireframeRadioButton.setText(_translate("MainWindow", "Wireframe"))
@@ -232,6 +233,12 @@ class Ui_MainWindow(object):
         displayFile.clearBuffer()
         self.viewport.update()
         self.viewport.currentSelectedType = event
+
+    def _editedObjName(self, value: str) -> None:
+        if value == "":
+            self.confirmButton.setText("Open File")
+        else:
+            self.confirmButton.setText("Confirm")
 
     def handleConfirmClick(self, name: str) -> None:
         if name == "":
