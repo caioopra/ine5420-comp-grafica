@@ -66,3 +66,12 @@ class Point(Drawable):
 
     def setWindow(self, window) -> None:
         self.__window = window
+
+    def between(self, min: object, max: object) -> bool:
+        if isinstance(min, Point) and isinstance(max, Point):
+            x = max.getNormalX() > self.getNormalX() > min.getNormalX()
+            y = max.getNormalY() > self.getNormalY() > min.getNormalY()
+
+            return x and y
+
+        return False
