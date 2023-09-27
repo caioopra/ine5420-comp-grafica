@@ -142,6 +142,25 @@ class Ui_MainWindow(object):
         self.cancelButton.setObjectName("cancelButton")
         self.cancelButton.clicked.connect(lambda: self.handleCancelClick())
 
+        # line clipping selection
+        font.setPointSize(10)
+        self.cohenRadioButton = QtWidgets.QRadioButton(self.menuFrame)
+        self.cohenRadioButton.clicked.connect(lambda: self._selectLineCliiping("CS"))
+        self.cohenRadioButton.setGeometry(QtCore.QRect(10, 560, 100, 32))
+        self.cohenRadioButton.setFont(font)
+        self.cohenRadioButton.setObjectName("cohenRadioButton")
+        self.cohenRadioButton.setText("Cohen-Sutherland")
+        self.cohenRadioButton.adjustSize()
+
+        self.liangRadioButton = QtWidgets.QRadioButton(self.menuFrame)
+        self.liangRadioButton.clicked.connect(lambda: self._selectLineCliiping("LB"))
+        self.liangRadioButton.setGeometry(QtCore.QRect(180, 560, 100, 32))
+        self.liangRadioButton.setFont(font)
+        self.liangRadioButton.setObjectName("liangRadioButton")
+        self.liangRadioButton.setText("Liang-Barsky")
+        self.liangRadioButton.adjustSize()
+
+        font.setPointSize(11)
         self.selectColorButton = QtWidgets.QPushButton(self.menuFrame)
         self.selectColorButton.setGeometry(QtCore.QRect(213, 395, 108, 40))
         self.selectColorButton.setFont(font)
@@ -408,6 +427,12 @@ class Ui_MainWindow(object):
             float(y),
         )
         obj.applyTransformations(matrixComposition([translation, rotation_matrix, translate_back]))
+
+    def _selectLineCliiping(self, type: str) -> None:
+        if type == "CS":
+           print("c") 
+        elif type == "LB":
+           print("l") 
 
 if __name__ == "__main__":
     import sys
