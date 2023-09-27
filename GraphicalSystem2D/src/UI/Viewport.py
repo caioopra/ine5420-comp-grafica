@@ -4,6 +4,7 @@ from structures.Point import Point
 from DisplayFile import displayFile
 
 from utils.viewportTransformation import transformToWorldCoordinates
+from utils.clipping.clipping import clip
 
 
 class Viewport(QtWidgets.QWidget):
@@ -12,11 +13,13 @@ class Viewport(QtWidgets.QWidget):
         self.setMouseTracking(True)
         self.__currentColor = QtCore.Qt.red
         self.currentSelectedType = ""
+        self.currentClippingMethod = ""
 
     def mousePressEvent(self, event):
         x, y = transformToWorldCoordinates(
             event.x(), event.y(), displayFile.getWindow()
         )
+        print(x, y)
         if self.currentSelectedType != "":
             point = Point(x, y, displayFile.getWindow())
             normal_x, normal_y = displayFile.calculateNormalizedCoordinates(point)
@@ -50,13 +53,7 @@ class Viewport(QtWidgets.QWidget):
         brush = QtGui.QBrush(self.__currentColor)
         qp.setPen(self.__currentColor)
         qp.setBrush(brush)
-
-        for point in displayFile.getPoints():
-            normal_x, normal_y = displayFile.calculateNormalizedCoordinates(point)
-            point.setNormalCoordinates(normal_x, normal_y)
-            qp.setPen(QtGui.QPen(point.getColor(), 3))
-            point.draw(qp)
-
+        
         if displayFile.getBuffer() is not None:
             if not isinstance(displayFile.getBuffer(), Point):
                 points = displayFile.getBuffer().getPoints()
@@ -71,27 +68,35 @@ class Viewport(QtWidgets.QWidget):
                     displayFile.getBuffer()
                 )
                 displayFile.getBuffer().setNormalCoordinates(normal_x, normal_y)
-            qp.setPen(QtGui.QPen(self.__currentColor, 3))
-            displayFile.getBuffer().draw(qp)
+                
+        for point in displayFile.getPoints():
+            normal_x, normal_y = displayFile.calculateNormalizedCoordinates(point)
+            point.setNormalCoordinates(normal_x, normal_y)
 
         for line in displayFile.getLines():
             for point in line.getPoints():
                 normal_x, normal_y = displayFile.calculateNormalizedCoordinates(point)
                 point.setNormalCoordinates(normal_x, normal_y)
 
-            qp.setPen(QtGui.QPen(line.getColor(), 3))
-            line.draw(qp)
-
         for wireframe in displayFile.getWireframes():
             for point in wireframe.getPoints():
                 normal_x, normal_y = displayFile.calculateNormalizedCoordinates(point)
                 point.setNormalCoordinates(normal_x, normal_y)
 
-            qp.setPen(QtGui.QPen(wireframe.getColor(), 3))
-            wireframe.draw(qp)
+        to_draw_objects = clip(self.currentClippingMethod)
+        print("to draw", to_draw_objects)
+        for obj in to_draw_objects:
+            if obj is displayFile.getBuffer():
+                qp.setPen(QtGui.QPen(self.__currentColor, 3))
+            else:
+                qp.setPen(QtGui.QPen(obj.getColor(), 3))
+            obj.draw(qp)
 
     def getCurrentColor(self) -> None:
         return self.__currentColor
 
     def setCurrentColor(self, color) -> None:
         self.__currentColor = color
+
+    def setCurrentClippingMethod(self, type: str) -> None:
+        self.currentClippingMethod = type

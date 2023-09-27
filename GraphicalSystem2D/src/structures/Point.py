@@ -18,7 +18,9 @@ class Point(Drawable):
         self.__original_y = y
 
     def draw(self, painter: QtGui.QPainter) -> None:
-        x, y = viewportTransformation(self.getNormalX(), self.getNormalY(), self.__window)
+        x, y = viewportTransformation(
+            self.getNormalX(), self.getNormalY(), self.__window
+        )
         painter.drawEllipse(x, y, 5, 5)
 
     def applyTransformations(self, matrix: np.matrix) -> None:
@@ -28,7 +30,7 @@ class Point(Drawable):
 
     def calculateGeometricCenter(self) -> list:
         return [self.getX(), self.getY()]
-    
+
     def reset(self) -> None:
         self.__x = self.__original_x
         self.__y = self.__original_y
@@ -57,9 +59,12 @@ class Point(Drawable):
 
     def getNormalX(self) -> float:
         return self.__normal_x
-    
+
     def getNormalY(self) -> float:
         return self.__normal_y
+    
+    def getNormalCoordinates(self) -> list[int]:
+        return [self.__normal_x, self.__normal_y]
 
     def getPointAsVector(self) -> str:
         return f"v {self.__original_x} {self.__original_y} 0.0"
