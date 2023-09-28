@@ -17,9 +17,8 @@ def liang_barsky(line: Line, window_max: Point = Point(1, 1), window_min: Point 
     inside = False
 
     for i in range(4):
-        if p[i] == 0 and q[i] < 0:
-            print("In")
-            inside = True
+        if p[i] == 0 and q[i] <= 0:
+            return None
     
     positivos = []
     negativos = []
@@ -30,7 +29,7 @@ def liang_barsky(line: Line, window_max: Point = Point(1, 1), window_min: Point 
             negativos.append(i)
 
     # interseccao de fora pra dentro
-    r1 = q[negativos[0]] / p[negativos[1]]
+    r1 = q[negativos[0]] / p[negativos[0]]
     r2 = q[negativos[1]] / p[negativos[1]]
     zeta_1 = max(0, r1, r2) # se der 0, interseccao nao existe e valores sao rejeitados
 
