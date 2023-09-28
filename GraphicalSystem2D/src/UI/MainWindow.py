@@ -434,6 +434,7 @@ class Ui_MainWindow(object):
 
     def _selectLineCliiping(self, type: str) -> None:
         self.viewport.currentClippingMethod = type
+        self.viewport.update()
 
 if __name__ == "__main__":
     import sys
