@@ -19,6 +19,7 @@ def cohen_sutherland(
 
     while True:
         if rc_point1 == 0 and rc_point2 == 0:
+            line.setNormalCoordinates(point1, point2) 
             return line
         elif (rc_point1 & rc_point2) != 0:
             return None
@@ -63,10 +64,12 @@ def cohen_sutherland(
                 newX = window["xw_min"]
 
             if rc_out == rc_point1:
-                point1 = Point(newX, newY)
+                point1 = Point(point1.getX(), point1.getY())
+                point1.setNormalCoordinates(newX, newY)
                 rc_point1 = _getRegionCode(point1, window)
             else:
-                point2 = Point(newX, newY)
+                point2 = Point(point2.getX(), point2.getY())
+                point2.setNormalCoordinates(newX, newY)
                 rc_point2 = _getRegionCode(point2, window)
 
 

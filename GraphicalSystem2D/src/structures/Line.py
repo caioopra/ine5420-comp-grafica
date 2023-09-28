@@ -69,3 +69,7 @@ class Line(Drawable):
     def setCoordinates(self, pointA: Point, pointB: Point) -> None:
         self.__pointA = pointA
         self.__pointB = pointB
+
+    def setNormalCoordinates(self, pointA: Point, pointB: Point) -> None:
+        self.__pointA = pointA
+        self.__pointB = pointB

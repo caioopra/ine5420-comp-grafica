@@ -16,10 +16,10 @@ def _transformPoint(x, y, window: Window) -> list:
     yw_max = 1
     
     xv = (x - xw_min) / (xw_max - xw_min)
-    xv *= consts.VIEWPORT_X_MAX - consts.VIEWPORT_X_MIN
+    xv *= consts.VIEWPORT_X_MAX- consts.VIEWPORT_X_MIN
 
     yv = 1 - (y - yw_min) / (yw_max - yw_min)
-    yv *= consts.VIEWPORT_Y_MAX - consts.VIEWPORT_Y_MIN
+    yv *= consts.VIEWPORT_Y_MAX- consts.VIEWPORT_Y_MIN
 
     return round(xv), round(yv)
 

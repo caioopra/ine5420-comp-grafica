@@ -80,7 +80,7 @@ def sutherland_hodgman(
                     elif (
                         rc_v1 == 4
                         or rc_v1 == 8
-                        and window["xw_min"] < intersection.x() < window["xw_max"]
+                        and window["xw_min"] < intersection.getNormalX() < window["xw_max"]
                     ):
                         vertices[f"i{i}"] = intersection
                         vertices[f"v{v}"] = intersection
