@@ -99,3 +99,4 @@ class Viewport(QtWidgets.QWidget):
 
     def setCurrentClippingMethod(self, type: str) -> None:
         self.currentClippingMethod = type
+        self.update()

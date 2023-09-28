@@ -7,11 +7,14 @@ from structures.Point import Point
 
 
 class Wireframe(Drawable):
-    def __init__(self, pointA: Point, name: str = None, window=None):
+    def __init__(
+        self, pointA: Point, name: str = None, window=None, is_filled: bool = False
+    ):
         super().__init__(name)
         self.__firstPoint = pointA
         self.__pointsList = [pointA]
         self.__window = window
+        self.__is_filled = is_filled
 
     def setWindow(self, window):
         self.__window = window
@@ -57,3 +60,6 @@ class Wireframe(Drawable):
 
     def getPoints(self) -> list:
         return self.__pointsList
+
+    def getIsFilled(self) -> bool:
+        return self.__is_filled

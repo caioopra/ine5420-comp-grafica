@@ -7,6 +7,7 @@ from DisplayFile import displayFile
 
 from utils.clipping.CohenSutherland import cohen_sutherland
 from utils.clipping.LiangBarsky import liang_barsky
+# from utils.clipping.SutherlandHodgman import sutherland_hodgman
 
 
 def clip(line_method: str) -> list[Drawable]:
@@ -22,10 +23,15 @@ def clip(line_method: str) -> list[Drawable]:
         if new_line is not None:
             objects_inside_window.append(new_line)
 
-    for wireframe in displayFile.getWireframes():
-        ...
+    # for wireframe in displayFile.getWireframes():
+    #     new_wireframe = _clipWireframe(wireframe)
+        
+    #     if new_wireframe is not None:
+    #         objects_inside_window.append(new_wireframe)
+        
     
     buffer_obj = displayFile.getBuffer()
+    print(buffer_obj)
     if buffer_obj is not None:
         if isinstance(buffer_obj, Point):
             if _clipPoint(buffer_obj):
@@ -38,8 +44,17 @@ def clip(line_method: str) -> list[Drawable]:
                     objects_inside_window.append(new_line)
             else:
                 if _clipPoint(buffer_obj.getPoints()[0]):
-                    print("asd")
                     objects_inside_window.append(buffer_obj)
+        # elif isinstance(buffer_obj, Wireframe):
+        #     if len(buffer_obj.getPoints()) > 1:
+        #         new_wireframe = _clipWireframe(wireframe=buffer_obj)
+
+        #         if new_wireframe is not None:
+        #             objects_inside_window.append(new_wireframe)
+        #     else:
+        #         if _clipPoint(buffer_obj.getPoints()[0]):
+        #             objects_inside_window.append(buffer_obj)
+            
         
     return objects_inside_window
 
