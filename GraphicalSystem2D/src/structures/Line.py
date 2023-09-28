@@ -14,10 +14,7 @@ class Line(Drawable):
         super().__init__(name)
         self.__window = window
         self.__pointA = pointA
-        if pointB is not None:
-            self.__pointB = pointB
-        else:
-            self.__pointB = pointB
+        self.__pointB = pointB
 
     def draw(self, painter: QtGui.QPainter, wireframe: bool = False) -> None:
         if self.__pointB is not None:

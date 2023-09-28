@@ -25,18 +25,12 @@ def cohen_sutherland(
     rc_point1 = _getRegionCode(point1, window)
     rc_point2 = _getRegionCode(point2, window)
 
-    print("RCs: ", rc_point1, rc_point2)
-
     while True:
         if rc_point1 == 0 and rc_point2 == 0:
-            print("in")
             return line
         elif (rc_point1 & rc_point2) != 0:
-            print("out")
             return None
         else:
-            print("parcial")
-            print(point1, point2)
             newX, newY = 0, 0
 
             if rc_point1 != 0:
@@ -95,7 +89,7 @@ def _getRegionCode(point1: Point, window: dict) -> int:
 
     if y > window["yw_max"]:
         rc |= Position.TOP.value
-    elif x < window["yw_min"]:
+    elif y < window["yw_min"]:
         rc |= Position.BOTTOM.value
 
     return rc

@@ -19,7 +19,6 @@ class Viewport(QtWidgets.QWidget):
         x, y = transformToWorldCoordinates(
             event.x(), event.y(), displayFile.getWindow()
         )
-        print(x, y)
         if self.currentSelectedType != "":
             point = Point(x, y, displayFile.getWindow())
             normal_x, normal_y = displayFile.calculateNormalizedCoordinates(point)
@@ -84,7 +83,7 @@ class Viewport(QtWidgets.QWidget):
                 point.setNormalCoordinates(normal_x, normal_y)
 
         to_draw_objects = clip(self.currentClippingMethod)
-        print("to draw", to_draw_objects)
+        print("will draw:", to_draw_objects)
         for obj in to_draw_objects:
             if obj is displayFile.getBuffer():
                 qp.setPen(QtGui.QPen(self.__currentColor, 3))

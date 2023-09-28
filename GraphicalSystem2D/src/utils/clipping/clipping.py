@@ -26,16 +26,20 @@ def clip(line_method: str) -> list[Drawable]:
         ...
     
     buffer_obj = displayFile.getBuffer()
-    print("buffer obj",buffer_obj)
     if buffer_obj is not None:
         if isinstance(buffer_obj, Point):
             if _clipPoint(buffer_obj):
                 objects_inside_window.append(buffer_obj)
         elif isinstance(buffer_obj, Line):
-            new_line = _clipLine(line_method, line=buffer_obj)
-        
-            if new_line is not None:
-                objects_inside_window.append(new_line)
+            if buffer_obj.getPoints()[1] is not None:
+                new_line = _clipLine(line_method, line=buffer_obj)
+
+                if new_line is not None:
+                    objects_inside_window.append(new_line)
+            else:
+                if _clipPoint(buffer_obj.getPoints()[0]):
+                    print("asd")
+                    objects_inside_window.append(buffer_obj)
         
     return objects_inside_window
 
