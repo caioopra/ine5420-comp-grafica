@@ -63,3 +63,9 @@ class Wireframe(Drawable):
 
     def getIsFilled(self) -> bool:
         return self.__is_filled
+
+    def setPoints(self, points) -> None:
+        self.__pointsList = points
+
+    def getWindow(self):
+        return self.__window

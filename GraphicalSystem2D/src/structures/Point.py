@@ -80,3 +80,4 @@ class Point(Drawable):
             return x and y
 
         return False
+

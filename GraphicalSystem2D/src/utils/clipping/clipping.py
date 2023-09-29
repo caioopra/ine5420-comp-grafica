@@ -7,8 +7,8 @@ from DisplayFile import displayFile
 
 from utils.clipping.CohenSutherland import cohen_sutherland
 from utils.clipping.LiangBarsky import liang_barsky
-# from utils.clipping.SutherlandHodgman import sutherland_hodgman
-
+from utils.clipping.SutherlandHodgman import sutherland_hodgman
+from utils.clipping.WeilerAtherton2 import weilerAtherton
 
 def clip(line_method: str) -> list[Drawable]:
     objects_inside_window: list[Drawable] = []
@@ -23,12 +23,12 @@ def clip(line_method: str) -> list[Drawable]:
         if new_line is not None:
             objects_inside_window.append(new_line)
 
-    # for wireframe in displayFile.getWireframes():
-    #     new_wireframe = _clipWireframe(wireframe)
+    for wireframe in displayFile.getWireframes():
+        new_wireframe = _clipWireframe(wireframe)
         
-    #     if new_wireframe is not None:
-    #         objects_inside_window.append(new_wireframe)
-        
+        if new_wireframe is not None:
+            objects_inside_window.append(new_wireframe)
+      
     
     buffer_obj = displayFile.getBuffer()
     print(buffer_obj)
@@ -45,15 +45,16 @@ def clip(line_method: str) -> list[Drawable]:
             else:
                 if _clipPoint(buffer_obj.getPoints()[0]):
                     objects_inside_window.append(buffer_obj)
-        # elif isinstance(buffer_obj, Wireframe):
-        #     if len(buffer_obj.getPoints()) > 1:
-        #         new_wireframe = _clipWireframe(wireframe=buffer_obj)
+        elif isinstance(buffer_obj, Wireframe):
+            if len(buffer_obj.getPoints()) > 1:
+                new_wireframe = _clipWireframe(wireframe=buffer_obj)
 
-        #         if new_wireframe is not None:
-        #             objects_inside_window.append(new_wireframe)
-        #     else:
-        #         if _clipPoint(buffer_obj.getPoints()[0]):
-        #             objects_inside_window.append(buffer_obj)
+                if new_wireframe is not None:
+                    print(p for p in new_wireframe.getPoints())
+                    objects_inside_window.append(new_wireframe)
+            else:
+                if _clipPoint(buffer_obj.getPoints()[0]):
+                    objects_inside_window.append(buffer_obj)
             
         
     return objects_inside_window
@@ -75,4 +76,6 @@ def _clipLine(clipping_method: str, line: Line) -> bool:
 
 
 def _clipWireframe(wireframe: Wireframe) -> bool:
-    ...
+    #return weilerAtherton(wireframe) 
+
+    return wireframe
