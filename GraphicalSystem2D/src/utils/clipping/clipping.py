@@ -2,6 +2,7 @@ from structures.Drawable import Drawable
 from structures.Point import Point
 from structures.Line import Line
 from structures.Wireframe import Wireframe
+from structures.BezierCurve import BezierCurve
 
 from DisplayFile import displayFile
 
@@ -9,6 +10,7 @@ from utils.clipping.CohenSutherland import cohen_sutherland
 from utils.clipping.LiangBarsky import liang_barsky
 from utils.clipping.SutherlandHodgman import sutherland_hodgman
 from utils.clipping.WeilerAtherton2 import weilerAtherton
+
 
 def clip(line_method: str) -> list[Drawable]:
     objects_inside_window: list[Drawable] = []
@@ -19,17 +21,21 @@ def clip(line_method: str) -> list[Drawable]:
 
     for line in displayFile.getLines():
         new_line = _clipLine(line_method, line=line)
-        
+
         if new_line is not None:
             objects_inside_window.append(new_line)
 
     for wireframe in displayFile.getWireframes():
         new_wireframe = _clipWireframe(wireframe)
-        
+
         if new_wireframe is not None:
             objects_inside_window.append(new_wireframe)
-      
-    
+
+    for curve in displayFile.getCurves():
+        new_curve = _clipCurve(curve)
+        if new_curve is not None:
+            objects_inside_window.append(new_curve)
+
     buffer_obj = displayFile.getBuffer()
     print(buffer_obj)
     if buffer_obj is not None:
@@ -55,8 +61,11 @@ def clip(line_method: str) -> list[Drawable]:
             else:
                 if _clipPoint(buffer_obj.getPoints()[0]):
                     objects_inside_window.append(buffer_obj)
-            
-        
+        elif isinstance(buffer_obj, list):  # curve
+            for p in buffer_obj:
+                # TODO: clipping
+                objects_inside_window.append(p)
+
     return objects_inside_window
 
 
@@ -68,14 +77,18 @@ def _clipPoint(
     return point.between(min=window_min, max=window_max)
 
 
-def _clipLine(clipping_method: str, line: Line) -> bool:
+def _clipLine(clipping_method: str, line: Line) -> Line | None:
     if clipping_method == "CS":
         return cohen_sutherland(line)
-    
+
     return liang_barsky(line)
 
 
-def _clipWireframe(wireframe: Wireframe) -> bool:
-    #return weilerAtherton(wireframe) 
+def _clipWireframe(wireframe: Wireframe) -> Wireframe | None:
+    # return weilerAtherton(wireframe)
 
     return wireframe
+
+
+def _clipCurve(curve: BezierCurve) -> BezierCurve | None:  # TODO: clipping
+    return curve

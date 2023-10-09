@@ -16,6 +16,7 @@ class Viewport(QtWidgets.QWidget):
         self.currentClippingMethod = ""
 
     def mousePressEvent(self, event):
+        print("Current type: ", self.currentSelectedType)
         x, y = transformToWorldCoordinates(
             event.x(), event.y(), displayFile.getWindow()
         )
@@ -40,6 +41,11 @@ class Viewport(QtWidgets.QWidget):
                 "WIREFRAME",
                 point,
             )
+        elif self.currentSelectedType == "CURVE":
+            displayFile.addToBuffer(
+                "CURVE",
+                point,
+            )
         else:
             print("select a type first")
 
@@ -54,7 +60,14 @@ class Viewport(QtWidgets.QWidget):
         qp.setBrush(brush)
         
         if displayFile.getBuffer() is not None:
-            if not isinstance(displayFile.getBuffer(), Point):
+            if isinstance(displayFile.getBuffer(), list):
+                for point in displayFile.getBuffer():
+                    normal_x, normal_y = displayFile.calculateNormalizedCoordinates(
+                        point
+                    )
+                    point.setNormalCoordinates(normal_x, normal_y)
+                
+            elif not isinstance(displayFile.getBuffer(), Point):
                 points = displayFile.getBuffer().getPoints()
                 for point in points:
                     if point is not None:

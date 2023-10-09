@@ -1,6 +1,7 @@
 from structures.Point import Point
 from structures.Line import Line
 from structures.Wireframe import Wireframe
+from structures.BezierCurve import BezierCurve
 from structures.Window import Window
 
 from PyQt5 import QtCore
@@ -11,6 +12,7 @@ class DisplayFile:
         self.__points = []
         self.__lines = []
         self.__wireframes = []
+        self.__curves = []
         self.__buffer = None
 
         self.__window = Window()
@@ -37,6 +39,9 @@ class DisplayFile:
 
     def getWireframes(self) -> list:
         return self.__wireframes
+
+    def getCurves(self) -> list:
+        return self.__curves
 
     def clearBuffer(self):
         self.__buffer = None
@@ -81,6 +86,11 @@ class DisplayFile:
                 self.__buffer.addPoint(buffer)
             else:
                 self.__buffer = Wireframe(buffer, window=self.__window)
+        elif objectType == "CURVE":
+            if self.__buffer is not None:
+                self.__buffer.append(buffer)
+            else:
+                self.__buffer = [buffer]
         else:
             self.__buffer = buffer
 
@@ -93,6 +103,9 @@ class DisplayFile:
                 return False
         for wireframe in self.__wireframes:
             if wireframe.getName() == name:
+                return False
+        for curve in self.__curves:
+            if curve.getName() == name:
                 return False
 
         return True
@@ -109,6 +122,10 @@ class DisplayFile:
         for wireframe in self.__wireframes:
             if wireframe.getName() == name:
                 return wireframe
+
+        for curve in self.__curves:
+            if curve.getName() == name:
+                return curve
 
     def tryRegistering(self, currentType: str, objectName: str, color) -> str:
         if self.__buffer is None:
@@ -130,8 +147,18 @@ class DisplayFile:
         return {"status": True, "mensagem": f"{objectName} ({currentType}) registered."}
 
     def registerObject(self, currentType: str, objectName: str, color) -> None:
-        self.__buffer.setName(objectName)
-        self.__buffer.setColor(color)
+        if currentType == "CURVE":
+            self.__curves.append(
+                BezierCurve(
+                    name=objectName,
+                    coordinates=self.__buffer,
+                    color=color,
+                    window=self.__window,
+                )
+            )
+        else:
+            self.__buffer.setName(objectName)
+            self.__buffer.setColor(color)
 
         if currentType == "POINT":
             self.__points.append(self.__buffer)

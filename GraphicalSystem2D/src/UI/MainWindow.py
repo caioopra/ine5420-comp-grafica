@@ -151,6 +151,7 @@ class Ui_MainWindow(object):
         self.cohenRadioButton.setObjectName("cohenRadioButton")
         self.cohenRadioButton.setText("Cohen-Sutherland")
         self.cohenRadioButton.adjustSize()
+        self.cohenRadioButton.setChecked(True)
         self.viewport.setCurrentClippingMethod("CS")
 
         self.liangRadioButton = QtWidgets.QRadioButton(self.menuFrame)
