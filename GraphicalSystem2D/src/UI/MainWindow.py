@@ -175,25 +175,35 @@ class Ui_MainWindow(object):
         # radio buttons
         self.lineRadioButton = QtWidgets.QRadioButton(self.menuFrame)
         self.lineRadioButton.clicked.connect(lambda: self.setObjectTypeSelected("LINE"))
-        self.lineRadioButton.setGeometry(QtCore.QRect(125, 240, 90, 32))
+        self.lineRadioButton.setGeometry(QtCore.QRect(205, 228, 90, 32))
         self.lineRadioButton.setFont(font)
         self.lineRadioButton.setObjectName("lineRadioButton")
-
-        self.wireframeRadioButton = QtWidgets.QRadioButton(self.menuFrame)
-        self.wireframeRadioButton.clicked.connect(
-            lambda: self.setObjectTypeSelected("WIREFRAME")
-        )
-        self.wireframeRadioButton.setGeometry(QtCore.QRect(225, 245, 90, 30))
-        self.wireframeRadioButton.setFont(font)
-        self.wireframeRadioButton.setObjectName("wireframeRadioButton")
 
         self.pointRadioButton = QtWidgets.QRadioButton(self.menuFrame)
         self.pointRadioButton.clicked.connect(
             lambda: self.setObjectTypeSelected("POINT")
         )
-        self.pointRadioButton.setGeometry(QtCore.QRect(10, 240, 90, 32))
+        self.pointRadioButton.setGeometry(QtCore.QRect(30, 228, 90, 32))
         self.pointRadioButton.setFont(font)
         self.pointRadioButton.setObjectName("pointRadioButton")
+        
+        self.wireframeRadioButton = QtWidgets.QRadioButton(self.menuFrame)
+        self.wireframeRadioButton.clicked.connect(
+            lambda: self.setObjectTypeSelected("WIREFRAME")
+        )
+        self.wireframeRadioButton.setGeometry(QtCore.QRect(30, 255, 90, 30))
+        self.wireframeRadioButton.setFont(font)
+        self.wireframeRadioButton.setObjectName("wireframeRadioButton")
+
+        self.curveRadioButton = QtWidgets.QRadioButton(self.menuFrame)
+        self.curveRadioButton.clicked.connect(
+            lambda: self.setObjectTypeSelected("CURVE")
+        )
+        self.curveRadioButton.setGeometry(QtCore.QRect(205, 255, 90, 32))
+        self.curveRadioButton.setFont(font)
+        self.curveRadioButton.setObjectName("curveRadioButton")
+        self.curveRadioButton.setText("Curve")
+        self.curveRadioButton.adjustSize()
 
         font.setPointSize(10)
         self.rotationAmountLabel = QtWidgets.QLabel(self.menuFrame)
