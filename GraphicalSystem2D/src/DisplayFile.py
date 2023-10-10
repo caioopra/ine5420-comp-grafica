@@ -192,6 +192,11 @@ class DisplayFile:
             if wireframe.getName() == name:
                 del self.__wireframes[i]
                 return
+        
+        for i, curve in enumerate(self.__curves):
+            if curve.getName() == name:
+                del self.__curves[i]
+                return
 
     def navigate(self, direction: str):
         self.__window.navigate(direction)
