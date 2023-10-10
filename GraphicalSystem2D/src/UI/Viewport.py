@@ -96,7 +96,7 @@ class Viewport(QtWidgets.QWidget):
                 point.setNormalCoordinates(normal_x, normal_y)
 
         to_draw_objects = clip(self.currentClippingMethod)
-        print("will draw:", to_draw_objects)
+        print("\nwill draw:", to_draw_objects)
         for obj in to_draw_objects:
             if obj is displayFile.getBuffer():
                 qp.setPen(QtGui.QPen(self.__currentColor, 3))

@@ -287,6 +287,7 @@ class Ui_MainWindow(object):
         if dict["status"] == True:
             self.objectsList.addItem(name)
             self.objectNameInput.clear()
+        self.viewport.update()
 
     def handleCancelClick(self) -> None:
         displayFile.clearBuffer()
@@ -377,6 +378,9 @@ class Ui_MainWindow(object):
             # )
             # wireframe.applyTransformations(matrix)
         
+        for curve in displayFile.getCurves():
+            self._rotate_object(curve, x, y, amount)
+        
         buffer = displayFile.getBuffer()
         if buffer is not None:
             if not isinstance(buffer, Point):
@@ -385,9 +389,6 @@ class Ui_MainWindow(object):
                     self._rotate_object(point, x, y, amount)
             else:
                 self._rotate_object(buffer, x, y, amount)
-        
-            
-
         # displayFile.move_to_center()
         self.viewport.update()
 

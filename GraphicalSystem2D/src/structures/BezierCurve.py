@@ -47,15 +47,12 @@ class BezierCurve(Drawable):
     def draw(self, painter: QPainter) -> None:
         acc = 0.001
         for i in range(0, len(self.__coordinates) - 3, 3):
-            # print("\n\nCurrent i : ", i)
             gb = getGBBezier(
                 self.__coordinates[i],
                 self.__coordinates[i + 1],
                 self.__coordinates[i + 2],
                 self.__coordinates[i + 3],
             )
-            
-            print("gb: ", gb.x, gb.y)
 
             t = 0.0
 
@@ -71,20 +68,14 @@ class BezierCurve(Drawable):
 
                 self.__curve_points.extend([Point(x1, y1), Point(x2, y2)])
 
-        # print("\nBezier", self.__curve_points)
-
     def _drawLines(self, x1, y1, x2, y2, painter):
-        # cliping
-
         if x1 is not None and y1 is not None and x2 is not None and y2 is not None:
-            # print("drawing line: ", (x1, y1, x2, y2))
             x1, y1 = self.normalize(x1, y1)
             x1, y1 = viewportTransformation(x1, y1, self.__window)
             x2, y2 = self.normalize(x2, y2)
             x2, y2 = viewportTransformation(x2, y2, self.__window)
-            # print("drawing line normal: ", (x1, y1, x2, y2))
             painter.drawLine(x1, y1, x2, y2)
-            
+
     def normalize(self, x, y):
         yw_min, yw_max, xw_min, xw_max = self.__window.getMinsAndMaxes()
         normal_x = (x - xw_min) / (xw_max - xw_min) * 2 - 1
@@ -92,12 +83,20 @@ class BezierCurve(Drawable):
         return (normal_x, normal_y)
 
     def applyTransformations(self, matrix: np.matrix) -> None:
-        ...
+        for point in self.__coordinates:
+            mult = np.matmul(np.array([point.getX(), point.getY(), 1]), matrix)
+            point.setX(mult.item(0))
+            point.setY(mult.item(1))
 
     def calculateGeometricCenter(self) -> list:
-        ...
+        sum_x = 0
+        sum_y = 0
+        for point in self.__coordinates:
+            sum_x += point.getX()
+            sum_y += point.getY()
+
+        return [sum_x / len(self.__coordinates), sum_y / len(self.__coordinates)]
 
     def reset(self) -> None:
         for point in self.__coordinates:
             point.reset()
-
