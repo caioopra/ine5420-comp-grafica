@@ -31,11 +31,6 @@ def clip(line_method: str) -> list[Drawable]:
         if new_wireframe is not None:
             objects_inside_window.append(new_wireframe)
 
-    for curve in displayFile.getCurves():
-        new_curve = _clipCurve(curve)
-        if new_curve is not None:
-            objects_inside_window.append(new_curve)
-
     buffer_obj = displayFile.getBuffer()
     print(buffer_obj)
     if buffer_obj is not None:
@@ -89,6 +84,3 @@ def _clipWireframe(wireframe: Wireframe) -> Wireframe | None:
 
     return wireframe
 
-
-def _clipCurve(curve: BezierCurve) -> BezierCurve | None:  # TODO: clipping
-    return curve
