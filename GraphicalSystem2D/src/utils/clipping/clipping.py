@@ -30,6 +30,9 @@ def clip(line_method: str) -> list[Drawable]:
 
         if new_wireframe is not None:
             objects_inside_window.append(new_wireframe)
+            
+    for curve in displayFile.getCurves():
+        objects_inside_window.append(curve)
 
     buffer_obj = displayFile.getBuffer()
     print(buffer_obj)
