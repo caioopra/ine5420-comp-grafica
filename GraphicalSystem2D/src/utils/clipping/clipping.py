@@ -10,6 +10,7 @@ from utils.clipping.CohenSutherland import cohen_sutherland
 from utils.clipping.LiangBarsky import liang_barsky
 from utils.clipping.SutherlandHodgman import sutherland_hodgman
 from utils.clipping.WeilerAtherton2 import weilerAtherton
+from utils.clipping.WeilerAtherton3 import weilerAtherton
 
 
 def clip(line_method: str) -> list[Drawable]:
@@ -85,7 +86,7 @@ def _clipLine(clipping_method: str, line: Line) -> Line | None:
 
 
 def _clipWireframe(wireframe: Wireframe) -> Wireframe | None:
-    # return weilerAtherton(wireframe)
+    return weilerAtherton(wireframe)
 
     return wireframe
 

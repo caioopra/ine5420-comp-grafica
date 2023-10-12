@@ -1,9 +1,12 @@
 from PyQt5 import QtGui, QtCore
+from PyQt5.QtGui import QPolygon
 import numpy as np
+from PyQt5.QtCore import QPoint
 
 from structures.Drawable import Drawable
 from structures.Line import Line
 from structures.Point import Point
+from utils.viewportTransformation import viewportTransformation
 
 
 class Wireframe(Drawable):
@@ -20,6 +23,13 @@ class Wireframe(Drawable):
         self.__window = window
 
     def draw(self, painter: QtGui.QPainter):
+        if self.__is_filled:
+            points = []
+            for point in self.__pointsList:
+                x, y = viewportTransformation(point.getNormalX(), point.getNormalY(), self.__window)
+                points.append(QPoint(x, y))
+            painter.drawPolygon(points)
+
         if len(self.__pointsList) > 1:
             for i in range(len(self.__pointsList)):
                 if i == len(self.__pointsList) - 1:
@@ -34,6 +44,7 @@ class Wireframe(Drawable):
                     )
                 line.draw(painter, wireframe=True)
         else:
+            print("obj:", self.__firstPoint)
             self.__firstPoint.draw(painter)
 
     def applyTransformations(self, matrix: np.matrix) -> None:
@@ -67,5 +78,14 @@ class Wireframe(Drawable):
     def setPoints(self, points) -> None:
         self.__pointsList = points
 
+    def setIsFilled(self, status: bool) -> None:
+        self.__is_filled = status
+
     def getWindow(self):
         return self.__window
+
+    def fill(self):
+        if self.__is_filled:
+            self.__is_filled = False
+        else:
+            self.__is_filled = True

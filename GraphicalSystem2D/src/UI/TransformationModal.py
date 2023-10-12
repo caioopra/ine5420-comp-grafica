@@ -4,6 +4,8 @@ import numpy as np
 
 from utils.matrixOperations import matrixComposition, createTransformationMatrix
 
+from structures.Wireframe import Wireframe
+
 
 class TransformationModal(object):
     def setupUi(
@@ -50,6 +52,16 @@ class TransformationModal(object):
         self.rotationCheckbox.setObjectName("rotationCheckbox")
         self.rotationCheckbox.clicked.connect(lambda: self.addToOperations("ROTATION"))
         self.rotationCheckbox.setFont(font)
+
+
+        self.fillingButton = QtWidgets.QPushButton(self.frame)
+        self.fillingButton.setGeometry(QtCore.QRect(10, 30, 91, 31))
+        self.fillingButton.setFont(font)
+        self.fillingButton.setText("FILL")
+        self.fillingButton.clicked.connect(
+            (lambda: self.fill())
+        )
+        self.fillingButton.adjustSize()
 
         self.translationXInput = QtWidgets.QLineEdit(self.frame)
         self.translationXInput.setGeometry(QtCore.QRect(130, 40, 71, 21))
@@ -264,6 +276,11 @@ class TransformationModal(object):
                 data["pointY"] = float(self.rotatioTypePointYInput.text())
 
             return createTransformationMatrix("ROTATION", data)
+
+    def fill(self):
+        if isinstance(self.currentObject, Wireframe):
+            self.currentObject.fill()
+            self.updateObject()
 
     def addToOperations(self, operation: str):
         if operation in self.operations_order:

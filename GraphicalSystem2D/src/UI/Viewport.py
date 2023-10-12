@@ -3,6 +3,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from structures.Point import Point
 from DisplayFile import displayFile
 
+from structures.Wireframe import Wireframe
 from utils.viewportTransformation import transformToWorldCoordinates
 from utils.clipping.clipping import clip
 
@@ -56,6 +57,7 @@ class Viewport(QtWidgets.QWidget):
         qp.setRenderHint(QtGui.QPainter.Antialiasing)
 
         brush = QtGui.QBrush(self.__currentColor)
+        brush.setStyle(QtCore.Qt.SolidPattern)
         qp.setPen(self.__currentColor)
         qp.setBrush(brush)
         
@@ -99,9 +101,19 @@ class Viewport(QtWidgets.QWidget):
         print("\nwill draw:", to_draw_objects)
         for obj in to_draw_objects:
             if obj is displayFile.getBuffer():
-                qp.setPen(QtGui.QPen(self.__currentColor, 3))
+                pen = QtGui.QPen(self.__currentColor, 3)
+                qp.setPen(pen)
             else:
-                qp.setPen(QtGui.QPen(obj.getColor(), 3))
+                pen = QtGui.QPen(obj.getColor(), 3)
+                qp.setPen(pen)
+            brush.setStyle(QtCore.Qt.SolidPattern)
+            if isinstance(obj, Wireframe):
+                if obj.getIsFilled():
+                    brush.setStyle(QtCore.Qt.SolidPattern)
+                    qp.setBrush(brush)
+                else:
+                    brush.setStyle(QtCore.Qt.SolidPattern)
+                    qp.setBrush(brush)
             obj.draw(qp)
 
     def getCurrentColor(self) -> None:
