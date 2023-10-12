@@ -2,15 +2,12 @@ from structures.Drawable import Drawable
 from structures.Point import Point
 from structures.Line import Line
 from structures.Wireframe import Wireframe
-from structures.BezierCurve import BezierCurve
 
 from DisplayFile import displayFile
 
 from utils.clipping.CohenSutherland import cohen_sutherland
 from utils.clipping.LiangBarsky import liang_barsky
-from utils.clipping.SutherlandHodgman import sutherland_hodgman
-from utils.clipping.WeilerAtherton2 import weilerAtherton
-from utils.clipping.WeilerAtherton3 import weilerAtherton
+from utils.clipping.WeilerAtherton import weilerAtherton
 
 
 def clip(line_method: str) -> list[Drawable]:
@@ -31,7 +28,7 @@ def clip(line_method: str) -> list[Drawable]:
 
         if new_wireframe is not None:
             objects_inside_window.append(new_wireframe)
-            
+
     for curve in displayFile.getCurves():
         objects_inside_window.append(curve)
 
@@ -62,7 +59,6 @@ def clip(line_method: str) -> list[Drawable]:
                     objects_inside_window.append(buffer_obj)
         elif isinstance(buffer_obj, list):  # curve
             for p in buffer_obj:
-                # TODO: clipping
                 objects_inside_window.append(p)
 
     return objects_inside_window
@@ -85,6 +81,3 @@ def _clipLine(clipping_method: str, line: Line) -> Line | None:
 
 def _clipWireframe(wireframe: Wireframe) -> Wireframe | None:
     return weilerAtherton(wireframe)
-
-    return wireframe
-
