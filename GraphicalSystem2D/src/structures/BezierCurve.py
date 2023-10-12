@@ -7,6 +7,7 @@ from structures.Point import Point
 
 from utils.viewportTransformation import viewportTransformation
 from utils.bezierUtils import getGBBezier, blendingFunction
+from utils.clipping.CurveClipping import curveClip
 
 
 class BezierCurve(Drawable):
@@ -62,7 +63,11 @@ class BezierCurve(Drawable):
                 x2 = blendingFunction(t + acc, gb.x)
                 y2 = blendingFunction(t + acc, gb.y)
 
-                self._drawLines(x1, y1, x2, y2, painter)  # change to normalized
+                x1, y1 = self.normalize(x1, y1)
+                x2, y2 = self.normalize(x2, y2)
+                x1, y1, x2, y2 = curveClip(x1, y1, x2, y2)
+                
+                self._drawLines(x1, y1, x2, y2, painter)
 
                 t += acc
 
@@ -70,9 +75,7 @@ class BezierCurve(Drawable):
 
     def _drawLines(self, x1, y1, x2, y2, painter):
         if x1 is not None and y1 is not None and x2 is not None and y2 is not None:
-            x1, y1 = self.normalize(x1, y1)
             x1, y1 = viewportTransformation(x1, y1, self.__window)
-            x2, y2 = self.normalize(x2, y2)
             x2, y2 = viewportTransformation(x2, y2, self.__window)
             painter.drawLine(x1, y1, x2, y2)
 
