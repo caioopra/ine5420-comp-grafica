@@ -26,7 +26,7 @@ class BezierCurve(Drawable):
         self.__original_coordinates = coordinates
         self.__window = window
 
-        if color is not None:
+        if color == None:
             self.__color = QColor(0, 0, 0)
         else:
             self.__color = color

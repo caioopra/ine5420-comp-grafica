@@ -25,7 +25,6 @@ def weilerAtherton(wireframe: Wireframe) -> Wireframe:
         p1 = vertices[(index + 1) % number_points]
 
         linha = cohen_sutherland(Line(p0, p1))
-        linha.setColor(wireframe.getColor())
         if linha != None:
             if linha.getPoints()[1] != p1:
                 # Exit point

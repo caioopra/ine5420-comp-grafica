@@ -106,14 +106,8 @@ class Viewport(QtWidgets.QWidget):
             else:
                 pen = QtGui.QPen(obj.getColor(), 3)
                 qp.setPen(pen)
-            brush.setStyle(QtCore.Qt.SolidPattern)
-            if isinstance(obj, Wireframe):
-                if obj.getIsFilled():
-                    brush.setStyle(QtCore.Qt.SolidPattern)
-                    qp.setBrush(brush)
-                else:
-                    brush.setStyle(QtCore.Qt.SolidPattern)
-                    qp.setBrush(brush)
+                brush = QtGui.QBrush(obj.getColor())
+                qp.setBrush(brush)
             obj.draw(qp)
 
     def getCurrentColor(self) -> None:

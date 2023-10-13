@@ -28,6 +28,7 @@ class Wireframe(Drawable):
             for point in self.__pointsList:
                 x, y = viewportTransformation(point.getNormalX(), point.getNormalY(), self.__window)
                 points.append(QPoint(x, y))
+            #painter.setPen(self.__color)
             painter.drawPolygon(points)
 
         if len(self.__pointsList) > 1:
