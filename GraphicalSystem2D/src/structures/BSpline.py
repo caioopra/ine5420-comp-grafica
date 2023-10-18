@@ -47,14 +47,22 @@ class BSpline(Drawable):
 
             forward_difference(n, dx, dy, painter, self.__window)
 
-    # TODO: FIX
     def applyTransformations(self, matrix: list) -> None:
-        return super().applyTransformations(matrix)
+        for point in self.__coordinates:
+            mult = np.matmul(np.array([point.getX(), point.getY(), 1]), matrix)
+            point.setX(mult.item(0))
+            point.setY(mult.item(1))
 
-    # TODO: FIX
     def calculateGeometricCenter(self) -> list:
-        return super().calculateGeometricCenter()
+        sum_x = 0
+        sum_y = 0
+        for point in self.__coordinates:
+            sum_x += point.getX()
+            sum_y += point.getY()
+
+        return [sum_x / len(self.__coordinates), sum_y / len(self.__coordinates)]
 
     # TODO: FIX
     def reset(self) -> None:
-        self.__coordinates = self.__original_coordinates
+        for p in self.__coordinates:
+            p.reset()
