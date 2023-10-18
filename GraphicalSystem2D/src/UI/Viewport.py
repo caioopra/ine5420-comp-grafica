@@ -3,7 +3,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from structures.Point import Point
 from DisplayFile import displayFile
 
-from structures.Wireframe import Wireframe
 from utils.viewportTransformation import transformToWorldCoordinates
 from utils.clipping.clipping import clip
 

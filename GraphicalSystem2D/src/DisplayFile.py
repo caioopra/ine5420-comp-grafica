@@ -2,6 +2,7 @@ from structures.Point import Point
 from structures.Line import Line
 from structures.Wireframe import Wireframe
 from structures.BezierCurve import BezierCurve
+from structures.BSpline import BSpline
 from structures.Window import Window
 
 from PyQt5 import QtCore
@@ -147,9 +148,18 @@ class DisplayFile:
         return {"status": True, "mensagem": f"{objectName} ({currentType}) registered."}
 
     def registerObject(self, currentType: str, objectName: str, color) -> None:
+        # if currentType == "CURVE":
+        #     self.__curves.append(
+        #         BezierCurve(
+        #             name=objectName,
+        #             coordinates=self.__buffer,
+        #             color=color,
+        #             window=self.__window,
+        #         )
+        #     )
         if currentType == "CURVE":
             self.__curves.append(
-                BezierCurve(
+                BSpline(
                     name=objectName,
                     coordinates=self.__buffer,
                     color=color,
