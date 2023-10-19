@@ -41,9 +41,14 @@ class Viewport(QtWidgets.QWidget):
                 "WIREFRAME",
                 point,
             )
-        elif self.currentSelectedType == "CURVE":
+        elif self.currentSelectedType == "BSPLINE":
             displayFile.addToBuffer(
-                "CURVE",
+                "BSPLINE",
+                point,
+            )
+        elif self.currentSelectedType == "BEZIER_CURVE":
+            displayFile.addToBuffer(
+                "BEZIER_CURVE",
                 point,
             )
         else:

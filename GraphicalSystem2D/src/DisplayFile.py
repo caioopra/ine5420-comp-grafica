@@ -87,7 +87,12 @@ class DisplayFile:
                 self.__buffer.addPoint(buffer)
             else:
                 self.__buffer = Wireframe(buffer, window=self.__window)
-        elif objectType == "CURVE":
+        elif objectType == "BEZIER_CURVE":
+            if self.__buffer is not None:
+                self.__buffer.append(buffer)
+            else:
+                self.__buffer = [buffer]
+        elif objectType == "BSPLINE":
             if self.__buffer is not None:
                 self.__buffer.append(buffer)
             else:
@@ -148,16 +153,16 @@ class DisplayFile:
         return {"status": True, "mensagem": f"{objectName} ({currentType}) registered."}
 
     def registerObject(self, currentType: str, objectName: str, color) -> None:
-        # if currentType == "CURVE":
-        #     self.__curves.append(
-        #         BezierCurve(
-        #             name=objectName,
-        #             coordinates=self.__buffer,
-        #             color=color,
-        #             window=self.__window,
-        #         )
-        #     )
-        if currentType == "CURVE":
+        if currentType == "BEZIER_CURVE":
+            self.__curves.append(
+                BezierCurve(
+                    name=objectName,
+                    coordinates=self.__buffer,
+                    color=color,
+                    window=self.__window,
+                )
+            )
+        elif currentType == "BSPLINE":
             self.__curves.append(
                 BSpline(
                     name=objectName,

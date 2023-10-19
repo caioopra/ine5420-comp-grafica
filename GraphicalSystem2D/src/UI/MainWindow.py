@@ -122,14 +122,14 @@ class Ui_MainWindow(object):
 
         # selection buttons
         self.deleteButton = QtWidgets.QPushButton(self.menuFrame)
-        self.deleteButton.setGeometry(QtCore.QRect(115, 290, 90, 32))
+        self.deleteButton.setGeometry(QtCore.QRect(115, 310, 90, 32))
         font.setPointSize(11)
         self.deleteButton.setFont(font)
         self.deleteButton.setObjectName("deleteButton")
         self.deleteButton.clicked.connect(lambda: self.handleDeleteClick())
 
         self.confirmButton = QtWidgets.QPushButton(self.menuFrame)
-        self.confirmButton.setGeometry(QtCore.QRect(225, 290, 90, 32))
+        self.confirmButton.setGeometry(QtCore.QRect(225, 310, 90, 32))
         self.confirmButton.setFont(font)
         self.confirmButton.setObjectName("confirmButton")
         self.confirmButton.clicked.connect(
@@ -137,7 +137,7 @@ class Ui_MainWindow(object):
         )
         self.confirmButton.setText("Open File")
         self.cancelButton = QtWidgets.QPushButton(self.menuFrame)
-        self.cancelButton.setGeometry(QtCore.QRect(10, 290, 90, 32))
+        self.cancelButton.setGeometry(QtCore.QRect(10, 310, 90, 32))
         self.cancelButton.setFont(font)
         self.cancelButton.setObjectName("cancelButton")
         self.cancelButton.clicked.connect(lambda: self.handleCancelClick())
@@ -196,15 +196,25 @@ class Ui_MainWindow(object):
         self.wireframeRadioButton.setFont(font)
         self.wireframeRadioButton.setObjectName("wireframeRadioButton")
 
-        self.curveRadioButton = QtWidgets.QRadioButton(self.menuFrame)
-        self.curveRadioButton.clicked.connect(
-            lambda: self.setObjectTypeSelected("CURVE")
+        self.bSplineRadioButton = QtWidgets.QRadioButton(self.menuFrame)
+        self.bSplineRadioButton.clicked.connect(
+            lambda: self.setObjectTypeSelected("BSPLINE")
         )
-        self.curveRadioButton.setGeometry(QtCore.QRect(205, 255, 90, 32))
-        self.curveRadioButton.setFont(font)
-        self.curveRadioButton.setObjectName("curveRadioButton")
-        self.curveRadioButton.setText("Curve")
-        self.curveRadioButton.adjustSize()
+        self.bSplineRadioButton.setGeometry(QtCore.QRect(205, 255, 90, 32))
+        self.bSplineRadioButton.setFont(font)
+        self.bSplineRadioButton.setObjectName("BSplineRadioButton")
+        self.bSplineRadioButton.setText("BSpline")
+        self.bSplineRadioButton.adjustSize()
+
+        self.bezierCurveRadioButton = QtWidgets.QRadioButton(self.menuFrame)
+        self.bezierCurveRadioButton.clicked.connect(
+            lambda: self.setObjectTypeSelected("BEZIER_CURVE")
+        )
+        self.bezierCurveRadioButton.setGeometry(QtCore.QRect(30, 282, 90, 32))
+        self.bezierCurveRadioButton.setFont(font)
+        self.bezierCurveRadioButton.setObjectName("BezierCurveRadioButton")
+        self.bezierCurveRadioButton.setText("Bezier Curve")
+        self.bezierCurveRadioButton.adjustSize()
 
         font.setPointSize(10)
         self.rotationAmountLabel = QtWidgets.QLabel(self.menuFrame)
