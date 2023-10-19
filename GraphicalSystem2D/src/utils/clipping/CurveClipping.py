@@ -9,6 +9,7 @@ x_max = y_max = 1
 
 
 def curveClip(x1, y1, x2, y2):
+
     rc1 = _getRegionCode(x1, y1)
     rc2 = _getRegionCode(x2, y2)
 

@@ -3,6 +3,7 @@ from numpy import array, dot
 from structures.Point import Point
 
 from utils.viewportTransformation import viewportTransformation
+from utils.clipping.CurveClipping import curveClip
 
 BSPLINE_MATRIX = [
     [-1 / 6, 1 / 2, -1 / 2, 1 / 6],
@@ -70,11 +71,11 @@ def forward_difference(n: int, dx: array, dy: array, painter, window) -> None:
         d2y += d3y
 
         x1, y1 = _normalize(x_old, y_old, window)
-        x1, y1 = viewportTransformation(x1, y1, [])
         x2, y2 = _normalize(x, y, window)
-        x2, y2 = viewportTransformation(x2, y2, [])
-        
-        painter.drawLine(x1, y1, x2, y2)
+
+        x1, y1, x2, y2 = curveClip(x1, y1, x2, y2)
+
+        _drawLines(x1, y1, x2, y2, painter, window)
 
         x_old = x
         y_old = y
@@ -85,3 +86,11 @@ def _normalize(x, y, window):
     normal_x = (x - xw_min) / (xw_max - xw_min) * 2 - 1
     normal_y = (y - yw_min) / (yw_max - yw_min) * 2 - 1
     return (normal_x, normal_y)
+
+
+def _drawLines(x1, y1, x2, y2, painter, window):
+    if x1 is not None and y1 is not None and x2 is not None and y2 is not None:
+        x1, y1 = viewportTransformation(x1, y1, window)
+        x2, y2 = viewportTransformation(x2, y2, window)
+        print(x1, y1, x2, y2)
+        painter.drawLine(x1, y1, x2, y2)

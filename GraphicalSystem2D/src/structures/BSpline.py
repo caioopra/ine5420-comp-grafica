@@ -12,6 +12,7 @@ from utils.bSplineUtils import (
 )
 
 
+
 class BSpline(Drawable):
     def __init__(
         self, name: str, coordinates: list[Point], color: QColor = None, window=None
