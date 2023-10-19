@@ -92,5 +92,4 @@ def _drawLines(x1, y1, x2, y2, painter, window):
     if x1 is not None and y1 is not None and x2 is not None and y2 is not None:
         x1, y1 = viewportTransformation(x1, y1, window)
         x2, y2 = viewportTransformation(x2, y2, window)
-        print(x1, y1, x2, y2)
         painter.drawLine(x1, y1, x2, y2)
