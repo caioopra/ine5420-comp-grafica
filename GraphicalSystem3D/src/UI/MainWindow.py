@@ -483,6 +483,7 @@ class Ui_MainWindow(object):
         self.ui.setupUi(
             self.window,
             closeModal=self.window.close,
+            createObject=displayFile.create3DObject,
             # addToLog=self.logField.addItem,
         )
         self.window.show()

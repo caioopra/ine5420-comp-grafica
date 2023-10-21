@@ -19,10 +19,14 @@ class Line(Drawable):
     def draw(self, painter: QtGui.QPainter, wireframe: bool = False) -> None:
         if self.__pointB is not None:
             pointA_x, pointA_y = viewportTransformation(
-                self.__pointA.getNormalX(), self.__pointA.getNormalY(), self.__window
+                self.__pointA.getNormalX(),
+                self.__pointA.getNormalY(),
+                self.__window,
             )
             pointB_x, pointB_y = viewportTransformation(
-                self.__pointB.getNormalX(), self.__pointB.getNormalY(), self.__window
+                self.__pointB.getNormalX(),
+                self.__pointB.getNormalY(),
+                self.__window,
             )
             painter.drawLine(pointA_x, pointA_y, pointB_x, pointB_y)
         else:
@@ -30,21 +34,30 @@ class Line(Drawable):
 
     def applyTransformations(self, matrix) -> None:
         mult = np.matmul(
-            np.array([self.__pointA.getX(), self.__pointA.getY(), 1]), matrix
+            np.array(
+                [self.__pointA.getX(), self.__pointA.getY(), self.__pointA.getZ(), 1]
+            ),
+            matrix,
         )
         self.__pointA.setX(mult.item(0))
         self.__pointA.setY(mult.item(1))
+        self.__pointA.setZ(mult.item(2))
         mult = np.matmul(
-            np.array([self.__pointB.getX(), self.__pointB.getY(), 1]), matrix
+            np.array(
+                [self.__pointB.getX(), self.__pointB.getY(), self.__pointB.getZ(), 1]
+            ),
+            matrix,
         )
         self.__pointB.setX(mult.item(0))
         self.__pointB.setY(mult.item(1))
+        self.__pointB.setZ(mult.item(2))
 
     def calculateGeometricCenter(self) -> list:
         somaX = (self.__pointA.getX() + self.__pointB.getX()) / 2
         somaY = (self.__pointA.getY() + self.__pointB.getY()) / 2
+        somaZ = (self.__pointA.getZ() + self.__pointB.getZ()) / 2
 
-        return [somaX, somaY]
+        return [somaX, somaY, somaZ]
 
     def reset(self) -> None:
         self.__pointA.reset()
@@ -65,7 +78,7 @@ class Line(Drawable):
         Returns a list with the two Point objects of the line
         """
         return [self.__pointA, self.__pointB]
-    
+
     def setCoordinates(self, pointA: Point, pointB: Point) -> None:
         self.__pointA = pointA
         self.__pointB = pointB

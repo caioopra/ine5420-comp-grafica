@@ -2,7 +2,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Object3DCreationModal(object):
-    def setupUi(self, MainWindow, closeModal):
+    def setupUi(self, MainWindow, closeModal, createObject):
+        self.closeModal = closeModal
+        self.createObject = createObject
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(300, 300)
         font = QtGui.QFont()
@@ -43,8 +45,23 @@ class Object3DCreationModal(object):
         self.cancelTransformButton.setText("Cancel")
         self.cancelTransformButton.clicked.connect(lambda: self.pointsInput.setText(""))
 
+        self.objectNameInputLabel = QtWidgets.QLabel(self.centralwidget)
+        self.objectNameInputLabel.setGeometry(QtCore.QRect(5, 150, 80, 30))
+        self.objectNameInputLabel.setObjectName("objectNameInputLabel")
+        self.objectNameInputLabel.setFont(font)
+        self.objectNameInputLabel.setText("Object name:")
+        self.objectNameInputLabel.adjustSize()
+
+        self.objectNameInput = QtWidgets.QLineEdit(self.centralwidget)
+        self.objectNameInput.setGeometry(QtCore.QRect(120, 148, 165, 25))
+        self.objectNameInput.setObjectName("objectNameInput")
+        self.objectNameInput.setFont(font)
+
     def _confirmHandler(self, points: str):
-        # points = points
+        obj_name = self.objectNameInput.text()
+        if obj_name == "":
+            return
+
         points = points.split("),(")
         points = [p.replace(" ", "").replace("(", "").replace(")", "") for p in points]
         points = [p.split(",") for p in points]
@@ -55,4 +72,5 @@ class Object3DCreationModal(object):
                 f.append(float(point))
             formated.append(tuple(f))
 
-        print(formated)
+        self.createObject(formated, self.objectNameInput.text())
+        self.closeModal()

@@ -183,6 +183,10 @@ class DisplayFile:
             self.__wireframes.append(self.__buffer)
 
         self.__buffer = None
+        
+    def create3DObject(self, points: list[tuple], obj_name: str):
+        # TODO: implement
+        print("Creating 3D object...\n", points, obj_name)
 
     def addObjectFromFile(self, obj: Point | Line | Wireframe):
         if isinstance(obj, Point):
