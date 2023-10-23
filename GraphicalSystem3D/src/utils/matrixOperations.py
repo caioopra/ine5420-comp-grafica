@@ -2,12 +2,26 @@ import numpy as np
 from math import sin, cos, radians
 
 
-def generateMatrix(type: str, x: float, y: float = None) -> np.matrix:
+def generateMatrix(type: str, x: float, y: float = None, z: float = None) -> np.matrix:
     """Creates the matrices of the given transformation"""
     if type == "TRANSLATION":
-        return np.matrix([[1, 0, 0], [0, 1, 0], [float(x), float(y), 1]])
+        return np.matrix(
+            [
+                [1, 0, 0, 0],
+                [0, 1, 0, 0],
+                [0, 0, 1, 0],
+                [float(x), float(y), float(z), 1],
+            ]
+        )
     elif type == "SCALING":
-        return np.matrix([[float(x), 0, 0], [0, float(y), 0], [0, 0, 1]])
+        return np.matrix(
+            [
+                [float(x), 0, 0, 0],
+                [0, float(y), 0, 0],
+                [0, 0, float(z), 0],
+                [0, 0, 0, 1],
+            ]
+        )
     elif type == "ROTATION":
         rad = radians(float(x))
         return np.matrix([[cos(rad), sin(rad), 0], [-sin(rad), cos(rad), 0], [0, 0, 1]])
@@ -32,7 +46,7 @@ def createTransformationMatrix(operation: str, data: dict) -> np.matrix:
         - data (dict): necessary data for the transformation (see code for key name)
             - Translation: X and Y values to translate
             - Scaling: center of the current object and scaling factor
-            - Rotation: type and amount of rotation and center of object/point (optional) 
+            - Rotation: type and amount of rotation and center of object/point (optional)
 
     Returns:
         np.matrix: matrix that apply the necessary transformation
