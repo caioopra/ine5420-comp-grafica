@@ -1,5 +1,5 @@
 import numpy as np
-from math import sin, cos, radians
+from math import sin, cos, radians, degrees, atan
 
 
 def generateMatrix(type: str, x: float, y: float = None, z: float = None) -> np.matrix:
@@ -23,8 +23,44 @@ def generateMatrix(type: str, x: float, y: float = None, z: float = None) -> np.
             ]
         )
     elif type == "ROTATION":
-        rad = radians(float(x))
-        return np.matrix([[cos(rad), sin(rad), 0], [-sin(rad), cos(rad), 0], [0, 0, 1]])
+        # rad = radians(float(x))
+        # return np.matrix([[cos(rad), sin(rad), 0], [-sin(rad), cos(rad), 0], [0, 0, 1]])
+        return _rZRotatioMatrix(float(x))
+
+def _rXRotatioMatrix(angle: float) -> np.matrix:
+    rad = radians(angle)
+    return np.matrix(
+        [
+            [1, 0, 0, 0],
+            [0, cos(rad), sin(rad), 0],
+            [0, -sin(rad), cos(rad), 0],
+            [0, 0, 0, 1],
+        ]
+    )
+
+
+def _rYRotatioMatrix(angle: float) -> np.matrix:
+    rad = radians(angle)
+    return np.matrix(
+        [
+            [cos(rad), 0, -sin(rad), 0],
+            [0, 1, 0, 0],
+            [sin(rad), 0, cos(rad), 0],
+            [0, 0, 0, 1],
+        ]
+    )
+
+
+def _rZRotatioMatrix(angle: float) -> np.matrix:
+    rad = radians(angle)
+    return np.matrix(
+        [
+            [cos(rad), 0, sin(rad), 0],
+            [-sin(rad), cos(rad), 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1],
+        ]
+    )
 
 
 def matrixComposition(matrices: list) -> np.matrix:
@@ -97,3 +133,32 @@ def createTransformationMatrix(operation: str, data: dict) -> np.matrix:
             return matrixComposition(
                 [translation_matrix, rotation_matrix, undo_translation_matrix]
             )
+
+def parallel_projection(window_coordinates):
+    vpr = _get_vpr(window_coordinates)
+
+    translation = generateMatrix("TRANSLATION", -vpr[0], -vpr[1], -vpr[2])
+
+    vpn = [2, 1, 2]
+
+    theta_x, theta_y = _angle_with_vpn(vpn)
+
+    rotation_x = _rXRotatioMatrix(theta_x)
+    rotation_y = _rYRotatioMatrix(theta_y)
+
+    m = matrixComposition([translation, rotation_x])
+    m = matrixComposition([m, rotation_y])
+
+    return m
+
+def _get_vpr(window_coords ):
+    vpr_x = (window_coords[0].x() + window_coords[1].x() + window_coords[2].x() + window_coords[3].x()) / 4
+    vpr_y = (window_coords[0].y() + window_coords[1].y() + window_coords[2].y() + window_coords[3].y()) / 4
+    vpr_z = (window_coords[0].z() + window_coords[1].z() + window_coords[2].z() + window_coords[3].z()) / 4
+
+    return [vpr_x, vpr_y, vpr_z]
+
+
+def _angle_with_vpn(vpn: list[float]):
+    theta_x = degrees(atan(vpn[1] / vpn[2]))
+    theta_y = degrees(atan(vpn[0] / vpn[2]))
