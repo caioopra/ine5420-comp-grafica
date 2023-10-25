@@ -57,9 +57,11 @@ class Wireframe(Drawable):
     def calculateGeometricCenter(self) -> list:
         xSum = 0
         ySum = 0
+        zSum = 0
         for point in self.__pointsList:
             xSum += point.getX()
             ySum += point.getY()
+            zSum += point.getZ()
 
         return [xSum / len(self.__pointsList), ySum / len(self.__pointsList)]
 

@@ -460,12 +460,14 @@ class Ui_MainWindow(object):
             "TRANSLATION",
             float(-x),
             float(-y),
+            float(0)
         )
         rotation_matrix = generateMatrix("ROTATION", amount)
         translate_back = generateMatrix(
             "TRANSLATION",
             float(x),
             float(y),
+            float(0)
         )
         obj.applyTransformations(
             matrixComposition([translation, rotation_matrix, translate_back])

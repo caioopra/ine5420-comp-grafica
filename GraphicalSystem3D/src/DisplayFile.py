@@ -186,6 +186,10 @@ class DisplayFile:
         
     def create3DObject(self, points: list[tuple], obj_name: str):
         # TODO: implement
+        print(points)
+        ponto_criado = Point(points[0], points[1], points[2], obj_name)
+        self.__points.append(ponto_criado)
+        print(ponto_criado.getZ())
         print("Creating 3D object...\n", points, obj_name)
 
     def addObjectFromFile(self, obj: Point | Line | Wireframe):
@@ -235,6 +239,8 @@ class DisplayFile:
     def calculateNormalizedCoordinates(self, object):
         x = object.getX()
         y = object.getY()
+        print("x:", x)
+        print(y)
         yw_min, yw_max, xw_min, xw_max = self.__window.getMinsAndMaxes()
         normal_x = (x - xw_min) / (xw_max - xw_min) * 2 - 1
         normal_y = (y - yw_min) / (yw_max - yw_min) * 2 - 1

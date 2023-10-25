@@ -88,18 +88,19 @@ def createTransformationMatrix(operation: str, data: dict) -> np.matrix:
         np.matrix: matrix that apply the necessary transformation
     """
     if operation == "TRANSLATION":
-        return generateMatrix("TRANSLATION", data["xInput"], data["yInput"])
+        return generateMatrix("TRANSLATION", data["xInput"], data["yInput"], data["zInput"])
     elif operation == "SCALING":
         translation_matrix = generateMatrix(
-            "TRANSLATION", -data["centerX"], -data["centerY"]
+            "TRANSLATION", -data["centerX"], -data["centerY"], data["centerZ"]
         )
         scaling_matrix = generateMatrix(
             "SCALING",
             data["xInput"],
             data["yInput"],
+            #data["zInput"]
         )
         undo_translation_matrix = generateMatrix(
-            "TRANSLATION", data["centerX"], data["centerY"]
+            "TRANSLATION", data["centerX"], data["centerY"], data["centerZ"]
         )
 
         return matrixComposition(
@@ -109,11 +110,11 @@ def createTransformationMatrix(operation: str, data: dict) -> np.matrix:
     elif operation == "ROTATION":
         if data.get("type") == "SELF":
             translation_matrix = generateMatrix(
-                "TRANSLATION", -data["centerX"], -data["centerY"]
+                "TRANSLATION", -data["centerX"], -data["centerY"], -data["centerZ"]
             )
             rotation_matrix = generateMatrix("ROTATION", data["rotation"])
             undo_translation_matrix = generateMatrix(
-                "TRANSLATION", data["centerX"], data["centerY"]
+                "TRANSLATION", data["centerX"], data["centerY"], data["centerZ"]
             )
 
             return matrixComposition(
@@ -124,11 +125,11 @@ def createTransformationMatrix(operation: str, data: dict) -> np.matrix:
             return generateMatrix("ROTATION", data["rotation"])
         elif data.get("type") == "POINT":
             translation_matrix = generateMatrix(
-                "TRANSLATION", -data["pointX"], -data["pointY"]
+                "TRANSLATION", -data["pointX"], -data["pointY"], -data["pointZ"]
             )
             rotation_matrix = generateMatrix("ROTATION", data["rotation"])
             undo_translation_matrix = generateMatrix(
-                "TRANSLATION", data["pointX"], data["pointY"]
+                "TRANSLATION", data["pointX"], data["pointY"], data["pointZ"]
             )
             return matrixComposition(
                 [translation_matrix, rotation_matrix, undo_translation_matrix]

@@ -30,7 +30,11 @@ class Point(Drawable):
         painter.drawEllipse(x, y, 5, 5)
 
     def applyTransformations(self, matrix: np.matrix) -> None:
-        mult = np.matmul(np.array([self.__x, self.__y, 1]), matrix)
+        print(self.__x)
+        print(self.__y)
+        print(self.__z)
+        print(matrix)
+        mult = np.matmul(np.array([self.__x, self.__y, self.__z, 1]), matrix)
         self.__x = mult.item(0)
         self.__y = mult.item(1)
         self.__z = mult.item(2)
@@ -41,6 +45,7 @@ class Point(Drawable):
     def reset(self) -> None:
         self.__x = self.__original_x
         self.__y = self.__original_y
+        self.__z = self.__original_z
 
     def getX(self) -> float:
         return self.__x

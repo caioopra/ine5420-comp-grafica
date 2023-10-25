@@ -21,7 +21,8 @@ class Viewport(QtWidgets.QWidget):
             event.x(), event.y(), displayFile.getWindow()
         )
         if self.currentSelectedType != "":
-            point = Point(x, y, displayFile.getWindow())
+            z = 0
+            point = Point(x, y, z, displayFile.getWindow())
             normal_x, normal_y = displayFile.calculateNormalizedCoordinates(point)
             point.setNormalCoordinates(normal_x, normal_y)
 

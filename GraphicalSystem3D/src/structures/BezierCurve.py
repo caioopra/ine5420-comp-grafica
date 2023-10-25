@@ -83,6 +83,7 @@ class BezierCurve(Drawable):
         yw_min, yw_max, xw_min, xw_max = self.__window.getMinsAndMaxes()
         normal_x = (x - xw_min) / (xw_max - xw_min) * 2 - 1
         normal_y = (y - yw_min) / (yw_max - yw_min) * 2 - 1
+        #normal_z = (z - zw_min) / (zw_max - zw_min) * 2 - 1
         return (normal_x, normal_y)
 
     def applyTransformations(self, matrix: np.matrix) -> None:
@@ -90,15 +91,18 @@ class BezierCurve(Drawable):
             mult = np.matmul(np.array([point.getX(), point.getY(), 1]), matrix)
             point.setX(mult.item(0))
             point.setY(mult.item(1))
+            point.setZ(mult.item(2))
 
     def calculateGeometricCenter(self) -> list:
         sum_x = 0
         sum_y = 0
+        sum_z = 0
         for point in self.__coordinates:
             sum_x += point.getX()
             sum_y += point.getY()
+            sum_z += point.getZ()
 
-        return [sum_x / len(self.__coordinates), sum_y / len(self.__coordinates)]
+        return [sum_x / len(self.__coordinates), sum_y / len(self.__coordinates), sum_z / len(self.__coordinates)]
 
     def reset(self) -> None:
         for point in self.__coordinates:

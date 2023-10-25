@@ -57,11 +57,13 @@ class BSpline(Drawable):
     def calculateGeometricCenter(self) -> list:
         sum_x = 0
         sum_y = 0
+        sum_z = 0
         for point in self.__coordinates:
             sum_x += point.getX()
             sum_y += point.getY()
+            sum_z += point.getZ()
 
-        return [sum_x / len(self.__coordinates), sum_y / len(self.__coordinates)]
+        return [sum_x / len(self.__coordinates), sum_y / len(self.__coordinates), sum_z / len(self.__coordinates)]
 
     def reset(self) -> None:
         for p in self.__coordinates:

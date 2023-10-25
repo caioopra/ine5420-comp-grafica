@@ -248,6 +248,7 @@ class TransformationModal(object):
             data = {
                 "xInput": float(self.translationXInput.text()),
                 "yInput": float(self.translationYInput.text()),
+                #"zInput": float(self.translationZInput.text())
             }
 
             return createTransformationMatrix(operation=operation, data=data)
@@ -258,8 +259,10 @@ class TransformationModal(object):
             data = {
                 "centerX": center[0],
                 "centerY": center[1],
+                "centerZ": center[2],
                 "xInput": self.scalingXInput.text(),
                 "yInput": self.scalingYInput.text(),
+                "zInput": 0
             }
 
             return createTransformationMatrix(operation=operation, data=data)
@@ -271,9 +274,12 @@ class TransformationModal(object):
                 center = self.currentObject.calculateGeometricCenter()
                 data["centerX"] = center[0]
                 data["centerY"] = center[1]
+                data["centerZ"] = center[2]
+
             elif self.rotationType == "POINT":
                 data["pointX"] = float(self.rotatioTypePointXInput.text())
                 data["pointY"] = float(self.rotatioTypePointYInput.text())
+                data["pointZ"] = 0
 
             return createTransformationMatrix("ROTATION", data)
 

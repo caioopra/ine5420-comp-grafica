@@ -70,7 +70,8 @@ class Object3DCreationModal(object):
             f = []
             for point in t:
                 f.append(float(point))
-            formated.append(tuple(f))
+            formated.append(f)
 
-        self.createObject(formated, self.objectNameInput.text())
+        print(formated)
+        self.createObject(f, self.objectNameInput.text())
         self.closeModal()
