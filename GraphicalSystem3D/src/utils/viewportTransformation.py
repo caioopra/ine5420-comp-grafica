@@ -1,14 +1,12 @@
-from structures.Window import Window
-
 import consts
 
 
 # transforms the positions in the window to a Viewport usable
-def viewportTransformation(x, y, window: Window):
+def viewportTransformation(x, y, window):
     return _transformPoint(x, y, window)
 
 
-def _transformPoint(x, y, window: Window) -> list:
+def _transformPoint(x, y, window) -> list:
     """Given the points world coordinates, returns them transformed to viewport"""
     xw_min = -1
     yw_min = -1
@@ -24,7 +22,7 @@ def _transformPoint(x, y, window: Window) -> list:
     return round(xv), round(yv)
 
 
-def transformToWorldCoordinates(x: float, y: float, window: Window):
+def transformToWorldCoordinates(x: float, y: float, window):
     """When structures are created using mouse, the coordinates are already relative to the viewport
     returns the (x, y) coordinates converted to world coordinates
     """

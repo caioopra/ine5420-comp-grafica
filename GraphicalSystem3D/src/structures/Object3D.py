@@ -14,9 +14,9 @@ class Object3D(Drawable):
         self.edges_lines = []
         for edge in self.edges:
             first = edge[0] - 1
-            first_point = Point(coordinates[first][0], coordinates[first][1], window=window)
+            first_point = Point(coordinates[first][0], coordinates[first][1], window=window, z=coordinates[first][2])
             second = edge[1] - 1
-            second_point = Point(coordinates[second][0], coordinates[second][1], window=window)
+            second_point = Point(coordinates[second][0], coordinates[second][1], window=window, z=coordinates[second][2])
             
             line = Line(first_point, second_point, window=window)
             self.edges_lines.append(line)

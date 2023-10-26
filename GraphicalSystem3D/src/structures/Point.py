@@ -78,6 +78,10 @@ class Point(Drawable):
     def getCoordinates(self) -> list:
         # return [self.getX(), self.getY(), self.getZ()]
         return [self.getX(), self.getY()]
+    
+    # TODO: remove this and use only getCoordinates
+    def getAllCoordinates(self) -> list:
+        return [self.getX(), self.getY(), self.getZ()]
 
     def getNormalX(self) -> float:
         return self.__normal_x

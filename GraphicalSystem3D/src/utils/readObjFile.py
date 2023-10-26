@@ -112,23 +112,24 @@ def _createObjects(vertices, materials, objects):
 
         if len(points) == 1:  # point
             point = [float(p) for p in points[0]]
-            _p = Point(point[0], point[1], name=objName)
+            _p = Point(point[0], point[1], point[2], name=objName)
             _p.setColor(color)
             objects_list.append(_p)
         elif len(points) == 2:  # line
             point1 = points[0]
-            point1 = Point(float(point1[0]), float(point1[1]))
+            point1 = Point(float(point1[0]), float(point1[1]), float(point1[2]))
             point2 = points[1]
-            point2 = Point(float(point2[0]), float(point2[1]))
+            point2 = Point(float(point2[0]), float(point2[1]), float(point2[2]))
             line = Line(point1, point2, name=objName)
             line.setColor(color)
             objects_list.append(line)
         else:  # wireframe
-            point1 = Point(float(points[0][0]), float(points[0][1]))
+            point1 = Point(float(points[0][0]), float(points[0][1]), float(points[0][2]))
             wireframe = Wireframe(point1, name=objName)
 
             for point in points[1:]:
-                wireframe.addPoint(Point(float(point[0]), float(point[1])))
+                print("point: ", point)
+                wireframe.addPoint(Point(float(point[0]), float(point[1]), float(point[2])))
             wireframe.setColor(color)
             objects_list.append(wireframe)
 

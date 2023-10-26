@@ -135,8 +135,8 @@ def createTransformationMatrix(operation: str, data: dict) -> np.matrix:
                 [translation_matrix, rotation_matrix, undo_translation_matrix]
             )
 
-def parallel_projection(window_coordinates):
-    vpr = _get_vpr(window_coordinates)
+def parallel_projection(window):
+    vpr = _get_vpr(window)
 
     translation = generateMatrix("TRANSLATION", -vpr[0], -vpr[1], -vpr[2])
 
@@ -147,15 +147,19 @@ def parallel_projection(window_coordinates):
     rotation_x = _rXRotatioMatrix(theta_x)
     rotation_y = _rYRotatioMatrix(theta_y)
 
-    m = matrixComposition([translation, rotation_x])
-    m = matrixComposition([m, rotation_y])
+    m = np.dot(translation, rotation_x)
+    m = np.dot(m, rotation_y)
+    print("\n\nM :", m)
 
     return m
 
-def _get_vpr(window_coords ):
-    vpr_x = (window_coords[0].x() + window_coords[1].x() + window_coords[2].x() + window_coords[3].x()) / 4
-    vpr_y = (window_coords[0].y() + window_coords[1].y() + window_coords[2].y() + window_coords[3].y()) / 4
-    vpr_z = (window_coords[0].z() + window_coords[1].z() + window_coords[2].z() + window_coords[3].z()) / 4
+def _get_vpr(window):
+    vpr_x = (window.xw_min + window.xw_max) / 2
+    vpr_y = (window.yw_min + window.yw_max) / 2
+    vpr_z = (window.zw_min + window.zw_max) / 2 
+    # vpr_x = (window_coords[0].getX() + window_coords[1].getX() + window_coords[2].getX() + window_coords[3].getX()) / 4
+    # vpr_y = (window_coords[0].getY() + window_coords[1].getY() + window_coords[2].getY() + window_coords[3].getY()) / 4
+    # vpr_z = (window_coords[0].getZ() + window_coords[1].getZ() + window_coords[2].getZ() + window_coords[3].getZ()) / 4
 
     return [vpr_x, vpr_y, vpr_z]
 
@@ -163,3 +167,5 @@ def _get_vpr(window_coords ):
 def _angle_with_vpn(vpn: list[float]):
     theta_x = degrees(atan(vpn[1] / vpn[2]))
     theta_y = degrees(atan(vpn[0] / vpn[2]))
+
+    return theta_x, theta_y

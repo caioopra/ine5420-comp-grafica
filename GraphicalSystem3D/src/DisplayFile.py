@@ -49,10 +49,10 @@ class DisplayFile:
 
     def addAxesLines(self):
         points = [
-            Point(-760, 0, self.__window),
-            Point(760, 0, self.__window),
-            Point(0, -490, self.__window),
-            Point(0, 490, self.__window),
+            Point(-760, 0, z=0, window=self.__window),
+            Point(760, 0, z=0, window=self.__window),
+            Point(0, -490, z=0, window=self.__window),
+            Point(0, 490, z=0, window=self.__window),
         ]
         for point in points:
             normal_x, normal_y = self.calculateNormalizedCoordinates(point)
@@ -189,7 +189,6 @@ class DisplayFile:
         print(points)
         ponto_criado = Point(points[0], points[1], points[2], obj_name)
         self.__points.append(ponto_criado)
-        print(ponto_criado.getZ())
         print("Creating 3D object...\n", points, obj_name)
 
     def addObjectFromFile(self, obj: Point | Line | Wireframe):

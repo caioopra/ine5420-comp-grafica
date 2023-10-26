@@ -42,6 +42,7 @@ class Line(Drawable):
         self.__pointA.setX(mult.item(0))
         self.__pointA.setY(mult.item(1))
         self.__pointA.setZ(mult.item(2))
+        print("Here:",[self.__pointB.getX(), self.__pointB.getY(), self.__pointB.getZ(), 1])
         mult = np.matmul(
             np.array(
                 [self.__pointB.getX(), self.__pointB.getY(), self.__pointB.getZ(), 1]

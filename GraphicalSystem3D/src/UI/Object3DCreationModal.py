@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from structures.Point import Point
 
 
 class Object3DCreationModal(object):
@@ -6,7 +7,7 @@ class Object3DCreationModal(object):
         self.closeModal = closeModal
         self.createObject = createObject
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(300, 300)
+        MainWindow.resize(300, 400)
         font = QtGui.QFont()
         font.setFamily("Fira Code")
         font.setPointSize(11)
@@ -27,7 +28,7 @@ class Object3DCreationModal(object):
         self.pointsInput.setGeometry(QtCore.QRect(5, 50, 290, 30))
         self.pointsInput.setObjectName("pointsInput")
         self.pointsInput.setFont(font)
-        self.pointsInput.setText("(0,0,0),(1, 1, 1)")
+        self.pointsInput.setText("(0,0,0),(100, 100, 100),(200,200,200)")  # TODO> remove this
 
         self.confirmTransformButton = QtWidgets.QPushButton(self.centralwidget)
         self.confirmTransformButton.setGeometry(QtCore.QRect(10, 85, 130, 25))
@@ -56,22 +57,42 @@ class Object3DCreationModal(object):
         self.objectNameInput.setGeometry(QtCore.QRect(120, 148, 165, 25))
         self.objectNameInput.setObjectName("objectNameInput")
         self.objectNameInput.setFont(font)
+        
+        self.edgesInputLabel = QtWidgets.QLabel(self.centralwidget)
+        self.edgesInputLabel.setGeometry(QtCore.QRect(5, 200, 80, 30))
+        self.edgesInputLabel.setObjectName("edgesInputLabel")
+        self.edgesInputLabel.setFont(font)
+        self.edgesInputLabel.setText("Edges <(0,1),(1,3),...>:")
+        self.edgesInputLabel.adjustSize()
+
+        self.edgesInput = QtWidgets.QLineEdit(self.centralwidget)
+        self.edgesInput.setGeometry(QtCore.QRect(5, 240, 165, 25))
+        self.edgesInput.setObjectName("edgesInput")
+        self.edgesInput.setFont(font)
+        self.edgesInput.setText("(0,1),(2,0),(1,2)")
 
     def _confirmHandler(self, points: str):
         obj_name = self.objectNameInput.text()
         if obj_name == "":
             return
+        
+        coordinates = self._str_to_list(points)
+        edges = self._str_to_list(self.edgesInput.text())
+        print("coordinates", coordinates)
+        print("edges", edges)
 
-        points = points.split("),(")
-        points = [p.replace(" ", "").replace("(", "").replace(")", "") for p in points]
-        points = [p.split(",") for p in points]
+        self.createObject(coordinates, self.objectNameInput.text())
+        self.closeModal()
+
+    def _str_to_list(self, string) -> list:
+        string = string.split("),(")
+        string = [p.replace(" ", "").replace("(", "").replace(")", "") for p in string]
+        string = [p.split(",") for p in string]
         formated = []
-        for t in points:
+        for t in string:
             f = []
             for point in t:
                 f.append(float(point))
             formated.append(f)
-
-        print(formated)
-        self.createObject(f, self.objectNameInput.text())
-        self.closeModal()
+            
+        return formated
