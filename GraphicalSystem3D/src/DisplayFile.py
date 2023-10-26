@@ -185,12 +185,23 @@ class DisplayFile:
         self.__buffer = None
         
     def create3DObject(self, points: list[tuple], obj_name: str):
-        # TODO: implement
-        print(points)
-        ponto_criado = Point(points[0], points[1], points[2], obj_name)
-        self.__points.append(ponto_criado)
-        print(ponto_criado.getZ())
-        print("Creating 3D object...\n", points, obj_name)
+            print("Points:", points)
+            self.__points = []
+            # TODO: implement
+            for point in points:
+                print(point[0], point[1], point[2])
+                ponto_criado = Point(point[0], point[1], point[2], obj_name)
+                self.__points.append(ponto_criado)
+            #print("z:", ponto_criado.getZ())
+            if len(points) >= 3:
+                wireframe = Wireframe(self.__points[0], window=self.__window)
+                wireframe.setPoints(self.__points)
+                self.__wireframes.append(wireframe)
+                print("Creating 3D object...\n", points, obj_name)
+            elif len(points) == 2:
+                line = Line(self.__points[0], window=self.__window)
+                line.setCoordinates(self.__points[0], self.__points[1])
+                self.__lines.append(line)
 
     def addObjectFromFile(self, obj: Point | Line | Wireframe):
         if isinstance(obj, Point):
