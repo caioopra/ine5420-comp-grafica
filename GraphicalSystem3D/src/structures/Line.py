@@ -5,7 +5,7 @@ from structures.Drawable import Drawable
 from structures.Point import Point
 
 from utils.viewportTransformation import viewportTransformation
-
+from utils.matrixOperations import parallel_projection
 
 class Line(Drawable):
     def __init__(
@@ -17,7 +17,10 @@ class Line(Drawable):
         self.__pointB = pointB
 
     def draw(self, painter: QtGui.QPainter, wireframe: bool = False) -> None:
+        projection = parallel_projection(self.__window)
+        
         if self.__pointB is not None:
+            
             pointA_x, pointA_y = viewportTransformation(
                 self.__pointA.getNormalX(),
                 self.__pointA.getNormalY(),
@@ -42,7 +45,6 @@ class Line(Drawable):
         self.__pointA.setX(mult.item(0))
         self.__pointA.setY(mult.item(1))
         self.__pointA.setZ(mult.item(2))
-        print("Here:",[self.__pointB.getX(), self.__pointB.getY(), self.__pointB.getZ(), 1])
         mult = np.matmul(
             np.array(
                 [self.__pointB.getX(), self.__pointB.getY(), self.__pointB.getZ(), 1]

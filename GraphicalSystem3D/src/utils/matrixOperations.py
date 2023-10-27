@@ -140,8 +140,8 @@ def parallel_projection(window):
 
     translation = generateMatrix("TRANSLATION", -vpr[0], -vpr[1], -vpr[2])
 
+    # vpn = _get_vpn(window, vpr)
     vpn = [2, 1, 2]
-
     theta_x, theta_y = _angle_with_vpn(vpn)
 
     rotation_x = _rXRotatioMatrix(theta_x)
@@ -149,7 +149,6 @@ def parallel_projection(window):
 
     m = np.dot(translation, rotation_x)
     m = np.dot(m, rotation_y)
-    print("\n\nM :", m)
 
     return m
 
@@ -157,15 +156,34 @@ def _get_vpr(window):
     vpr_x = (window.xw_min + window.xw_max) / 2
     vpr_y = (window.yw_min + window.yw_max) / 2
     vpr_z = (window.zw_min + window.zw_max) / 2 
-    # vpr_x = (window_coords[0].getX() + window_coords[1].getX() + window_coords[2].getX() + window_coords[3].getX()) / 4
-    # vpr_y = (window_coords[0].getY() + window_coords[1].getY() + window_coords[2].getY() + window_coords[3].getY()) / 4
-    # vpr_z = (window_coords[0].getZ() + window_coords[1].getZ() + window_coords[2].getZ() + window_coords[3].getZ()) / 4
 
     return [vpr_x, vpr_y, vpr_z]
 
+def _get_vpn(window, vpr):
+    wc_list0 = [window.xw_min, window.yw_min, window.zw_min]
+    wc_list1= [window.xw_max, window.yw_max, window.zw_max]
+    
+    u = _vector_sub(wc_list0, vpr)
+    v = _vector_sub(vpr, wc_list1)
+    print(u, v)
+    
+    c_x = v[1]*u[2] - v[2]*u[1]
+    c_y = v[2]*u[0] - v[0]*u[2]
+    c_z = v[0]*u[1] - v[1]*u[0]
+    
+    return [c_x, c_y, c_z]
 
 def _angle_with_vpn(vpn: list[float]):
+    print(vpn)
     theta_x = degrees(atan(vpn[1] / vpn[2]))
     theta_y = degrees(atan(vpn[0] / vpn[2]))
 
     return theta_x, theta_y
+
+def _vector_sub(u, v):
+    result = []
+    
+    for i in range(len(u)):
+        result.append(u[i] - v[i])
+        
+    return result
