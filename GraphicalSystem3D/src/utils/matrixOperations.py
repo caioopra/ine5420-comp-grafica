@@ -190,3 +190,18 @@ def _vector_sub(u, v):
         result.append(u[i] - v[i])
         
     return result
+
+def transpose(matrix: list[list[float]]):
+    result = [None*len(matrix)*len(matrix[0])]
+    for i in range(len(matrix)):
+        for j in range(len(matrix[0])):
+            result[j][i] = matrix[i][j]
+    return result
+
+def concat_transformation_matrixes(matrixes: list[np.array]) -> np.array:
+    final = matrixes[0]
+
+    for m in matrixes[1:]:
+        final = np.dot(final, m)
+
+    return final
