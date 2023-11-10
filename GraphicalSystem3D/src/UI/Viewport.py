@@ -88,22 +88,21 @@ class Viewport(QtWidgets.QWidget):
                 )
                 displayFile.getBuffer().setNormalCoordinates(normal_x, normal_y)
                 
-        for point in displayFile.getPoints():
-            normal_x, normal_y = displayFile.calculateNormalizedCoordinates(point)
-            point.setNormalCoordinates(normal_x, normal_y)
+        # for point in displayFile.getPoints():
+        #     normal_x, normal_y = displayFile.calculateNormalizedCoordinates(point)
+        #     point.setNormalCoordinates(normal_x, normal_y)
 
-        for line in displayFile.getLines():
-            for point in line.getPoints():
-                normal_x, normal_y = displayFile.calculateNormalizedCoordinates(point)
-                point.setNormalCoordinates(normal_x, normal_y)
+        # for line in displayFile.getLines():
+        #     for point in line.getPoints():
+        #         normal_x, normal_y = displayFile.calculateNormalizedCoordinates(point)
+        #         point.setNormalCoordinates(normal_x, normal_y)
 
-        for wireframe in displayFile.getWireframes():
-            for point in wireframe.getPoints():
-                normal_x, normal_y = displayFile.calculateNormalizedCoordinates(point)
-                point.setNormalCoordinates(normal_x, normal_y)
+        # for wireframe in displayFile.getWireframes():
+        #     for point in wireframe.getPoints():
+        #         normal_x, normal_y = displayFile.calculateNormalizedCoordinates(point)
+        #         point.setNormalCoordinates(normal_x, normal_y)
 
         to_draw_objects = clip(self.currentClippingMethod)
-        print("\nwill draw:", to_draw_objects)
         for obj in to_draw_objects:
             if obj is displayFile.getBuffer():
                 pen = QtGui.QPen(self.__currentColor, 3)

@@ -25,13 +25,12 @@ class Point(Drawable):
         self.__original_z = z
 
     def draw(self, painter: QtGui.QPainter) -> None:
-        # transformations = parallel_projection(self.__window)
-        # proj = np.dot(np.array([self.__x, self.__y, self.__z, 1]), transformations)
-        # x, y = self.calculateNormalizedCoordinates(proj[0, 0], proj[0, 1])
-        # print("normalized: ", x, y)
-        x, y = self.calculateNormalizedCoordinates(self.__x, self.__y)
+        projection = parallel_projection(self.__window)
+        proj = np.dot(np.array([self.__x, self.__y, self.__z, 1]), projection)
+        x, y = self.calculateNormalizedCoordinates(proj[0], proj[1])
+        print("Calculated")
+        # x, y = self.calculateNormalizedCoordinates(self.__x, self.__y)
         x, y = viewportTransformation(x, y, self.__window)
-        print("Drawing at", x, y)
         painter.drawEllipse(x, y, 5, 5)
 
     def applyTransformations(self, matrix: np.matrix) -> None:
@@ -72,6 +71,9 @@ class Point(Drawable):
 
     def setZ(self, value: float) -> None:
         self.__z = value
+        
+    def getWindow(self):
+        return self.__window
 
     def setNormalCoordinates(
         self, value_x: float, value_y: float, value_z: float = 0

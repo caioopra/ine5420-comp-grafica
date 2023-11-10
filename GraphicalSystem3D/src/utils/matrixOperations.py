@@ -136,19 +136,23 @@ def createTransformationMatrix(operation: str, data: dict) -> np.matrix:
             )
 
 def parallel_projection(window):
-    vpr = _get_vpr(window)
+    # vpr = _get_vpr(window)
 
-    translation = generateMatrix("TRANSLATION", -vpr[0], -vpr[1], -vpr[2])
+    # translation = generateMatrix("TRANSLATION", -vpr[0], -vpr[1], -vpr[2])
 
-    # vpn = _get_vpn(window, vpr)
-    vpn = [2, 1, 2]
-    theta_x, theta_y = _angle_with_vpn(vpn)
+    # # vpn = _get_vpn(window, vpr)
+    # vpn = [2, 1, 2]
+    # theta_x, theta_y = _angle_with_vpn(vpn)
 
-    rotation_x = _rXRotatioMatrix(theta_x)
-    rotation_y = _rYRotatioMatrix(theta_y)
+    # rotation_x = _rXRotatioMatrix(theta_x)
+    # rotation_y = _rYRotatioMatrix(theta_y)
 
-    m = np.dot(translation, rotation_x)
-    m = np.dot(m, rotation_y)
+    # m = np.dot(translation, rotation_x)
+    # m = np.dot(m, rotation_y)
+    
+    x = window.xw_max - window.xw_min
+    y = window.yw_max - window.yw_min
+    m = np.array([[1, 0, -x/1000, 0], [0, 1, -y/1000, 0], [0, 0, 0, 0], [0, 0, -1/1000, 1]])
 
     return m
 
@@ -165,7 +169,6 @@ def _get_vpn(window, vpr):
     
     u = _vector_sub(wc_list0, vpr)
     v = _vector_sub(vpr, wc_list1)
-    print(u, v)
     
     c_x = v[1]*u[2] - v[2]*u[1]
     c_y = v[2]*u[0] - v[0]*u[2]
@@ -174,7 +177,6 @@ def _get_vpn(window, vpr):
     return [c_x, c_y, c_z]
 
 def _angle_with_vpn(vpn: list[float]):
-    print(vpn)
     theta_x = degrees(atan(vpn[1] / vpn[2]))
     theta_y = degrees(atan(vpn[0] / vpn[2]))
 

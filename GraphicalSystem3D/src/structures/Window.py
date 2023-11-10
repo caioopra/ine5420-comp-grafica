@@ -90,7 +90,6 @@ class Window:
         
         coords = []
         for p in self.window_coordinates:
-            print(p.getAllCoordinates(), transform)
             m = np.dot(p.getAllCoordinates(), transform)
             coords.append(Point(x=m[0][0], y=m[0][1], z=m[0][2], window=self))
             

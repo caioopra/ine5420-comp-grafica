@@ -16,22 +16,34 @@ class Line(Drawable):
         self.__pointA = pointA
         self.__pointB = pointB
 
+    def getWindow(self):
+        return self.__window
+
     def draw(self, painter: QtGui.QPainter, wireframe: bool = False) -> None:
-        projection = parallel_projection(self.__window)
-        
         if self.__pointB is not None:
+            projection = parallel_projection(self.__window)
+        
+            xs, ys = [], []
+            for p in [self.__pointA, self.__pointB]:
+                if p.getWindow() is None:
+                    p.setWindow(self.__window)
+                proj = np.dot(np.array([p.getX(), p.getY(), p.getZ(), 1]), projection)
+                x, y = p.calculateNormalizedCoordinates(proj[0], proj[1])
+                x, y = viewportTransformation(x, y, self.__window)
+                xs.append(x)
+                ys.append(y)
             
-            pointA_x, pointA_y = viewportTransformation(
-                self.__pointA.getNormalX(),
-                self.__pointA.getNormalY(),
-                self.__window,
-            )
-            pointB_x, pointB_y = viewportTransformation(
-                self.__pointB.getNormalX(),
-                self.__pointB.getNormalY(),
-                self.__window,
-            )
-            painter.drawLine(pointA_x, pointA_y, pointB_x, pointB_y)
+            # pointA_x, pointA_y = viewportTransformation(
+            #     self.__pointA.getNormalX(),
+            #     self.__pointA.getNormalY(),
+            #     self.__window,
+            # )
+            # pointB_x, pointB_y = viewportTransformation(
+            #     self.__pointB.getNormalX(),
+            #     self.__pointB.getNormalY(),
+            #     self.__window,
+            # )
+            painter.drawLine(xs[0], ys[0], xs[1], ys[1])
         else:
             self.__pointA.draw(painter)
 

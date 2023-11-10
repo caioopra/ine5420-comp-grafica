@@ -54,9 +54,9 @@ class DisplayFile:
             Point(0, -490, z=0, window=self.__window),
             Point(0, 490, z=0, window=self.__window),
         ]
-        for point in points:
-            normal_x, normal_y = self.calculateNormalizedCoordinates(point)
-            point.setNormalCoordinates(normal_x, normal_y)
+        # for point in points:
+        #     normal_x, normal_y = self.calculateNormalizedCoordinates(point)
+        #     point.setNormalCoordinates(normal_x, normal_y)
 
         x_line = Line(
             pointA=points[0],
@@ -250,8 +250,6 @@ class DisplayFile:
     def calculateNormalizedCoordinates(self, object):
         x = object.getX()
         y = object.getY()
-        print("x:", x)
-        print(y)
         yw_min, yw_max, xw_min, xw_max = self.__window.getMinsAndMaxes()
         normal_x = (x - xw_min) / (xw_max - xw_min) * 2 - 1
         normal_y = (y - yw_min) / (yw_max - yw_min) * 2 - 1
