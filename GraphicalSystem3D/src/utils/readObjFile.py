@@ -23,6 +23,7 @@ def readObjFile(name: str) -> tuple[list, list]:
         vertices, materials, objects, window = _processContent(content)
 
     objects = _createObjects(vertices, materials, objects)
+    print("objects, window", objects, window)
     return objects, window
 
 

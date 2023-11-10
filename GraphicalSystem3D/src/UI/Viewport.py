@@ -104,6 +104,7 @@ class Viewport(QtWidgets.QWidget):
 
         to_draw_objects = clip(self.currentClippingMethod)
         for obj in to_draw_objects:
+            print("Current draw", obj)
             if obj is displayFile.getBuffer():
                 pen = QtGui.QPen(self.__currentColor, 3)
                 qp.setPen(pen)

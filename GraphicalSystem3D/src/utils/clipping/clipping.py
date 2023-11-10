@@ -24,9 +24,11 @@ def clip(line_method: str) -> list[Drawable]:
             objects_inside_window.append(new_line)
 
     for wireframe in displayFile.getWireframes():
+        print("Current wire", wireframe)
         new_wireframe = _clipWireframe(wireframe)
 
         if new_wireframe is not None:
+            print("passed")
             objects_inside_window.append(new_wireframe)
 
     for curve in displayFile.getCurves():
