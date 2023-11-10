@@ -2,9 +2,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from structures.Point import Point
 
 class Object3DCreationModal(object):
-    def setupUi(self, MainWindow, closeModal, createObject):
+    def setupUi(self, MainWindow, closeModal, createObject, objectsList):
         self.closeModal = closeModal
         self.createObject = createObject
+        self.objectsList = objectsList
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(300, 400)
         font = QtGui.QFont()
@@ -99,7 +100,7 @@ class Object3DCreationModal(object):
 
         print("formated points:", formated_points)
         print("formated edges:", formated_edges)
-        self.createObject(formated_points, formated_edges, self.objectNameInput.text())
+        self.createObject(formated_points, formated_edges, self.objectNameInput.text(), self.objectsList)
 
         self.closeModal()
 

@@ -186,21 +186,22 @@ class DisplayFile:
 
         self.__buffer = None
         
-    def create3DObject(self, points: list[tuple], edges: list[tuple], obj_name: str):
+    def create3DObject(self, points: list[tuple], edges: list[tuple], obj_name: str, objectsList):
         print("Points:", points)
         print("Edges:", edges)
         lines = []
         # TODO: implement
         for point in points:
             print(point[0], point[1], point[2])
-            ponto_criado = Point(point[0], point[1], point[2], name=obj_name, window=self.__window)
+            ponto_criado = Point(point[0], point[1], point[2], window=self.__window)
             self.__points.append(ponto_criado)
         for edge in edges:
             line = Line(self.__points[edge[0]], window=self.__window)
             line.setCoordinates(self.__points[edge[0]], self.__points[edge[1]])
             lines.append(line)
             print("line drawn between", self.__points[edge[0]], self.__points[edge[1]])
-        wire = Wire3D(lines)
+        wire = Wire3D(lines, name=obj_name)
+        objectsList.addItem(obj_name)
         self.__objects3D.append(wire)
 
     def addObjectFromFile(self, obj: Point | Line | Wireframe):
@@ -230,6 +231,11 @@ class DisplayFile:
         for i, curve in enumerate(self.__curves):
             if curve.getName() == name:
                 del self.__curves[i]
+                return
+            
+        for i, obj in enumerate(self.__objects3D):
+            if obj.getName() == name:
+                del self.__objects3D[i]
                 return
 
     def navigate(self, direction: str):

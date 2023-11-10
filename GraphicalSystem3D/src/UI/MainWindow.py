@@ -486,6 +486,7 @@ class Ui_MainWindow(object):
             self.window,
             closeModal=self.window.close,
             createObject=displayFile.create3DObject,
+            objectsList=self.objectsList
             # addToLog=self.logField.addItem,
         )
         self.window.show()
