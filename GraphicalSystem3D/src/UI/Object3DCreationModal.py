@@ -27,7 +27,7 @@ class Object3DCreationModal(object):
         self.pointsInput.setGeometry(QtCore.QRect(5, 50, 290, 30))
         self.pointsInput.setObjectName("pointsInput")
         self.pointsInput.setFont(font)
-        self.pointsInput.setText("(0,0,0),(1, 1, 1)")
+        self.pointsInput.setText("(0,0,0),(100,0,0),(0,100,0),(100,100,0)")
 
         self.confirmTransformButton = QtWidgets.QPushButton(self.centralwidget)
         self.confirmTransformButton.setGeometry(QtCore.QRect(10, 85, 130, 25))
@@ -68,7 +68,7 @@ class Object3DCreationModal(object):
         self.edgesInput.setGeometry(QtCore.QRect(5, 240, 165, 25))
         self.edgesInput.setObjectName("edgesInput")
         self.edgesInput.setFont(font)
-        self.edgesInput.setText("(0,1),(2,0),(1,2)")
+        self.edgesInput.setText("(0,1),(1,3),(0,2),(2,3)")
 
     def _confirmHandler(self, clouds: str):
         obj_name = self.objectNameInput.text()

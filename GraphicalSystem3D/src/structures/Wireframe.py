@@ -19,6 +19,9 @@ class Wireframe(Drawable):
         self.__window = window
         self.__is_filled = is_filled
 
+    def getWindow(self):
+        return self.__window
+
     def setWindow(self, window):
         self.__window = window
 

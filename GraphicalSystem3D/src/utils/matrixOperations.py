@@ -150,6 +150,7 @@ def parallel_projection(window):
     # m = np.dot(translation, rotation_x)
     # m = np.dot(m, rotation_y)
     
+    print("Window: ",window)
     x = window.xw_max - window.xw_min
     y = window.yw_max - window.yw_min
     m = np.array([[1, 0, -x/1000, 0], [0, 1, -y/1000, 0], [0, 0, 0, 0], [0, 0, -1/1000, 1]])
