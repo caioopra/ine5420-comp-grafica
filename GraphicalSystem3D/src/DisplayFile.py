@@ -4,6 +4,7 @@ from structures.Wireframe import Wireframe
 from structures.BezierCurve import BezierCurve
 from structures.BSpline import BSpline
 from structures.Window import Window
+from structures.Wire3D import Wire3D
 
 from PyQt5 import QtCore
 
@@ -14,6 +15,7 @@ class DisplayFile:
         self.__lines = []
         self.__wireframes = []
         self.__curves = []
+        self.__objects3D = []
         self.__buffer = None
 
         self.__window = Window()
@@ -184,24 +186,22 @@ class DisplayFile:
 
         self.__buffer = None
         
-    def create3DObject(self, points: list[tuple], obj_name: str):
+    def create3DObject(self, points: list[tuple], edges: list[tuple], obj_name: str):
         print("Points:", points)
-        self.__points = []
+        print("Edges:", edges)
+        lines = []
         # TODO: implement
         for point in points:
             print(point[0], point[1], point[2])
             ponto_criado = Point(point[0], point[1], point[2], name=obj_name, window=self.__window)
             self.__points.append(ponto_criado)
-        #print("z:", ponto_criado.getZ())
-        if len(points) >= 3:
-            wireframe = Wireframe(self.__points[0], window=self.__window)
-            wireframe.setPoints(self.__points)
-            self.__wireframes.append(wireframe)
-            print("Creating 3D object...\n", points, obj_name)
-        elif len(points) == 2:
-            line = Line(self.__points[0], window=self.__window)
-            line.setCoordinates(self.__points[0], self.__points[1])
-            self.__lines.append(line)
+        for edge in edges:
+            line = Line(self.__points[edge[0]], window=self.__window)
+            line.setCoordinates(self.__points[edge[0]], self.__points[edge[1]])
+            lines.append(line)
+            print("line drawn between", self.__points[edge[0]], self.__points[edge[1]])
+        wire = Wire3D(lines)
+        self.__objects3D.append(wire)
 
     def addObjectFromFile(self, obj: Point | Line | Wireframe):
         if isinstance(obj, Point):
@@ -246,6 +246,9 @@ class DisplayFile:
 
     def getBuffer(self):
         return self.__buffer
+
+    def getObjects3D(self):
+        return self.__objects3D
 
     def calculateNormalizedCoordinates(self, object):
         x = object.getX()

@@ -33,6 +33,9 @@ def clip(line_method: str) -> list[Drawable]:
 
     for curve in displayFile.getCurves():
         objects_inside_window.append(curve)
+    
+    for object in displayFile.getObjects3D():
+        objects_inside_window.append(object)
 
     buffer_obj = displayFile.getBuffer()
     print(buffer_obj)

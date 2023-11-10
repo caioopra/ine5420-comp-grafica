@@ -35,7 +35,7 @@ class Object3DCreationModal(object):
         self.confirmTransformButton.setFont(font)
         self.confirmTransformButton.setText("Confirm")
         self.confirmTransformButton.clicked.connect(
-            lambda: self._confirmHandler(self.pointsInput.text())
+            lambda: self._confirmHandler(self.pointsInput.text(), self.edgesInput.text())
         )
 
         self.cancelTransformButton = QtWidgets.QPushButton(self.centralwidget)
@@ -70,42 +70,37 @@ class Object3DCreationModal(object):
         self.edgesInput.setFont(font)
         self.edgesInput.setText("(0,1),(1,3),(0,2),(2,3)")
 
-    def _confirmHandler(self, clouds: str):
+    def _confirmHandler(self, points: str, edges:str):
         obj_name = self.objectNameInput.text()
         if obj_name == "":
             return
-        clouds = clouds.split(");(")
-        formated_clouds = []
-        for cloud in clouds:
-            print(cloud)
-            points = cloud.split("),(")
-            points = [p.replace(" ", "").replace("(", "").replace(")", "") for p in points]
-            points = [p.split(",") for p in points]
-            formated = []
-            for t in points:
-                f = []
-                for point in t:
-                    f.append(int(point))
-                formated.append(f)
+        print(points)
+        points = points.split("),(")
+        edges = edges.split("),(")
+        print(edges)
+        points = [p.replace(" ", "").replace("(", "").replace(")", "") for p in points]
+        edges = [e.replace(" ", "").replace("(", "").replace(")", "") for e in edges]
+        points = [p.split(",") for p in points]
+        edges = [e.split(",") for e in edges]
+        print(points)
+        print(edges)
+        formated_points = []
+        formated_edges = []
+        for t in points:
+            f = []
+            for point in t:
+                f.append(int(point))
+            formated_points.append(f)
+        for t in edges:
+            f = []
+            for point in t:
+                f.append(int(point))
+            formated_edges.append(f)
 
-            print("formated:", formated)
-            print("f:", f)
-            formated_clouds.append(formated)
-            self.createObject(formated, self.objectNameInput.text())
-            
-        for i in range(len(formated_clouds)-1):
-            for point in formated_clouds[i]:
-                shortest_dist = float('inf')
-                points = []
-                for point2 in formated_clouds[i+1]:
-                    point1_point2_distance = ((point[0]-point2[0])**2 + (point[1]-point2[1])**2 + (point[2]-point2[2])**2)**(1/2)
-                    if shortest_dist > point1_point2_distance:
-                        shortest_dist = point1_point2_distance
-                        points = [point, point2]
-                self.createObject(points, self.objectNameInput.text())
-                print(points)
-                print("criada uma linha entre", points[0], "e", points[1])
- 
+        print("formated points:", formated_points)
+        print("formated edges:", formated_edges)
+        self.createObject(formated_points, formated_edges, self.objectNameInput.text())
+
         self.closeModal()
 
 #d = ((xb-xa)**2 + (yb-ya)**2 + (zb-za)**2)**(1/2)

@@ -25,6 +25,8 @@ class Point(Drawable):
         self.__original_z = z
 
     def draw(self, painter: QtGui.QPainter) -> None:
+        print(self.__window)
+        print(self.__window)
         projection = parallel_projection(self.__window)
         proj = np.dot(np.array([self.__x, self.__y, self.__z, 1]), projection)
         x, y = self.calculateNormalizedCoordinates(proj[0], proj[1])
