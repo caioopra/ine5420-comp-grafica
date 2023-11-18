@@ -23,23 +23,6 @@ class Wire3D(Drawable):
     def draw(self, painter: QtGui.QPainter):
         for line in self.__lines:
             line.draw(painter)
-        '''for cloud in self.__clouds:
-            if len(cloud) > 1:
-                for i in range(len(cloud)):
-                    if i == len(cloud) - 1:
-                        line = Line(
-                            cloud[i], cloud[0], window=self.__window
-                        )
-                    else:
-                        line = Line(
-                            cloud[i],
-                            cloud[i + 1],
-                            window=self.__window,
-                        )
-                    line.draw(painter, wireframe=True)
-            else:
-                print("obj:", cloud[0])
-                cloud[0].draw(painter)'''
 
     def applyTransformations(self, matrix: np.matrix) -> None:
         for point in self.__pointsList:

@@ -5,6 +5,7 @@ from DisplayFile import displayFile
 
 from utils.viewportTransformation import transformToWorldCoordinates
 from utils.clipping.clipping import clip
+from structures.BezierBicubicSurface import BezierBicubicSurface
 
 
 class Viewport(QtWidgets.QWidget):
@@ -104,6 +105,7 @@ class Viewport(QtWidgets.QWidget):
 
         to_draw_objects = clip(self.currentClippingMethod)
         print("all draw", to_draw_objects)
+        to_draw_objects.append(BezierBicubicSurface((Point(124,113,0), Point(291,152,0), Point(479,151,0), Point(618,88,0), Point(127, 198, 0), Point(250,222,0), Point(439,215,0), Point(583,193,0), Point(132,255,0), Point(272,279,0), Point(467,280,0), Point(635,249,0), Point(131,378,0), Point(302,424,0), Point(490,408,0), Point(678,351,0))))
         for obj in to_draw_objects:
             if obj.getWindow() is None:
                 obj.setWindow(displayFile.getWindow())

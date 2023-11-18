@@ -192,7 +192,10 @@ def _vector_sub(u, v):
     return result
 
 def transpose(matrix: list[list[float]]):
-    result = [None*len(matrix)*len(matrix[0])]
+    result = []
+    for i in range(len(matrix[0])):
+        result.append([None]*len(matrix[0]))
+    print(result)
     for i in range(len(matrix)):
         for j in range(len(matrix[0])):
             result[j][i] = matrix[i][j]

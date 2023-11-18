@@ -21,7 +21,7 @@ class Line(Drawable):
 
     def draw(self, painter: QtGui.QPainter, wireframe: bool = False) -> None:
         if self.__pointB is not None:
-            projection = parallel_projection(self.__window)
+            '''projection = parallel_projection(self.__window)
         
             xs, ys = [], []
             for p in [self.__pointA, self.__pointB]:
@@ -31,19 +31,19 @@ class Line(Drawable):
                 x, y = p.calculateNormalizedCoordinates(proj[0], proj[1])
                 x, y = viewportTransformation(x, y, self.__window)
                 xs.append(x)
-                ys.append(y)
+                ys.append(y)'''
             
-            # pointA_x, pointA_y = viewportTransformation(
-            #     self.__pointA.getNormalX(),
-            #     self.__pointA.getNormalY(),
-            #     self.__window,
-            # )
-            # pointB_x, pointB_y = viewportTransformation(
-            #     self.__pointB.getNormalX(),
-            #     self.__pointB.getNormalY(),
-            #     self.__window,
-            # )
-            painter.drawLine(xs[0], ys[0], xs[1], ys[1])
+            pointA_x, pointA_y = viewportTransformation(
+                self.__pointA.getNormalX(),
+                self.__pointA.getNormalY(),
+                self.__window,
+            )
+            pointB_x, pointB_y = viewportTransformation(
+                self.__pointB.getNormalX(),
+                self.__pointB.getNormalY(),
+                self.__window,
+            )
+            painter.drawLine(pointA_x, pointA_y, pointB_x, pointB_y)
         else:
             self.__pointA.draw(painter)
 

@@ -1,6 +1,8 @@
 from structures.Point import Point
 from utils.bSplineUtils import BSPLINE_MATRIX
+from utils.bezierUtils import BEZIER_MATRIX
 from utils.matrixOperations import transpose, concat_transformation_matrixes
+from numpy import dot
 
 TRANSPOSED_BSPLINE_MATRIX = transpose(BSPLINE_MATRIX)
 
@@ -66,3 +68,21 @@ def generate_surface_initial_values(delta_matrix_s: list, delta_matrix_t: list, 
     DD_z = concat_transformation_matrixes([delta_matrix_s, c_z, delta_matrix_t])
 
     return DD_x, DD_y, DD_z
+
+def blending_function_bicubic(s:float, t: float, gb: list[list[float]]) -> float:
+
+    param_s = [[pow(s, 3), pow(s, 2), s, 1]]
+
+    param_t = [
+        [pow(t, 3)],
+        [pow(t, 2)], 
+        [t],
+        [1]
+    ]
+
+    blending = dot(param_s, BEZIER_MATRIX)
+    blending = dot(blending, gb)
+    blending = dot(blending, BEZIER_MATRIX)
+    blending = dot(blending, param_t)
+
+    return blending
